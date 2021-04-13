@@ -24,7 +24,7 @@ This table contains an overview of the key model components used in the code for
 
 
 | Element | Description                           | R name        | Data structure | Dimensions        | Data type   |
-|--------|---------------------------------------|----------------|----------------|-------------------|-------------|
+|--------|----------------------------------------|--------------|-------------|---------------------|---------|
 | $n_t$        | Time horizon                     | `n_t`        | scalar          |                   | numeric     |
 | $v_s$        | Names of the health states       | `v_n`        | vector          | `n_states` x 1    | character   |
 | $n_s$        | Number of health states          | `n_states`   | scalar          |                   | numeric     |
