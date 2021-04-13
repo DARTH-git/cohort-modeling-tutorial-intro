@@ -425,7 +425,7 @@ print(paste0("PSA with ", comma(n_sim), " simulations run in series in ",
 #   doParallel::registerDoParallel(cl)
 #   opts <- list(attachExportEnv = TRUE)
 #   # Run parallelized PSA
-#   df_ce <- foeach::foreach(i = 1:n_samp, .combine = rbind,
+#   df_ce <- foreach::foreach(i = 1:n_samp, .combine = rbind,
 #                            .export = ls(globalenv()),
 #                            .packages=c("dampack"),
 #                            .options.snow = opts) %dopar% {
@@ -454,7 +454,7 @@ print(paste0("PSA with ", comma(n_sim), " simulations run in series in ",
 #   # Register end time of parallelized PSA
 #   n_time_end_psa <- Sys.time()
 # }
-# # Stope clusters
+# # Stop clusters
 # stopCluster(cl)
 # n_time_total_psa <- n_time_end_psa - n_time_init_psa
 # print(paste0("PSA with ", comma(n_sim), " simulations run in series in ",
