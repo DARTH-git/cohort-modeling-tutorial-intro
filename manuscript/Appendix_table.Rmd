@@ -26,10 +26,10 @@ This table contains an overview of the key model components used in the code for
 | Element | Description                           | R name        | Data structure | Dimensions        | Data type   |
 |--------|---------------------------------------|----------------|----------------|-------------------|-------------|
 | $n_t$        | Time horizon                     | `n_t`        | scalar          |                   | numeric     |
-| $v_s$        | Names of the health states       | `v_n`        | vector          | `n_states` x 1    | categoric   |
+| $v_s$        | Names of the health states       | `v_n`        | vector          | `n_states` x 1    | character   |
 | $n_s$        | Number of health states          | `n_states`   | scalar          |                   | numeric     |
-| $v_{str}$    | Names of the strategies          | `v_names_str`| scalar          |                   | categoric   |
-| $n_{str}$    | Number of strategies             | `n_str`      | scalar          |                   | categoric   |
+| $v_{str}$    | Names of the strategies          | `v_names_str`| scalar          |                   | character   |
+| $n_{str}$    | Number of strategies             | `n_str`      | scalar          |                   | character   |
 | \(\mathbf{d_c}\)  | Discount rate for costs     | `d_c`        | scalar          |                   | numeric     |
 | \(\mathbf{d_e}\)  | Discount rate for effects   | `d_e`        | scalar          |                   | numeric     |
 |              | Discount weights for costs       | `v_dwc`      | vector          | (`n_t` x 1 ) + 1   | numeric     | 
