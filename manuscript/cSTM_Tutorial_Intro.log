@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  12 APR 2021 18:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  12 APR 2021 19:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Markov_Tutorial_Part1.tex
-(./Markov_Tutorial_Part1.tex
+**cSTM_Tutorial_Intro.tex
+(./cSTM_Tutorial_Intro.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-03-06> (/usr/local/texlive/2020/texmf-dist/tex/latex
 /base/article.cls
@@ -447,8 +447,8 @@ Package: ltxkeys 2012/11/17 v0.0.3c A robust key-value parser (AM) (Ahmed Musa)
 \xwm@boxb=\box57
 \xwm@cnta=\count295
 \xwm@wrt=\write4
-(./Markov_Tutorial_Part1.xwm)
-\openout4 = `Markov_Tutorial_Part1.xwm'.
+(./cSTM_Tutorial_Intro.xwm)
+\openout4 = `cSTM_Tutorial_Intro.xwm'.
 
 ) (/usr/local/texlive/2020/texmf-dist/tex/latex/tools/array.sty
 Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
@@ -550,8 +550,8 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count307
 \l__pdf_internal_box=\box70
-) (./Markov_Tutorial_Part1.aux)
-\openout1 = `Markov_Tutorial_Part1.aux'.
+) (./cSTM_Tutorial_Intro.aux)
+\openout1 = `cSTM_Tutorial_Intro.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 162.
 LaTeX Font Info:    ... okay on input line 162.
@@ -702,7 +702,7 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 164.
-(./Markov_Tutorial_Part1.toc
+(./cSTM_Tutorial_Intro.toc
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 3.
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -718,7 +718,7 @@ File: mt-bch.cfg 2007/03/03 v1.5 microtype config. file: Bitstream Charter (RS)
 
 ])
 \tf@toc=\write5
-\openout5 = `Markov_Tutorial_Part1.toc'.
+\openout5 = `cSTM_Tutorial_Intro.toc'.
 
 [2] [3]
 <figs/Sick-Sicker.png, id=98, 369.0588pt x 255.8358pt>
@@ -825,16 +825,13 @@ l.1015
                                                   \fi \fi 
 l.1015 
         <./figs/Sick-Sicker-CEA-1.pdf>]
-
-LaTeX Warning: Reference `tab:' on page 19 undefined on input line 1028.
-
-<figs/CE-scatter-1.pdf, id=263, 569.12625pt x 415.5525pt>
+<figs/CE-scatter-1.pdf, id=264, 569.12625pt x 415.5525pt>
 File: figs/CE-scatter-1.pdf Graphic file (type pdf)
 <use figs/CE-scatter-1.pdf>
 Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 1032.
 (pdftex.def)             Requested size: 469.7781pt x 343.01259pt.
 [19]
-<figs/CEAC-1.pdf, id=276, 568.1225pt x 423.5825pt>
+<figs/CEAC-1.pdf, id=277, 568.1225pt x 423.5825pt>
 File: figs/CEAC-1.pdf Graphic file (type pdf)
 <use figs/CEAC-1.pdf>
 Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 1043.
@@ -846,7 +843,7 @@ Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 1043.
                                                   \fi \fi 
 l.1049 
         <./figs/CE-scatter-1.pdf>]
-<figs/ELC-1.pdf, id=295, 569.12625pt x 423.5825pt>
+<figs/ELC-1.pdf, id=296, 569.12625pt x 423.5825pt>
 File: figs/ELC-1.pdf Graphic file (type pdf)
 <use figs/ELC-1.pdf>
 Package pdftex.def Info: figs/ELC-1.pdf  used on input line 1054.
@@ -1207,21 +1204,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 1219--1222
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1225.
 [27]
 Package atveryend Info: Executing hook `AfterLastShipout' on input line 1225.
-(./Markov_Tutorial_Part1.xwm) (./Markov_Tutorial_Part1.aux)
+(./cSTM_Tutorial_Intro.xwm) (./cSTM_Tutorial_Intro.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1225.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1225.
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
- 19428 strings out of 480608
- 302674 string characters out of 5903631
- 666026 words of memory out of 5000000
- 34696 multiletter control sequences out of 15000+600000
+ 19427 strings out of 480608
+ 302632 string characters out of 5903631
+ 665980 words of memory out of 5000000
+ 34695 multiletter control sequences out of 15000+600000
  620653 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,14n,75p,2055b,830s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,14n,75p,2053b,830s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{conceptualizing-and-implementing-time-independent
 -cSTM-dynamics} has been referenced but does not exist, replaced by a fixed one
 
@@ -1253,10 +1247,10 @@ public/lm/lmsy8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/l
 mtk10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtko10.pfb
 ></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/loc
 al/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on Markov_Tutorial_Part1.pdf (27 pages, 851632 bytes).
+Output written on cSTM_Tutorial_Intro.pdf (27 pages, 851491 bytes).
 PDF statistics:
- 554 PDF objects out of 1000 (max. 8388607)
- 479 compressed objects within 5 object streams
+ 555 PDF objects out of 1000 (max. 8388607)
+ 480 compressed objects within 5 object streams
  116 named destinations out of 1000 (max. 500000)
  16511 words of extra memory for PDF output out of 17280 (max. 10000000)
 
