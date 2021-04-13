@@ -52,16 +52,16 @@ This table contains an overview of the key model components used in the code for
 |               |                                |               |                 |                   |           |
 |        | **Annual costs**                      |               |                 |                   |           |
 |              | Healthy individuals             | `c_H`         | scalar          |                   | numeric   |
-|              | Sick individuals in S1          | `c_S1`        | scalar          |                   | numeric   |
-|              | Sick individuals in S2          | `c_S2`        | scalar          |                   | numeric   |
+|              | Sick individuals in Sick        | `c_S1`        | scalar          |                   | numeric   |
+|              | Sick individuals in Sicker      | `c_S2`        | scalar          |                   | numeric   |
 |              | Dead individuals                | `c_D`         | scalar          |                   | numeric   | 
 |              | Additional costs treatment A    | `c_trtA`      | scalar          |                   | numeric   | 
 |              | Additional costs treatment B    | `c_trtB`      | scalar          |                   | numeric   | 
 |              |                                 |               |                 |                   |           |
 |       | **Utility weights**                    |               |                 |                   |           |
 |              |  Healthy individuals            | `u_H`         | scalar          |                   | numeric   |
-|              |  Sick individuals in S1         | `u_S1`        | scalar          |                   | numeric   |
-|              |  Sick individuals in S2         | `u_S2`        | scalar          |                   | numeric   |
+|              |  Sick individuals in Sick       | `u_S1`        | scalar          |                   | numeric   |
+|              |  Sick individuals in Sicker     | `u_S2`        | scalar          |                   | numeric   |
 |              |  Dead individuals               | `u_D`         | scalar          |                   | numeric   | 
 |              |  Treated with treatment A       | `u_trtA`      | scalar          |                   | numeric   | 
 |              |                                 |               |                 |                   |           |
@@ -73,4 +73,39 @@ This table contains an overview of the key model components used in the code for
 |              | Total expected discounted costs for a strategy | `n_tot_cost`   |  scalar        |            | numeric   |
 |              | Summary of the model outcomes   | `df_cea`       | data frame     |                    |           |
 |              | Summary of the model outcomes   | `table_cea`    | table          |                    |           |
+
+### Table II: Input parameters for probabilistic analysis  
+| Parameter              | Distribution         | Distribution values      | Parameter mean       | Parameter standard error|
+|------------------------|----------------------|--------------------------|----------------------|---------|
+| Number of simulation   | `n_sim`              | 1000                     |                      |         |
+| Annual transition probabilities |             |                          |                      |         |
+| - Disease onset (H to S1)                                   |$Beta$     | \(\alpha\) = 30, \(\beta\) = 170     | 0.15 |   0.025 |
+| - Recovery (S1 to H)                                        |$Beta$      | \(\alpha\) = 60, \(\beta\) = 60     | 0.5  |   0.045 |
+| - Disease progression (S1 to S2) in the age-dependent model |$Beta$      | \(\alpha\) = 84, \(\beta\) = 716    | 0.105|   0.01  |
+ - Weibull scale parameter (S1 to S2) in the model with tunnel states |$Lognormal$ | $log(\mu)$ = $log(0.08)$ ,  $log(\sigma)$ = 0.02      | 0.08 |   0.002 |
+ - Weibull shape parameter (S1 to S2) in the model with tunnel states Annual mortality |$Lognormal$ | $log(\mu)$ = $log(1.1)$  ,  $log(\sigma)$ = 0.02      | 1.1  |   0.02  |
+ - Hazard ratio of death in S1 vs H |$Lognormal$ | $log(\mu)$ = $log(3)$    ,  $log(\sigma)$ = 0.01      | 3    |   0.03  |
+ - Hazard ratio of death in S2 vs H |$Lognormal$ | $log(\mu)$ = $log(10)$  ,  $log(\sigma)$ = 0.2        | 10   |   1     |
+ - Log odds ratio of S1 to S2 |$Normal$    | $\mu$ = $log(0.6)$      ,  $\sigma$ = 0.1             | -0.51|   0.1   |
+ | Annual costs                                                 |            |                                    |      |         |
+ - Healthy individuals                                        |$Gamma$     | \(\mathbf{shape}\) = 100  , \(\mathbf{Scale}\) = 20   | 2000 |   200   |
+ - Sick individuals in S1                                     |$Gamma$     | \(\mathbf{shape}\) = 177.8, \(\mathbf{Scale}\) = 22.5 | 4000 |   300   |
+ - Sick individuals in S2                                     |$Gamma$     | \(\mathbf{shape}\) = 225  , \(\mathbf{Scale}\) = 66.7 | 15000|   1000  |
+ - Cost of treatment A for individuals in S1 or S2            |$Gamma$     | \(\mathbf{shape}\) = 576  , \(\mathbf{Scale}\) = 20.8 | 12000|   500   |
+ - Cost of treatment B for individuals in S1 or S2            |$Gamma$     | \(\mathbf{shape}\) = 676  , \(\mathbf{Scale}\) = 19.2 | 13000|   500   |
+ | Utility weights                                            |            |                                    |      |         |
+ | - Healthy individuals                                      |$Beta$      | \(\alpha\) = 200, \(\beta\) = 3    | 0.985|   0.008 |
+ | - Sick individuals in S1                                   |$Beta$      | \(\alpha\) = 130, \(\beta\) = 45   | 0.74 |   0.033 |
+ | - Sick individuals in S2                                   |$Beta$      | \(\alpha\) = 230, \(\beta\) = 230  | 0.5  |   0.023 |
+ | Intervention effect                                        |            |                                    |      |         |
+ | - Utility for treated individuals in S1 Transition rewards |$Beta$      | \(\alpha\) = 300, \(\beta\) = 15   | 0.95 |   0.012 |
+ | - Disutility (H to S1)                                     |$Beta$      | \(\alpha\) = 11,  \(\beta\) = 1088 | 0.01 |   0.003 | 
+ | - Increase in cost (H to S1)                               |$Gamma$     | \(\alpha\) = 25,  \(\beta\) = 40   | 1000 |   200   |
+ | - Increase in cost (D)                                     |$Gamma$     | \(\alpha\) = 100, \(\beta\) = 20   | 2000 |   200   |
+                     
+  
+
+
+
+
 
