@@ -214,7 +214,7 @@ calculate_ce_out <- function(l_params_all, n_wtp = 100000){ # User defined
 }
 
 #------------------------------------------------------------------------------#
-####                     Generate a PSA dataset                             ####
+####             Generate a PSA input parameter dataset                     ####
 #------------------------------------------------------------------------------#
 #' Generate parameter sets for the probabilistic sensitivity analysis (PSA)
 #'

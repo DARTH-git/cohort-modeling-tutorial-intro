@@ -1,7 +1,7 @@
-##############################################################################
-### Cohort State-Transition Models in R                                    ###
-##############################################################################
-# This code forms the basis for the state-transition model of the article: 
+################################################################################
+### Time-independent cSTMs in R                                              ###
+################################################################################
+# This code forms the basis for the state-transition model of the tutorial: 
 # 'An Introductory Tutorial to Cohort State-Transition Models in R' 
 # Authors: 
 # - Fernando Alarid-Escudero <fernando.alarid@cide.edu>
@@ -13,11 +13,11 @@
 # - Hawre Jalal
 # Please cite the article when using this code
 #
-# To program this tutorial we made use of 
-# R version 4.0.2 (2020-06-22)
+# To program this tutorial we used:
+# R version 4.0.3 (2020-10-10)
 # Platform: 64-bit operating system, x64-based processor
-# Running under: Windows 10
-# RStudio: Version 1.3.1073 2009-2020 RStudio, Inc
+# Running under: Mac OS 11.2.2
+# RStudio: Version 1.4.1103 2009-2021 RStudio, Inc
 
 ##############################################################################
 ############################# Code of Appendix ############################### 
@@ -303,7 +303,7 @@ plot(df_cea, label = "all") +
 
 ################### Probabilistic Sensitivity Analysis (PSA) ###################
 ### Load model, CEA and PSA functions
-source("R/Functions STM_01.R")
+source("R/Functions_cSTM_time_indep.R")
 
 # List of input parameters
 l_params_all <- list(
@@ -353,9 +353,14 @@ head(df_psa_input)
 ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
   facet_wrap(~Parameter, scales = "free") +
   geom_histogram(aes(y = ..density..)) +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+  scale_x_continuous(breaks = dampack::number_ticks(4)) + 
+  ylab("") +
   theme_bw(base_size = 16) + 
-  theme(axis.text = element_text(size=6)) 
+  theme(axis.text = element_text(size = 6),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y  = element_blank(),
+        axis.ticks.y = element_blank())
 
 # Initialize data.frames with PSA output 
 # data.frame of costs
@@ -387,12 +392,84 @@ print(paste0("PSA with ", comma(n_sim), " simulations run in series in ",
              round(n_time_total_psa_series, 2), " ", 
              units(n_time_total_psa_series)))
 
+### Run Markov model on each parameter set of PSA input dataset in parallel
+# ## Get OS
+# os <- get_os()
+# print(paste0("Parallelized PSA on ", os))
+# 
+# no_cores <- parallel::detectCores() - 1
+# 
+# n_time_init_psa <- Sys.time()
+# 
+# ## Run parallelized PSA based on OS
+# if(os == "macosx"){
+#   # Initialize cluster object
+#   cl <- parallel::makeForkCluster(no_cores)
+#   # Register clusters
+#   doParallel::registerDoParallel(cl)
+#   # Run parallelized PSA
+#   df_ce <- foreach::foreach(i = 1:n_sim, .combine = rbind) %dopar% {
+#     l_out_temp <- calculate_ce_out(df_psa_input[i, ])
+#     df_ce <- c(l_out_temp$Cost, l_out_temp$Effect)
+#   }
+#   # Extract costs and effects from the PSA dataset
+#   df_c <- df_ce[, 1:n_str]
+#   df_e <- df_ce[, (n_str+1):(2*n_str)]
+#   # Register end time of parallelized PSA
+#   n_time_end_psa <- Sys.time()
+# }
+# if(os == "windows"){
+#   # Initialize cluster object
+#   cl <- parallel::makeCluster(no_cores)
+#   # Register clusters
+#   doParallel::registerDoParallel(cl)
+#   opts <- list(attachExportEnv = TRUE)
+#   # Run parallelized PSA
+#   df_ce <- foeach::foreach(i = 1:n_samp, .combine = rbind,
+#                            .export = ls(globalenv()),
+#                            .packages=c("dampack"),
+#                            .options.snow = opts) %dopar% {
+#                              l_out_temp <- calculate_ce_out(df_psa_input[i, ])
+#                              df_ce <- c(l_out_temp$Cost, l_out_temp$Effect)
+#                            }
+#   # Extract costs and effects from the PSA dataset
+#   df_c <- df_ce[, 1:n_str]
+#   df_e <- df_ce[, (n_str+1):(2*n_str)]
+#   # Register end time of parallelized PSA
+#   n_time_end_psa <- Sys.time()
+# }
+# if(os == "linux"){
+#   # Initialize cluster object
+#   cl <- parallel::makeCluster(no_cores)
+#   # Register clusters
+#   doParallel::registerDoMC(cl)
+#   # Run parallelized PSA
+#   df_ce <- foreach::foreach(i = 1:n_sim, .combine = rbind) %dopar% {
+#     l_out_temp <- calculate_ce_out(df_psa_input[i, ])
+#     df_ce <- c(l_out_temp$Cost, l_out_temp$Effect)
+#   }
+#   # Extract costs and effects from the PSA dataset
+#   df_c <- df_ce[, 1:n_str]
+#   df_e <- df_ce[, (n_str+1):(2*n_str)]
+#   # Register end time of parallelized PSA
+#   n_time_end_psa <- Sys.time()
+# }
+# # Stope clusters
+# stopCluster(cl)
+# n_time_total_psa <- n_time_end_psa - n_time_init_psa
+# print(paste0("PSA with ", comma(n_sim), " simulations run in series in ",
+#              round(n_time_total_psa, 2), " ", 
+#              units(n_time_total_psa_series)))
+
 ## Visualize PSA results and CEA
 # Create PSA object for dampack
 l_psa <- make_psa_obj(cost          = df_c, 
                       effectiveness = df_e, 
                       parameters    = df_psa_input, 
                       strategies    = v_names_str)
+l_psa$strategies <- v_names_str
+colnames(l_psa$effectiveness)<- v_names_str
+colnames(l_psa$cost)<- v_names_str
 
 # Create PSA graphs
 # Vector with willingness-to-pay (WTP) thresholds.
