@@ -1,5 +1,5 @@
 ---
-title: "Cohort State-Transition Models in R: A Tutorial"
+title: "Cohort State-Transition Models in R: A Tutorial - Part I"
 subtitle: "Appendix"
 author: 
   - Fernando Alarid-Escudero, PhD^[Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico]
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Cohort tutorial model components
 ### Table I
-This table contains an overview of the key model components used in the code for the Sick-Sicker example from the [DARTH](http://darthworkgroup.com/publications/) manuscript: “Implementation of cohort state-transition models in R”. The first column gives the mathematical notation for some of the model components that are used in the equations in the manuscript. The second column gives a description of the model component with the R name in the third column. The forth gives the data structure, e.g. scalar, list, vector, matrix etc, with the according dimensions of this data structure in the fifth column. The final column indicated the type of data that is stored in the data structure, e.g. numeric (5.2,6.3,7.4), category (A,B,C), integer (5,6,7), logical (TRUE, FALSE).
+This table contains an overview of the key model components used in the code for the Sick-Sicker example from the [DARTH](http://darthworkgroup.com/publications/) manuscript: “An Introductory Tutorial to Cohort State-Transition Models in R”. The first column gives the mathematical notation for some of the model components that are used in the equations in the manuscript. The second column gives a description of the model component with the R name in the third column. The forth gives the data structure, e.g. scalar, list, vector, matrix etc, with the according dimensions of this data structure in the fifth column. The final column indicated the type of data that is stored in the data structure, e.g. numeric (5.2,6.3,7.4), category (A,B,C), integer (5,6,7), logical (TRUE, FALSE).
 
 
 | Element | Description                           | R name        | Data structure | Dimensions        | Data type   |
