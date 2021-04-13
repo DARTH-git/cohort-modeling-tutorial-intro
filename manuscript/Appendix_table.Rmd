@@ -1,0 +1,76 @@
+---
+title: "Cohort State-Transition Models in R: A Tutorial"
+subtitle: "Appendix"
+author: 
+  - Fernando Alarid-Escudero, PhD^[Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico]
+  - Eline Krijkamp, MSc^[Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands]
+  - Eva A. Enns, PhD^[Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA]
+  - Alan Yang, MSc^[The Hospital for Sick Children, Toronto]
+  - Myriam G.M. Hunink, PhD$^\dagger$^[Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA]
+  - Petros Pechlivanoglou, PhD^[The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada]
+  - Hawre Jalal, MD, PhD^[University of Pittsburgh, Pittsburgh, PA, USA]
+date: '`r Sys.Date()`'
+output: pdf_document
+classoption: landscape
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Cohort tutorial model components
+### Table I
+This table contains an overview of the key model components used in the code for the Sick-Sicker example from the [DARTH](http://darthworkgroup.com/publications/) manuscript: “Implementation of cohort state-transition models in R”. The first column gives the mathematical notation for some of the model components that are used in the equations in the manuscript. The second column gives a description of the model component with the R name in the third column. The forth gives the data structure, e.g. scalar, list, vector, matrix etc, with the according dimensions of this data structure in the fifth column. The final column indicated the type of data that is stored in the data structure, e.g. numeric (5.2,6.3,7.4), category (A,B,C), integer (5,6,7), logical (TRUE, FALSE).
+
+
+| Element | Description                           | R name        | Data structure | Dimensions        | Data type   |
+|--------|---------------------------------------|----------------|----------------|-------------------|-------------|
+| $n_t$        | Time horizon                     | `n_t`        | scalar          |                   | numeric     |
+| $v_s$        | Names of the health states       | `v_n`        | vector          | `n_states` x 1    | categoric   |
+| $n_s$        | Number of health states          | `n_states`   | scalar          |                   | numeric     |
+| $v_{str}$    | Names of the strategies          | `v_names_str`| scalar          |                   | categoric   |
+| $n_{str}$    | Number of strategies             | `n_str`      | scalar          |                   | categoric   |
+| \(\mathbf{d_c}\)  | Discount rate for costs     | `d_c`        | scalar          |                   | numeric     |
+| \(\mathbf{d_e}\)  | Discount rate for effects   | `d_e`        | scalar          |                   | numeric     |
+|              | Discount weights for costs       | `v_dwc`      | vector          | (`n_t` x 1 ) + 1   | numeric     | 
+|              | Discount weights for effects     | `v_dwe`      | vector          | (`n_t` x 1 ) + 1   | numeric     | 
+| $age_{_0}$   | Age at baseline                  | `n_age_init` | scalar          |                   | numeric     |
+| $age$        | Maximum age of follow up         | `n_age_max`  | scalar          |                   | numeric     |
+| \(M\)        | Cohort trace                     | `m_M`        | matrix          | (`n_t` + 1) x `n_states`    | numeric     |
+| \(m_0\)      | Initial state vector             | `v_s_init`   | vector          | 1 x `n_states`         | numeric     |
+| \(m_t\)      | State vector in cycle t          | `v_mt`       | vector          | 1 x `n_states`         | numeric     |
+|              |                                  |              |                 |                   |             |
+|       |  **Transition probabilities**           |              |                 |                   |             |  
+| $p_{[H,S1]}$  | From Healthy to Sick conditional on surviving  | `p_HS1`      | scalar          |                   | numeric     |
+| $p_{[S1,H]}$  | From Sick to Healthy conditional on surviving  | `p_S1H`      | scalar          |                   | numeric     |
+| $p_{[S1,S2]}$ | From Sick to Sicker conditional on surviving   | `p_S1S2`     | scalar          |                   | numeric     |
+| $r_{[H,D]}$   | Constant rate of dying when Healthy (all-cause mortality rate)| `r_HD`       | scalar          |                   | numeric     |
+| $hr_{[S1,H]}$ | Hazard ratio of death in Sick vs Healthy       | `hr_S1`       | scalar          |                   | numeric     |
+| $hr_{[S2,H]}$ | Hazard ratio of death in Sicker vs Healthy     | `hr_S2`       | scalar          |                   | numeric     |
+| $hr_{[S1,S2]_{trtB}}$ | Hazard ratio of becoming Sicker when Sick under treatment B    | `hr_S1S2_trtB`| scalar   |  | numeric     |
+| \(P\)         | Time-independent transition probability matrix  | `m_P`  | matrix | `n_states` x `n_states`    | numeric     |
+|               |                                |               |                 |                   |           |
+|        | **Annual costs**                      |               |                 |                   |           |
+|              | Healthy individuals             | `c_H`         | scalar          |                   | numeric   |
+|              | Sick individuals in S1          | `c_S1`        | scalar          |                   | numeric   |
+|              | Sick individuals in S2          | `c_S2`        | scalar          |                   | numeric   |
+|              | Dead individuals                | `c_D`         | scalar          |                   | numeric   | 
+|              | Additional costs treatment A    | `c_trtA`      | scalar          |                   | numeric   | 
+|              | Additional costs treatment B    | `c_trtB`      | scalar          |                   | numeric   | 
+|              |                                 |               |                 |                   |           |
+|       | **Utility weights**                    |               |                 |                   |           |
+|              |  Healthy individuals            | `u_H`         | scalar          |                   | numeric   |
+|              |  Sick individuals in S1         | `u_S1`        | scalar          |                   | numeric   |
+|              |  Sick individuals in S2         | `u_S2`        | scalar          |                   | numeric   |
+|              |  Dead individuals               | `u_D`         | scalar          |                   | numeric   | 
+|              |  Treated with treatment A       | `u_trtA`      | scalar          |                   | numeric   | 
+|              |                                 |               |                 |                   |           |
+|       |  **Outcome structures**           |              |                 |                   |             |  
+|  \(\mathbf{A}\)  | Transition dynamics array   |`a_A`          | array           | `n_states` x `n_states` x (`n_t` + 1)  | numeric |
+|              | Expected QALYs per cycle under a strategy      | `v_qaly`       |  vector        | 1 x (`n_t` + 1)          | numeric|
+|              | Expected costs per cycle under a strategy      | `v_cost`       |  vector        | 1 x (`n_t` + 1)    | numeric   |
+|              | Total expected discounted QALYs for a strategy | `n_tot_qaly`   |  scalar        |             | numeric   |
+|              | Total expected discounted costs for a strategy | `n_tot_cost`   |  scalar        |            | numeric   |
+|              | Summary of the model outcomes   | `df_cea`       | data frame     |                    |           |
+|              | Summary of the model outcomes   | `table_cea`    | table          |                    |           |
+
