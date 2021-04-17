@@ -51,7 +51,7 @@ This table contains an overview of the key model components used in the code for
 | $hr_{[S1,S2]_{trtB}}$ | Hazard ratio of becoming Sicker when Sick under treatment B    | `hr_S1S2_trtB`| scalar   |  | numeric     |
 | \(P\)         | Time-independent transition probability matrix  | `m_P`  | matrix | `n_states` x `n_states`    | numeric     |
 |               |                                |               |                 |                   |           |
-|        | **Annual costs**                      |               |                 |                   |           |
+|              | **Annual costs**                |               |                 |                   |           |
 |              | Healthy individuals             | `c_H`         | scalar          |                   | numeric   |
 |              | Sick individuals in Sick        | `c_S1`        | scalar          |                   | numeric   |
 |              | Sick individuals in Sicker      | `c_S2`        | scalar          |                   | numeric   |
@@ -59,19 +59,18 @@ This table contains an overview of the key model components used in the code for
 |              | Additional costs treatment A    | `c_trtA`      | scalar          |                   | numeric   | 
 |              | Additional costs treatment B    | `c_trtB`      | scalar          |                   | numeric   | 
 |              |                                 |               |                 |                   |           |
-|       | **Utility weights**                    |               |                 |                   |           |
+|              | **Utility weights**             |               |                 |                   |           |
 |              |  Healthy individuals            | `u_H`         | scalar          |                   | numeric   |
 |              |  Sick individuals in Sick       | `u_S1`        | scalar          |                   | numeric   |
 |              |  Sick individuals in Sicker     | `u_S2`        | scalar          |                   | numeric   |
 |              |  Dead individuals               | `u_D`         | scalar          |                   | numeric   | 
 |              |  Treated with treatment A       | `u_trtA`      | scalar          |                   | numeric   | 
 |              |                                 |               |                 |                   |           |
-|       |  **Outcome structures**           |              |                 |                   |             |  
-|  \(\mathbf{A}\)  | Transition dynamics array   |`a_A`          | array           | `n_states` x `n_states` x (`n_t` + 1)  | numeric |
-|              | Expected QALYs per cycle under a strategy      | `v_qaly`       |  vector        | 1 x (`n_t` + 1)          | numeric|
-|              | Expected costs per cycle under a strategy      | `v_cost`       |  vector        | 1 x (`n_t` + 1)    | numeric   |
-|              | Total expected discounted QALYs for a strategy | `n_tot_qaly`   |  scalar        |             | numeric   |
-|              | Total expected discounted costs for a strategy | `n_tot_cost`   |  scalar        |            | numeric   |
+|              |  **Outcome structures**         |               |                 |                   |             |  
+|              | Expected QALYs per cycle under a strategy       | `v_qaly_str`    |  vector        | 1 x (`n_t` + 1)    | numeric   |
+|              | Expected costs per cycle under a strategy       | `v_cost_str`    |  vector        | 1 x (`n_t` + 1)    | numeric   |
+|              | Total expected discounted QALYs for a strategy  | `n_tot_qaly_str`|  scalar        |                    | numeric   |
+|              | Total expected discounted costs for a strategy  | `n_tot_cost_str`|  scalar        |                    | numeric   |
 |              | Summary of the model outcomes   | `df_cea`       | data frame     |                    |           |
 |              | Summary of the model outcomes   | `table_cea`    | table          |                    |           |
 
