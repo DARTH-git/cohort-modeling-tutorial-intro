@@ -32,8 +32,9 @@ This table contains an overview of the key model components used in the code for
 | $n_{str}$    | Number of strategies             | `n_str`      | scalar          |                   | character   |
 | \(\mathbf{d_c}\)  | Discount rate for costs     | `d_c`        | scalar          |                   | numeric     |
 | \(\mathbf{d_e}\)  | Discount rate for effects   | `d_e`        | scalar          |                   | numeric     |
-|              | Discount weights for costs       | `v_dwc`      | vector          | (`n_t` x 1 ) + 1   | numeric     | 
-|              | Discount weights for effects     | `v_dwe`      | vector          | (`n_t` x 1 ) + 1   | numeric     | 
+|              | Discount weights for costs       | `v_dwc`      | vector          | (`n_t` x 1 ) + 1  | numeric     | 
+|              | Discount weights for effects     | `v_dwe`      | vector          | (`n_t` x 1 ) + 1  | numeric     | 
+|\(\mathbf{wcc}\) | Within-cycle correction weights using Simpson's 1/3 rule    | `v_wcc`  | vector    | (`n_t` x 1 ) + 1  | numeric     |
 | $age_{_0}$   | Age at baseline                  | `n_age_init` | scalar          |                   | numeric     |
 | $age$        | Maximum age of follow up         | `n_age_max`  | scalar          |                   | numeric     |
 | \(M\)        | Cohort trace                     | `m_M`        | matrix          | (`n_t` + 1) x `n_states`    | numeric     |
