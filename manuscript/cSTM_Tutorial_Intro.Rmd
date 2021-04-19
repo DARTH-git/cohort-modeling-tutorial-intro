@@ -401,17 +401,17 @@ m_M <- matrix(NA,
 m_M[1, ] <- v_m_init
 ## Initialize cohort trace for strategies A, B, and AB
 # Structure and initial states are the same as for SoC
-m_M_trtA  <- m_M # Strategy A
-m_M_trtB  <- m_M # Strategy B
-m_M_trtAB <- m_M # Strategy AB
+m_M_strA  <- m_M # Strategy A
+m_M_strB  <- m_M # Strategy B
+m_M_strAB <- m_M # Strategy AB
 ```
 
-Note that the initial state vector, `v_m_init`, can be modified to account for the cohort's distribution across the states at the start of the simulation and might vary by strategy.
+Note that the initial state vector, `v_m_init`, can be modified to account for the cohort's distribution across the states at the start of the simulation and could, but does not always, vary by strategy.
 
-Since the Sick-Sicker model consists of `r n_states` states, we create a `r n_states` $\times$ `r n_states` transition probability matrix for strategy SoC, `m_P`. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of `m_P`, we specify first the row number (or name) and then the column number (or name) separated by a comma. For example, the transition probability of going from state Healthy (H) to state Sick (S1) could be accessed by `m_P[1, 2]` or by using the corresponding row or column state-names as characters `m_P["H", "S1"]`. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times `1-p_HD`, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, `p_HS1` by `1-p_HD`.
+Since the Sick-Sicker model consists of `r n_states` states, we create a `r n_states` $\times$ `r n_states` transition probability matrix for strategy SoC, `m_P`. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of `m_P`, we specify first the row name (or number) and then the column number (or name) separated by a comma. For example, we could access the transition probability from state Healthy (H) to state Sick (S1) using the corresponding row or column state-names as characters `m_P["H", "S1"]`. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times `1 - p_HD`, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, `p_HS1` by `1 - p_HD`. We create the transition probability matrix for strategy A as a copy of SoC's because treatment A does not alter the cohort's transition probabilities.
 
 ```{r Sick-Sicker-P2}
-## Initialize transition probability matrix
+## Initialize transition probability matrix for strategy SoC
 m_P <- matrix(0, 
               nrow = n_states, ncol = n_states, 
               dimnames = list(v_names_states, v_names_states)) # row and column names
@@ -430,39 +430,53 @@ m_P["S2", "S2"] <- 1 - p_S2D
 m_P["S2", "D"]  <- p_S2D
 # From D
 m_P["D", "D"]   <- 1
+
+## Initialize transition probability matrix for strategy A as a copy of SoC's
+m_P_strA <- m_P
 ```
 
-Because treatment B alters progression from S1 to S2, we created a different transition probability matrix to model this treatment, `m_P_trtB`. We initialize `m_P_trtB` as a copy of `m_P` and update only the transition probabilities from S1 to S2 (i.e., `p_S1S2` is replaced with `p_S1S2_trtB`).
+Because treatment B alters progression from S1 to S2, we created a different transition probability matrix to model this treatment, `m_P_strB`. We initialize `m_P_strB` as a copy of `m_P` and update only the transition probabilities from S1 to S2 (i.e., `p_S1S2` is replaced with `p_S1S2_trtB`). Strategy AB also alters progression from S1 to S2 because it uses treatment B, so we create this strategy's transition probability matrix as a copy of the transition probability matrix of strategy B.
 
 ```{r Sick-Sicker-Time-independent-New-Treatment2}
-## Initialize transition probability matrix for treatment B
-m_P_trtB <- m_P
+## Initialize transition probability matrix for strategy B
+m_P_strB <- m_P
 ## Update only transition probabilities from S1 involving p_S1S2
-m_P_trtB["S1", "S1"] <- (1 - p_S1D) * (1 - (p_S1H + p_S1S2_trtB))
-m_P_trtB["S1", "S2"] <- (1 - p_S1D) * p_S1S2_trtB
+m_P_strB["S1", "S1"] <- (1 - p_S1D) * (1 - (p_S1H + p_S1S2_trtB))
+m_P_strB["S1", "S2"] <- (1 - p_S1D) * p_S1S2_trtB
+
+## Initialize transition probability matrix for strategy AB as a copy of B's
+m_P_strAB <- m_P_strB
 ```
 
-Once both transition matrices are created, we verify they are valid by checking that all of their rows sum to one and that each of the transition probabilities of both matrices is between 0 and 1 using the functions `check_sum_of_transition_array` and `check_transition_probability`, respectively, which have been used previously elsewhere[@Alarid-Escudero2019e] and are provided in the `darthtools` package (https://github.com/DARTH-git/darthtools).  If a transition matrix is not valid, the functions will produce an error message to warn the user.
+Once all transition matrices are created, we verify they are valid by checking that all of their rows sum to one and that each of the transition probabilities of both matrices is between 0 and 1 using the functions `check_sum_of_transition_array` and `check_transition_probability`, respectively, which have been used previously elsewhere[@Alarid-Escudero2019e] and are provided in the `darthtools` package (https://github.com/DARTH-git/darthtools).
 
 ```{r}
 ### Check if transition probability matrices are valid
 ## Check that transition probabilities are [0, 1]
 check_transition_probability(m_P)
-check_transition_probability(m_P_trtB)
+check_transition_probability(m_P_strA)
+check_transition_probability(m_P_strB)
+check_transition_probability(m_P_strAB)
 ## Check that all rows sum to 1
 check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles)
-check_sum_of_transition_array(m_P_trtB, n_states = n_states, n_cycles = n_cycles)
+check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles)
+check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles)
+check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles)
 ```
 
-Next, we obtain the cohort distribution across the `r n_states` states over `r n_cycles` cycles using a time-independent cSTM  under SoC and treatment B. To achieve this, we iteratively compute the matrix product between each of the rows of `m_M` and `m_P`, and  between `m_M_trtB` and `m_P_trtB`, respectively, using the `%*%` symbol in R at each cycle using a `for` loop
+Next, we obtain the cohort distribution across the `r n_states` states over `r n_cycles` cycles using a time-independent cSTM  under all four strategies. To achieve this, we iteratively compute the matrix product between each of the rows of `m_M` and `m_P`, and  between `m_M_strB` and `m_P_strB`, respectively, using the `%*%` symbol in R at each cycle using a `for` loop
 
 ```{r Sick-Sicker-TimeHomogeneous-Solution}
 # Iterative solution of time-independent cSTM
 for(t in 1:n_cycles){
   # For SoC
   m_M[t + 1, ] <- m_M[t, ] %*% m_P
-  # For treatment B
-  m_M_trtB[t + 1, ] <- m_M_trtB[t, ] %*% m_P_trtB
+  # For strategy A
+  m_M_strA[t + 1, ] <- m_M_strA[t, ] %*% m_P_strA
+  # For strategy B
+  m_M_strB[t + 1, ] <- m_M_strB[t, ] %*% m_P_strB
+  # For strategy AB
+  m_M_strAB[t + 1, ] <- m_M_strAB[t, ] %*% m_P_strAB
 }
 ```
 
@@ -496,7 +510,7 @@ ggplot(reshape2::melt(m_M), aes(x = Var1, y = value,
         legend.background = element_rect(fill = NA))
 ```
 
-# Economic outcomes
+# Cost and effectiveness outcomes
 cSTMs can be used to generate different effectiveness and economic outputs. In a CEA, the outcomes are typically the total expected QALYs and total costs accrued by the cohort over a predefined time horizon. However, epidemiological outcomes are often used to produce other measures of interest or model calibration and validation. Some common epidemiological outcomes include survival, prevalence, incidence, the average number of events, and lifetime risk of events.[@Siebert2012c] In this tutorial, we describe how to generate the effectiveness and economic outcomes. In an accompanying tutorial,[@Alarid-Escudero2021b] we describe how to compute epidemiological outcomes.
 
 ## Effectiveness and economic outcomes
@@ -547,7 +561,7 @@ v_c_strAB <- c(H  = c_H,
                D  = c_D)
 ```
 
-To compute the expected QALYs and costs for the Sick-Sicker model under SoC and strategy A, we apply Equation \@ref(eq:exp-rew-cycle) by multiplying the cohort trace matrix, `m_M`, times the corresponding strategy-specific state vectors of rewards. Similarly, To compute the expected rewards for strategies B and AB, we multiply the cohort trace matrix accounting for the effectiveness of treatment B, `m_M_trtB`, times their corresponding state vectors of rewards.
+To compute the expected QALYs and costs for the Sick-Sicker model under SoC and strategy A, we apply Equation \@ref(eq:exp-rew-cycle) by multiplying the cohort trace matrix, `m_M`, times the corresponding strategy-specific state vectors of rewards. Similarly, To compute the expected rewards for strategies B and AB, we multiply the cohort trace matrix accounting for the effectiveness of treatment B, `m_M_strB`, times their corresponding state vectors of rewards.
 
 ```{r Expected-outcomes-each-cycle}
 # Vector of QALYs under SoC
@@ -559,13 +573,13 @@ v_qaly_strA <- m_M %*% v_u_strA
 # Vector of costs for strategy A
 v_cost_strA <- m_M %*% v_c_strA
 # Vector of QALYs for strategy B
-v_qaly_strB <- m_M_trtB %*% v_u_strB
+v_qaly_strB <- m_M_strB %*% v_u_strB
 # Vector of costs for strategy B
-v_cost_strB <- m_M_trtB %*% v_c_strB
+v_cost_strB <- m_M_strB %*% v_c_strB
 # Vector of QALYs for strategy AB
-v_qaly_strAB <- m_M_trtB %*% v_u_strAB
+v_qaly_strAB <- m_M_strB %*% v_u_strAB
 # Vector of costs for strategy AB
-v_cost_strAB <- m_M_trtB %*% v_c_strAB
+v_cost_strAB <- m_M_strB %*% v_c_strAB
 ```
 
 ### Within-cycle correction
