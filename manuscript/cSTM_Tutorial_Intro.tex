@@ -157,7 +157,7 @@
 
 \title{An Introductory Tutorial to Cohort State-Transition Models in R}
 \author{Fernando Alarid-Escudero, PhD\footnote{Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico} \and Eline Krijkamp, MSc\footnote{Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands} \and Eva A. Enns, PhD\footnote{Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA} \and Alan Yang, MSc\footnote{The Hospital for Sick Children, Toronto} \and Myriam G.M. Hunink, PhD\(^\dagger\)\footnote{Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA} \and Petros Pechlivanoglou, PhD\footnote{The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada} \and Hawre Jalal, MD, PhD\footnote{University of Pittsburgh, Pittsburgh, PA, USA}}
-\date{2021-04-16}
+\date{2021-04-19}
 
 \begin{document}
 \maketitle
@@ -229,10 +229,71 @@ The monthly probability can then be calculated from the monthly rate using equat
 
 Sometimes, transition probabilities might be available from published literature in one time period (e.g., annual). In contrast, the model cycle length could be in a different time scale (e.g., monthly), requiring the analyst to convert the transition probability to the desired cycle length using the equations described above. Furthermore, the conversion may differ for different parameters if they come from various sources and cycle lengths.
 
+\hypertarget{time-independent-cstm-dynamics}{%
+\section{Time-independent cSTM dynamics}\label{time-independent-cstm-dynamics}}
+
+A cSTM consists of three core components: (1) a state vector, \(\mathbf{m}_t\), that stores the distribution of the cohort across all health states in cycle \(t\) where \(t = 0,\ldots, n_T\); (2) the cohort trace matrix, \(M\), that stacks \(\mathbf{m}_t\) for all \(t\) and represents the distribution of the cohort in the various states over time; and (3) a transition probability matrix, \(P\).\textsuperscript{\protect\hyperlink{ref-Iskandar2018a}{18}} If the cSTM is comprised of \(n_S\) discrete health states, \(\mathbf{m}_t\) is a \(1 \times n_S\) vector and \(P\) is a \(n_S \times n_S\) matrix. The \(i\)-th element of \(\mathbf{m}_t\), where \(i = 1,\ldots, n_S\), represents the proportion of the cohort in the \(i\)-th health state in cycle \(t\), referred to as \(m_{[t,i]}\). Thus, \(\mathbf{m}_t\) is written as:
+\[
+\mathbf{m}_t =
+  \begin{bmatrix}
+m_{[t,1]} & m_{[t,2]} & \cdots & m_{[t,n_S]}
+\end{bmatrix}.
+\]
+The elements of \(P\) are the transition probabilities of moving from state \(i\) to state \(j\), \(p_{[i,j]}\), where \(\{i,j\} = 1,\ldots, n_S\) and all should have values between 0 and 1.
+\[
+  P = 
+  \begin{bmatrix}
+    p_{[1,1]} & p_{[1,2]} & \cdots & p_{[1,n_S]} \\
+    p_{[2,1]} & p_{[2,2]} & \cdots & p_{[2,n_S]} \\
+    \vdots    & \vdots  & \ddots & \vdots   \\
+    p_{[n_S,1]} & p_{[n_S,2]} & \cdots & p_{[n_S,n_S]} \\
+  \end{bmatrix}.
+\]
+For \(P\) to be a correctly specified transition probability matrix, all rows of the transition probability matrix must sum to one, \(\sum_{j=1}^{n_S}{p_{[i,j]}} = 1\) for all \(i = 1,\ldots,n_S\).
+
+The state vector at cycle \(t+1\) (\(\mathbf{m}_{t+1}\)) is then calculated as the matrix product of the state vector at cycle \(t\), \(\mathbf{m}_{t}\), and the transition probability matrix, \(P\), such that
+
+\[
+  \mathbf{m}_{t+1} = \mathbf{m}_{t} P \text{ for } t = 0,\ldots, (n_T - 1),
+\]
+where \(\mathbf{m}_1\) is computed from \(\mathbf{m}_{0}\), the initial state vector with the distribution of the cohort across all health states at the start of the simulation (cycle 0). Then, we iteratively apply this equation through \(t = \left(n_T-1 \right)\).
+
+The cohort trace matrix, \(M\), is a matrix of dimensions \((n_T+1) \times n_S\) where each row is a state vector \((-\mathbf{m}_{t}-)\), such that
+
+\[
+  M = 
+  \begin{bmatrix}
+    - \mathbf{m}_0 -  \\
+    - \mathbf{m}_1 -  \\
+     \vdots \\
+    - \mathbf{m}_{n_T} -  
+  \end{bmatrix}. 
+\]
+
+Note that the initial cycle (i.e., cycle 0) corresponds to \(t=0\), which is on the first row of \(M\). Thus, \(M\) stores the output of the cSTM, which could be used to compute various epidemiological, and economic outcomes, such as life expectancy, prevalence, cumulative resource use, and costs, etc. Table \ref{tab:cSTM-components-table} describes the elements related to the core components of cSTM and their suggested R code names. For a more detailed description of the variable types, data structure, R name for all cSTM elements, please see the Supplementary Material.
+
+\begin{longtable}[]{@{}llcl@{}}
+\caption{\label{tab:cSTM-components-table} Components of a cSTM with their R name.}\tabularnewline
+\toprule
+Element & Description & R name &\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Element & Description & R name &\tabularnewline
+\midrule
+\endhead
+\(n_S\) & Number of states & \texttt{n\_states} &\tabularnewline
+\(\mathbf{m}_0\) & Initial state vector & \texttt{v\_m\_init} &\tabularnewline
+\(\mathbf{m}_t\) & State vector in cycle \(t\) & \texttt{v\_mt} &\tabularnewline
+\(M\) & Cohort trace matrix & \texttt{m\_M} &\tabularnewline
+\(P\) & Time-independent transition probability matrix & \texttt{m\_P} &\tabularnewline
+\bottomrule
+\end{longtable}
+
 \hypertarget{case-study-sick-sicker-model}{%
 \section{Case study: Sick-Sicker model}\label{case-study-sick-sicker-model}}
 
-In this tutorial, we will use the previously published 4-state ``Sick-Sicker'' model for conducting a cost-effectiveness analysis (CEA) of multiple strategies to illustrate the various aspects of cSTM implementation in R.\textsuperscript{\protect\hyperlink{ref-Krijkamp2018}{6},\protect\hyperlink{ref-Enns2015e}{18}} Figure \ref{fig:STD-Sick-Sicker} represents the state-transition diagram of the Sick-Sicker model.
+In this tutorial, we will use the previously published 4-state ``Sick-Sicker'' model for conducting a cost-effectiveness analysis (CEA) of multiple strategies to illustrate the various aspects of cSTM implementation in R.\textsuperscript{\protect\hyperlink{ref-Krijkamp2018}{6},\protect\hyperlink{ref-Enns2015e}{19}} Figure \ref{fig:STD-Sick-Sicker} represents the state-transition diagram of the Sick-Sicker model.
 
 \begin{figure}[H]
 
@@ -244,7 +305,7 @@ In this tutorial, we will use the previously published 4-state ``Sick-Sicker'' m
 \end{figure}
 
 The model simulates a cohort at risk of a hypothetical disease with two stages, ``Sick'' and ``Sicker'', to compute the expected costs and quality-adjusted life years (QALYs) of the cohort over time.
-All the parameters of the Sick-Sicker model and the corresponding R variable names are presented in Table \ref{tab:param-table}. The naming of these parameters and variables follows the notation described in the DARTH coding framework.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{19}} Briefly, we define variables by \texttt{\textless{}x\textgreater{}\_\textless{}y\textgreater{}\_\textless{}var\_name\textgreater{}}, where \texttt{x} is the prefix that indicates the data type (e.g., scalar (no prefix), \texttt{v} for vector, \texttt{m} for matrix, \texttt{a} for array, \texttt{df} for data frame, etc.), \texttt{y} is the prefix indicating variable type (e.g., \texttt{p} for probability, \texttt{r} for rate, \texttt{hr} for hazard ratio, \texttt{lor} for log-odds ratio, \texttt{c} for cost \texttt{c}, \texttt{u}for utility, etc.), and \texttt{var\_name} is some description of the variable presented separated by underscores. For example, \texttt{v\_p\_HD} denotes the vector of transition probabilities from health state ``H'' to health state ``D''. In later sections we will define and name all the other parameters.
+All the parameters of the Sick-Sicker model and the corresponding R variable names are presented in Table \ref{tab:param-table}. The naming of these parameters and variables follows the notation described in the DARTH coding framework.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}} Briefly, we define variables by \texttt{\textless{}x\textgreater{}\_\textless{}y\textgreater{}\_\textless{}var\_name\textgreater{}}, where \texttt{x} is the prefix that indicates the data type (e.g., scalar (no prefix), \texttt{v} for vector, \texttt{m} for matrix, \texttt{a} for array, \texttt{df} for data frame, etc.), \texttt{y} is the prefix indicating variable type (e.g., \texttt{p} for probability, \texttt{r} for rate, \texttt{hr} for hazard ratio, \texttt{lor} for log-odds ratio, \texttt{c} for cost \texttt{c}, \texttt{u}for utility, etc.), and \texttt{var\_name} is some description of the variable presented separated by underscores. For example, \texttt{v\_p\_HD} denotes the vector of transition probabilities from health state ``H'' to health state ``D''. In later sections we will define and name all the other parameters.
 
 In the Sick-Sicker model, we simulate a hypothetical cohort of 25-year-old individuals over their lifetime (until to a maximum age of 100 years) who all start in the ``Healthy'' state (denoted ``H''). We will simulate the cohort dynamics in annual cycle lengths, requiring a total of 75 one-year cycles. The total number of cycles is denoted as \(n_T\) and defined in R as \texttt{n\_cycles}. Healthy individuals are at risk of developing the disease when they transition to the ``Sick'' state (denoted by ``S1''). Sick individuals are at risk of further progressing to a more severe disease stage, the ``Sicker'' health state (denoted by ``S2''). Individuals in S1 can recover and return to H. However, once individuals reach S2, they cannot recover; that is, the probability of transitioning to S1 or H from S2 is zero. Individuals in H face constant background mortality. Individuals in S1 and S2 face an increased hazard of death, compared to healthy individuals, in the form of a hazard ratio (HR) of 3 and 10, respectively, relative to the background mortality rate. Individuals in S1 and S2 also experience increased health care costs, and reduced quality of life (QoL) compared to individuals in H. When individuals die, they transition to the absorbing ``Dead'' state (denoted by ``D''), where they remain. All transitions between non-death states are assumed to be conditional on surviving each cycle. We discount both costs and QALYs at an annual rate of 3\%.
 
@@ -589,7 +650,7 @@ The following sections include R code snippets. All R code is stored as a GitHub
 \end{Highlighting}
 \end{Shaded}
 
-To compute the background mortality risk, \texttt{p\_HD}, from the background mortality rate for the same cycle length (i.e.,\texttt{cycle\_length=1}), we apply Equation \eqref{eq:rate-to-prob-ann} to \texttt{r\_HD}. To compute the mortality risks of the cohort in S1 and S2, we multiply the background mortality rate \texttt{r\_HD} by the hazard ratios \texttt{hr\_S1} and \texttt{hr\_S2}, respectively, and then convert back to probabilities using Equation \eqref{eq:rate-to-prob-ann}. These calculations are required because hazard ratios only apply to rates and not to probabilities. The code below performs the computation in R. In the supplementary material, we provide R functions that compute transformations between rates and probabilities since these transformations are frequently used.
+To compute the background mortality risk, \texttt{p\_HD}, from the background mortality rate for the same cycle length (i.e., \texttt{cycle\_length=1}), we apply Equation \eqref{eq:rate-to-prob-ann} to \texttt{r\_HD}. To compute the mortality risks of the cohort in S1 and S2, we multiply the background mortality rate \texttt{r\_HD} by the hazard ratios \texttt{hr\_S1} and \texttt{hr\_S2}, respectively, and then convert back to probabilities using Equation \eqref{eq:rate-to-prob-ann}. These calculations are required because hazard ratios only apply to rates and not to probabilities. The code below performs the computation in R. In the supplementary material, we provide R functions that compute transformations between rates and probabilities since these transformations are frequently used.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -604,7 +665,7 @@ To compute the background mortality risk, \texttt{p\_HD}, from the background mo
 \end{Highlighting}
 \end{Shaded}
 
-To compute the risk of progression from S1 to S2 under treatment B, we first transform \texttt{p\_S1S2} to a rate, \texttt{r\_S1S2}, using Equation \eqref{eq:prob-to-rate-ann}. Then, we multiply the hazard ratio of treatment B to the rate of progressing from S1 to S2 and transform it back to probabilities by applying Equation \eqref{eq:rate-to-prob-ann}.
+To compute the risk of progression from S1 to S2 under treatment B, we first transform \texttt{p\_S1S2} to a rate, \texttt{r\_S1S2}, using Equation \eqref{eq:prob-to-rate-ann}. Then, we multiply the hazard ratio of treatment B by the rate of progressing from S1 to S2 and transform it back to probabilities by applying Equation \eqref{eq:rate-to-prob-ann}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -620,83 +681,15 @@ To compute the risk of progression from S1 to S2 under treatment B, we first tra
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{conceptualizing-and-implementing-time-independent-cstm-dynamics}{%
-\section{Conceptualizing and implementing time-independent cSTM dynamics}\label{conceptualizing-and-implementing-time-independent-cstm-dynamics}}
-
-A cSTM consists of three core components: (1) a state vector, \(\mathbf{m}_t\), that stores the distribution of the cohort across all health states in cycle \(t\) where \(t = 0,\ldots, n_T\); (2) the cohort trace matrix, \(M\), that stacks \(\mathbf{m}_t\) for all \(t\) and represents the distribution of the cohort in the various states over time; and (3) a transition probability matrix, \(P\).\textsuperscript{\protect\hyperlink{ref-Iskandar2018a}{20}} If the cSTM is comprised of \(n_S\) discrete health states, \(\mathbf{m}_t\) is a \(1 \times n_S\) vector and \(P\) is a \(n_S \times n_S\) matrix. The \(i\)-th element of \(\mathbf{m}_t\), where \(i = 1,\ldots, n_S\), represents the proportion of the cohort in the \(i\)-th health state in cycle \(t\), referred to as \(m_{[t,i]}\). Thus, \(\mathbf{m}_t\) is written as:
-\[
-\mathbf{m}_t =
-  \begin{bmatrix}
-m_{[t,1]} & m_{[t,2]} & \cdots & m_{[t,n_S]}
-\end{bmatrix}.
-\]
-The elements of \(P\) are the transition probabilities of moving from state \(i\) to state \(j\), \(p_{[i,j]}\), where \(\{i,j\} = 1,\ldots, n_S\) and \(t = 0,\ldots,n_T\)
-\[
-  P = 
-  \begin{bmatrix}
-    p_{[1,1]} & p_{[1,2]} & \cdots & p_{[1,n_S]} \\
-    p_{[2,1]} & p_{[2,2]} & \cdots & p_{[2,n_S]} \\
-    \vdots    & \vdots  & \ddots & \vdots   \\
-    p_{[n_S,1]} & p_{[n_S,2]} & \cdots & p_{[n_S,n_S]} \\
-  \end{bmatrix}.
-\]
-Note that all rows of the transition probability matrix must sum to one, \(\sum_{j=1}^{n_S}{p_{[i,j]}} = 1\) for all \(i = 1,\ldots,n_S\).
-
-The state vector at cycle \(t+1\) (\(\mathbf{m}_{t+1}\)) is then calculated as the matrix product of the state vector at cycle \(t\), \(\mathbf{m}_{t}\), and the transition probability matrix, \(P\), such that
-
-\[
-  \mathbf{m}_{t+1} = \mathbf{m}_{t} P \text{ for } t = 0,\ldots, (n_T - 1),
-\]
-where \(\mathbf{m}_1\) is computed from \(\mathbf{m}_{0}\) and represents the initial state vector with the distribution of the cohort across all health states at the start of the simulation (cycle 0). Then, we iteratively apply this equation until \(t = n_T\).
-
-The cohort trace matrix, \(M\), is a matrix of dimensions \((n_T+1) \times n_S\) where each row is a state vector \((-\mathbf{m}_{t}-)\), such that
-
-\[
-  M = 
-  \begin{bmatrix}
-    - \mathbf{m}_0 -  \\
-    - \mathbf{m}_1 -  \\
-     \vdots \\
-    - \mathbf{m}_{n_T} -  
-  \end{bmatrix}. 
-\]
-
-Note that the initial cycle (i.e., cycle 0) corresponds to \(t=0\), which is on the first row of \(M\). Thus, \(M\) stores the output of the cSTM, which could be used to compute various economic outcomes, such as cumulative resource use and costs. Table \ref{tab:cSTM-components-table} describes the elements related to the core components of cSTM and their suggested R code names. For a more detailed description of the variable types, data structure, R name for all cSTM elements, please see the Supplementary Material.
-
-\begin{longtable}[]{@{}llcl@{}}
-\caption{\label{tab:cSTM-components-table} Components of a cSTM with their R name.}\tabularnewline
-\toprule
-Element & Description & R name &\tabularnewline
-\midrule
-\endfirsthead
-\toprule
-Element & Description & R name &\tabularnewline
-\midrule
-\endhead
-\(n_S\) & Number of states & \texttt{n\_states} &\tabularnewline
-\(\mathbf{m}_0\) & Initial state vector & \texttt{v\_s\_init} &\tabularnewline
-\(\mathbf{m}_t\) & State vector in cycle \(t\) & \texttt{v\_mt} &\tabularnewline
-\(M\) & Cohort trace matrix & \texttt{m\_M} &\tabularnewline
-\(P\) & Time-independent transition probability matrix & \texttt{m\_P} &\tabularnewline
-\(\mathbf{A}\) & Transition-dynamics array & \texttt{a\_A} &\tabularnewline
-\bottomrule
-\end{longtable}
-
-For the Sick-Sicker model, the entire cohort starts in the H state. Therefore, we create the \(1 \times n_S\) initial state vector \texttt{v\_s\_init} with all of the cohort assigned to the H state:
+For the Sick-Sicker model, the entire cohort starts in the H state. Therefore, we create the \(1 \times n_S\) initial state vector \texttt{v\_m\_init} with all of the cohort assigned to the H state:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{v\_s\_init }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =} \DecValTok{1}\NormalTok{, }\AttributeTok{S1 =} \DecValTok{0}\NormalTok{, }\AttributeTok{S2 =} \DecValTok{0}\NormalTok{, }\AttributeTok{D =} \DecValTok{0}\NormalTok{) }\CommentTok{\# initial state vector}
-\NormalTok{v\_s\_init}
+\NormalTok{v\_m\_init }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =} \DecValTok{1}\NormalTok{, }\AttributeTok{S1 =} \DecValTok{0}\NormalTok{, }\AttributeTok{S2 =} \DecValTok{0}\NormalTok{, }\AttributeTok{D =} \DecValTok{0}\NormalTok{) }\CommentTok{\# initial state vector}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-##  H S1 S2  D 
-##  1  0  0  0
-\end{verbatim}
-
-The variable \texttt{v\_s\_init} is used to initialize \(M\) represented by \texttt{m\_M} for the cohort under under strategies SoC or A, and by \texttt{m\_M\_trtB} for the cohort under strategies B or AB.
+The variable \texttt{v\_m\_init} is used to initialize \(M\) represented by \texttt{m\_M} for the cohort under under strategies SoC or A, and by \texttt{m\_M\_trtB} for the cohort under strategies B or AB.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -705,13 +698,13 @@ The variable \texttt{v\_s\_init} is used to initialize \(M\) represented by \tex
               \AttributeTok{nrow =}\NormalTok{ (n\_cycles }\SpecialCharTok{+} \DecValTok{1}\NormalTok{), }\AttributeTok{ncol =}\NormalTok{ n\_states, }
               \AttributeTok{dimnames =} \FunctionTok{list}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\NormalTok{n\_cycles, v\_names\_states))}
 \CommentTok{\# Store the initial state vector in the first row of the cohort trace}
-\NormalTok{m\_M[}\DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ v\_s\_init}
+\NormalTok{m\_M[}\DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ v\_m\_init}
 \DocumentationTok{\#\# Initialize cohort trace under treatment B}
 \NormalTok{m\_M\_trtB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\CommentTok{\# structure and initial states remain the same.}
 \end{Highlighting}
 \end{Shaded}
 
-Note that the initial state vector, \texttt{v\_s\_init}, can be modified to account for the cohort's distribution across the states at the start of the simulation and might vary by strategy.
+Note that the initial state vector, \texttt{v\_m\_init}, can be modified to account for the cohort's distribution across the states at the start of the simulation and might vary by strategy.
 
 Since the Sick-Sicker model consists of 4 states, we create a 4 \(\times\) 4 transition probability matrix, \texttt{m\_P}. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of \texttt{m\_P}, we specify first the row number (or name) and then the column number (or name) separated by a comma. For example, the transition probability of going from state Healthy (H) to state Sick (S1) could be accessed by \texttt{m\_P{[}1,\ 2{]}} or by using the corresponding row or column state-names as characters \texttt{m\_P{[}"H",\ "S1"{]}}. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times \texttt{1-p\_HD}, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, \texttt{p\_HS1} by \texttt{1-p\_HD}.
 
@@ -751,7 +744,7 @@ Because treatment B alters progression from S1 to S2, we created a different tra
 \end{Highlighting}
 \end{Shaded}
 
-Once both transition matrices are created, we verify they are valid by checking that all of their rows sum to one and that each of the transition probabilities of both matrices is between 0 and 1 using the functions \texttt{check\_sum\_of\_transition\_array} and \texttt{check\_transition\_probability}, respectively, which have been used previously elsewhere\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{19}} and are provided in the \texttt{darthtools} package (\url{https://github.com/DARTH-git/darthtools}). If a transition matrix is not valid, the functions will produce an error message to warn the user.
+Once both transition matrices are created, we verify they are valid by checking that all of their rows sum to one and that each of the transition probabilities of both matrices is between 0 and 1 using the functions \texttt{check\_sum\_of\_transition\_array} and \texttt{check\_transition\_probability}, respectively, which have been used previously elsewhere\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}} and are provided in the \texttt{darthtools} package (\url{https://github.com/DARTH-git/darthtools}). If a transition matrix is not valid, the functions will produce an error message to warn the user.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1037,7 +1030,7 @@ Figure \ref{fig:Sick-Sicker-CEA} shows the cost-effectiveness efficient frontier
 \hypertarget{probabilistic-sensitivity-analysis}{%
 \section{Probabilistic sensitivity analysis}\label{probabilistic-sensitivity-analysis}}
 
-To quantify the effect of model parameter uncertainty on cost-effectiveness outcomes, we conducted a probabilistic sensitivity analysis (PSA).\textsuperscript{\protect\hyperlink{ref-Briggs2012}{26}} In a PSA, we randomly draw parameter sets from distributions that reflect the current uncertainty in model parameter estimates. The distribution for all the parameters and their values are described in Table \ref{tab:param-table} and more detailed in the Supplementary Material. For each sampled set of parameter values, we compute model outcomes (e.g., total discounted cost and QALYs) for each strategy. In a previously published manuscript, we describe the implementation of these steps in R.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{19}} Briefly, to conduct the PSA, we create three R functions:
+To quantify the effect of model parameter uncertainty on cost-effectiveness outcomes, we conducted a probabilistic sensitivity analysis (PSA).\textsuperscript{\protect\hyperlink{ref-Briggs2012}{26}} In a PSA, we randomly draw parameter sets from distributions that reflect the current uncertainty in model parameter estimates. The distribution for all the parameters and their values are described in Table \ref{tab:param-table} and more detailed in the Supplementary Material. For each sampled set of parameter values, we compute model outcomes (e.g., total discounted cost and QALYs) for each strategy. In a previously published manuscript, we describe the implementation of these steps in R.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}} Briefly, to conduct the PSA, we create three R functions:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1093,7 +1086,7 @@ The parameterization of our example model assumes all parameters are known, or a
 
 In general, cSTMs are recommended when the number of states is ``not too large''.\textsuperscript{\protect\hyperlink{ref-Siebert2012c}{5}} This recommendation arises because as the number of states increases, it becomes more difficult to keep track of their construction but not because of the added computational expense. It is possible to build fairly complex cSTMs in R as long as the size of the transition probability matrix and outputs of interest can be stored in the RAM memory of the computer running the analysis. For example, a typical PC with 8GB of RAM can handle a transition probability array of about 1000 states and 600 slices. However, these matrices can grow quickly, and if the required number of state descriptions gets too large and difficult to manage its coding, it becomes preferable to use a stochastic (Monte Carlo) version of the state-transition model --often called individual-based state-transition models (iSTM) or microsimulation models-- rather than a cohort simulation model.\textsuperscript{\protect\hyperlink{ref-Siebert2012c}{5}} In iSTM, the risks and rewards of simulated individuals do not need to depend only on a specific health state and can depend on their individual characteristics and attributes. Besides, modelers can store health state history and other events over time for each individual to determine the risk of new events and corresponding costs and effects. It is recommended to think about the required model structure before implementing the model in R or any other tool because turning a cSTM into an iSTM requires a different code structure. However, most input parameters and some model structures might remain the same. Still, an iSTM will also require additional functions to describe the dependency of transition probabilities and rewards on individuals' history. In a previous tutorial, we showed how to write these additional functions for the Sick-Sicker example model.\textsuperscript{\protect\hyperlink{ref-Krijkamp2018}{6}}
 
-With increasing model complexity and interdependency of functions to conduct various analyses like PSA, it is important to ensure all code and functions work as expected and all elements of cSTM are valid. We can achieve this by creating functions that help with model debugging and validation and thorough unit testing. In the accompanying GitHub repository, we provided functions to check that transition probability matrices and their elements are valid. However, unit testing is beyond the scope of this tutorial. Still, we refer the reader to a previously published manuscript where we describe unit testing in more detail and provide accompanying code.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{19}}
+With increasing model complexity and interdependency of functions to conduct various analyses like PSA, it is important to ensure all code and functions work as expected and all elements of cSTM are valid. We can achieve this by creating functions that help with model debugging and validation and thorough unit testing. In the accompanying GitHub repository, we provided functions to check that transition probability matrices and their elements are valid. However, unit testing is beyond the scope of this tutorial. Still, we refer the reader to a previously published manuscript where we describe unit testing in more detail and provide accompanying code.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}}
 
 We focused on discrete-time matrix-form cSTMs, but these can also be implemented via a set of difference equations and continuous-time using differential equations in R.\textsuperscript{\protect\hyperlink{ref-Grimmett2014}{31},\protect\hyperlink{ref-Axler2005}{32}} We refer readers interested in learning more on continuous-time cSTMs to previously published manuscripts\textsuperscript{\protect\hyperlink{ref-VanRosmalen2013}{21},\protect\hyperlink{ref-Cao2016}{33}--\protect\hyperlink{ref-Soares2012}{35}} and a tutorial using R.\textsuperscript{\protect\hyperlink{ref-Frederix2013a}{36}} This tutorial shows how cSTMs are constructed, parameterized, and run using only base R, so readers get a deep understanding of this type of decision model. Finally, the variable names used in this paper reflect our style. While we provide standardized variable names, adopting these conventions is ultimately a personal preference.
 
@@ -1178,17 +1171,17 @@ Dr.~Alarid-Escudero was supported by a grant from the National Cancer Institute 
 \CSLLeftMargin{17. }
 \CSLRightInline{Alarid-Escudero F, Krijkamp E, Enns EA, et al. {A Tutorial on Time-Dependent Cohort State-Transition Models in R}. 2021.}
 
-\leavevmode\hypertarget{ref-Enns2015e}{}%
+\leavevmode\hypertarget{ref-Iskandar2018a}{}%
 \CSLLeftMargin{18. }
+\CSLRightInline{Iskandar R. {A theoretical foundation of state-transition cohort models in health decision analysis}. \emph{PLOS ONE}; 13: e0205543, \url{https://www.biorxiv.org/content/early/2018/09/28/430173} (2018).}
+
+\leavevmode\hypertarget{ref-Enns2015e}{}%
+\CSLLeftMargin{19. }
 \CSLRightInline{Enns EA, Cipriano LE, Simons CT, et al. {Identifying Best-Fitting Inputs in Health-Economic Model Calibration: A Pareto Frontier Approach}. \emph{Medical Decision Making}; 35: 170--182, \url{http://www.ncbi.nlm.nih.gov/pubmed/24799456} (2015).}
 
 \leavevmode\hypertarget{ref-Alarid-Escudero2019e}{}%
-\CSLLeftMargin{19. }
-\CSLRightInline{Alarid-Escudero F, Krijkamp E, Pechlivanoglou P, et al. {A Need for Change! A Coding Framework for Improving Transparency in Decision Modeling}. \emph{PharmacoEconomics}; 37: 1329--1339, \url{https://doi.org/10.1007/s40273-019-00837-x} (2019).}
-
-\leavevmode\hypertarget{ref-Iskandar2018a}{}%
 \CSLLeftMargin{20. }
-\CSLRightInline{Iskandar R. {A theoretical foundation of state-transition cohort models in health decision analysis}. \emph{PLOS ONE}; 13: e0205543, \url{https://www.biorxiv.org/content/early/2018/09/28/430173} (2018).}
+\CSLRightInline{Alarid-Escudero F, Krijkamp E, Pechlivanoglou P, et al. {A Need for Change! A Coding Framework for Improving Transparency in Decision Modeling}. \emph{PharmacoEconomics}; 37: 1329--1339, \url{https://doi.org/10.1007/s40273-019-00837-x} (2019).}
 
 \leavevmode\hypertarget{ref-VanRosmalen2013}{}%
 \CSLLeftMargin{21. }
