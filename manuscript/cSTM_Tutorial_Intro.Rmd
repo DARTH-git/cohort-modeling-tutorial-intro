@@ -69,6 +69,7 @@ doc_type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
 
 # Load cSTM and CEA functions
 source("../R/Functions_cSTM_time_indep.R")
+source("../R/Functions.R")
 
 
 # Define parameters
