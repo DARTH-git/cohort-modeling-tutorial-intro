@@ -689,7 +689,7 @@ For the Sick-Sicker model, the entire cohort starts in the H state. Therefore, w
 \end{Highlighting}
 \end{Shaded}
 
-The variable \texttt{v\_m\_init} is used to initialize \(M\) represented by \texttt{m\_M} for the cohort under under strategies SoC or A, and by \texttt{m\_M\_trtB} for the cohort under strategies B or AB.
+The variable \texttt{v\_m\_init} is used to initialize \(M\) represented by \texttt{m\_M} for the cohort under strategy SoC. We also create a trace for each of the other treatment-based strategies.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -699,18 +699,21 @@ The variable \texttt{v\_m\_init} is used to initialize \(M\) represented by \tex
               \AttributeTok{dimnames =} \FunctionTok{list}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\NormalTok{n\_cycles, v\_names\_states))}
 \CommentTok{\# Store the initial state vector in the first row of the cohort trace}
 \NormalTok{m\_M[}\DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ v\_m\_init}
-\DocumentationTok{\#\# Initialize cohort trace under treatment B}
-\NormalTok{m\_M\_trtB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\CommentTok{\# structure and initial states remain the same.}
+\DocumentationTok{\#\# Initialize cohort trace for strategies A, B, and AB}
+\CommentTok{\# Structure and initial states are the same as for SoC}
+\NormalTok{m\_M\_strA  }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\CommentTok{\# Strategy A}
+\NormalTok{m\_M\_strB  }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\CommentTok{\# Strategy B}
+\NormalTok{m\_M\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\CommentTok{\# Strategy AB}
 \end{Highlighting}
 \end{Shaded}
 
-Note that the initial state vector, \texttt{v\_m\_init}, can be modified to account for the cohort's distribution across the states at the start of the simulation and might vary by strategy.
+Note that the initial state vector, \texttt{v\_m\_init}, can be modified to account for the cohort's distribution across the states at the start of the simulation and could, but does not always, vary by strategy.
 
-Since the Sick-Sicker model consists of 4 states, we create a 4 \(\times\) 4 transition probability matrix, \texttt{m\_P}. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of \texttt{m\_P}, we specify first the row number (or name) and then the column number (or name) separated by a comma. For example, the transition probability of going from state Healthy (H) to state Sick (S1) could be accessed by \texttt{m\_P{[}1,\ 2{]}} or by using the corresponding row or column state-names as characters \texttt{m\_P{[}"H",\ "S1"{]}}. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times \texttt{1-p\_HD}, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, \texttt{p\_HS1} by \texttt{1-p\_HD}.
+Since the Sick-Sicker model consists of 4 states, we create a 4 \(\times\) 4 transition probability matrix for strategy SoC, \texttt{m\_P}. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of \texttt{m\_P}, we specify first the row name (or number) and then the column number (or name) separated by a comma. For example, we could access the transition probability from state Healthy (H) to state Sick (S1) using the corresponding row or column state-names as characters \texttt{m\_P{[}"H",\ "S1"{]}}. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times \texttt{1\ -\ p\_HD}, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, \texttt{p\_HS1} by \texttt{1\ -\ p\_HD}. We create the transition probability matrix for strategy A as a copy of SoC's because treatment A does not alter the cohort's transition probabilities.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DocumentationTok{\#\# Initialize transition probability matrix}
+\DocumentationTok{\#\# Initialize transition probability matrix for strategy SoC}
 \NormalTok{m\_P }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }
               \AttributeTok{nrow =}\NormalTok{ n\_states, }\AttributeTok{ncol =}\NormalTok{ n\_states, }
               \AttributeTok{dimnames =} \FunctionTok{list}\NormalTok{(v\_names\_states, v\_names\_states)) }\CommentTok{\# row and column names}
@@ -729,36 +732,46 @@ Since the Sick-Sicker model consists of 4 states, we create a 4 \(\times\) 4 tra
 \NormalTok{m\_P[}\StringTok{"S2"}\NormalTok{, }\StringTok{"D"}\NormalTok{]  }\OtherTok{\textless{}{-}}\NormalTok{ p\_S2D}
 \CommentTok{\# From D}
 \NormalTok{m\_P[}\StringTok{"D"}\NormalTok{, }\StringTok{"D"}\NormalTok{]   }\OtherTok{\textless{}{-}} \DecValTok{1}
+
+\DocumentationTok{\#\# Initialize transition probability matrix for strategy A as a copy of SoC\textquotesingle{}s}
+\NormalTok{m\_P\_strA }\OtherTok{\textless{}{-}}\NormalTok{ m\_P}
 \end{Highlighting}
 \end{Shaded}
 
-Because treatment B alters progression from S1 to S2, we created a different transition probability matrix to model this treatment, \texttt{m\_P\_trtB}. We initialize \texttt{m\_P\_trtB} as a copy of \texttt{m\_P} and update only the transition probabilities from S1 to S2 (i.e., \texttt{p\_S1S2} is replaced with \texttt{p\_S1S2\_trtB}).
+Because treatment B alters progression from S1 to S2, we created a different transition probability matrix to model this treatment, \texttt{m\_P\_strB}. We initialize \texttt{m\_P\_strB} as a copy of \texttt{m\_P} and update only the transition probabilities from S1 to S2 (i.e., \texttt{p\_S1S2} is replaced with \texttt{p\_S1S2\_trtB}). Strategy AB also alters progression from S1 to S2 because it uses treatment B, so we create this strategy's transition probability matrix as a copy of the transition probability matrix of strategy B.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DocumentationTok{\#\# Initialize transition probability matrix for treatment B}
-\NormalTok{m\_P\_trtB }\OtherTok{\textless{}{-}}\NormalTok{ m\_P}
+\DocumentationTok{\#\# Initialize transition probability matrix for strategy B}
+\NormalTok{m\_P\_strB }\OtherTok{\textless{}{-}}\NormalTok{ m\_P}
 \DocumentationTok{\#\# Update only transition probabilities from S1 involving p\_S1S2}
-\NormalTok{m\_P\_trtB[}\StringTok{"S1"}\NormalTok{, }\StringTok{"S1"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_S1D) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ (p\_S1H }\SpecialCharTok{+}\NormalTok{ p\_S1S2\_trtB))}
-\NormalTok{m\_P\_trtB[}\StringTok{"S1"}\NormalTok{, }\StringTok{"S2"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_S1D) }\SpecialCharTok{*}\NormalTok{ p\_S1S2\_trtB}
+\NormalTok{m\_P\_strB[}\StringTok{"S1"}\NormalTok{, }\StringTok{"S1"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_S1D) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ (p\_S1H }\SpecialCharTok{+}\NormalTok{ p\_S1S2\_trtB))}
+\NormalTok{m\_P\_strB[}\StringTok{"S1"}\NormalTok{, }\StringTok{"S2"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_S1D) }\SpecialCharTok{*}\NormalTok{ p\_S1S2\_trtB}
+
+\DocumentationTok{\#\# Initialize transition probability matrix for strategy AB as a copy of B\textquotesingle{}s}
+\NormalTok{m\_P\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_P\_strB}
 \end{Highlighting}
 \end{Shaded}
 
-Once both transition matrices are created, we verify they are valid by checking that all of their rows sum to one and that each of the transition probabilities of both matrices is between 0 and 1 using the functions \texttt{check\_sum\_of\_transition\_array} and \texttt{check\_transition\_probability}, respectively, which have been used previously elsewhere\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}} and are provided in the \texttt{darthtools} package (\url{https://github.com/DARTH-git/darthtools}). If a transition matrix is not valid, the functions will produce an error message to warn the user.
+Once all transition matrices are created, we verify they are valid by checking that all of their rows sum to one and that each of the transition probabilities of both matrices is between 0 and 1 using the functions \texttt{check\_sum\_of\_transition\_array} and \texttt{check\_transition\_probability}, respectively, which have been used previously elsewhere\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}} and are provided in the \texttt{darthtools} package (\url{https://github.com/DARTH-git/darthtools}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \DocumentationTok{\#\#\# Check if transition probability matrices are valid}
 \DocumentationTok{\#\# Check that transition probabilities are [0, 1]}
 \FunctionTok{check\_transition\_probability}\NormalTok{(m\_P)}
-\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P\_trtB)}
+\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P\_strA)}
+\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P\_strB)}
+\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P\_strAB)}
 \DocumentationTok{\#\# Check that all rows sum to 1}
 \FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P,      }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
-\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P\_trtB, }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
+\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P\_strB, }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
+\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P\_strA, }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
+\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P\_strAB, }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
 \end{Highlighting}
 \end{Shaded}
 
-Next, we obtain the cohort distribution across the 4 states over 75 cycles using a time-independent cSTM under SoC and treatment B. To achieve this, we iteratively compute the matrix product between each of the rows of \texttt{m\_M} and \texttt{m\_P}, and between \texttt{m\_M\_trtB} and \texttt{m\_P\_trtB}, respectively, using the \texttt{\%*\%} symbol in R at each cycle using a \texttt{for} loop
+Next, we obtain the cohort distribution across the 4 states over 75 cycles using a time-independent cSTM under all four strategies. To achieve this, we iteratively compute the matrix product between each of the rows of \texttt{m\_M} and \texttt{m\_P}, and between \texttt{m\_M\_strB} and \texttt{m\_P\_strB}, respectively, using the \texttt{\%*\%} symbol in R at each cycle using a \texttt{for} loop
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -766,8 +779,12 @@ Next, we obtain the cohort distribution across the 4 states over 75 cycles using
 \ControlFlowTok{for}\NormalTok{(t }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_cycles)\{}
   \CommentTok{\# For SoC}
 \NormalTok{  m\_M[t }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ m\_M[t, ] }\SpecialCharTok{\%*\%}\NormalTok{ m\_P}
-  \CommentTok{\# For treatment B}
-\NormalTok{  m\_M\_trtB[t }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_trtB[t, ] }\SpecialCharTok{\%*\%}\NormalTok{ m\_P\_trtB}
+  \CommentTok{\# For strategy A}
+\NormalTok{  m\_M\_strA[t }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strA[t, ] }\SpecialCharTok{\%*\%}\NormalTok{ m\_P\_strA}
+  \CommentTok{\# For strategy B}
+\NormalTok{  m\_M\_strB[t }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB[t, ] }\SpecialCharTok{\%*\%}\NormalTok{ m\_P\_strB}
+  \CommentTok{\# For strategy AB}
+\NormalTok{  m\_M\_strAB[t }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strAB[t, ] }\SpecialCharTok{\%*\%}\NormalTok{ m\_P\_strAB}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -802,8 +819,8 @@ Cycle & H & S1 & S2 & D\\
 \caption{Cohort trace of the time-independent cSTM under strategies SoC and A.}\label{fig:Sick-Sicker-Trace-TimeHom}
 \end{figure}
 
-\hypertarget{economic-outcomes}{%
-\section{Economic outcomes}\label{economic-outcomes}}
+\hypertarget{cost-and-effectiveness-outcomes}{%
+\section{Cost and effectiveness outcomes}\label{cost-and-effectiveness-outcomes}}
 
 cSTMs can be used to generate different effectiveness and economic outputs. In a CEA, the outcomes are typically the total expected QALYs and total costs accrued by the cohort over a predefined time horizon. However, epidemiological outcomes are often used to produce other measures of interest or model calibration and validation. Some common epidemiological outcomes include survival, prevalence, incidence, the average number of events, and lifetime risk of events.\textsuperscript{\protect\hyperlink{ref-Siebert2012c}{5}} In this tutorial, we describe how to generate the effectiveness and economic outcomes. In an accompanying tutorial,\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2021b}{17}} we describe how to compute epidemiological outcomes.
 
@@ -864,7 +881,7 @@ Both treatments A and B incur a cost. To create the vector of state costs for st
 \end{Highlighting}
 \end{Shaded}
 
-To compute the expected QALYs and costs for the Sick-Sicker model under SoC and strategy A, we apply Equation \eqref{eq:exp-rew-cycle} by multiplying the cohort trace matrix, \texttt{m\_M}, times the corresponding strategy-specific state vectors of rewards. Similarly, To compute the expected rewards for strategies B and AB, we multiply the cohort trace matrix accounting for the effectiveness of treatment B, \texttt{m\_M\_trtB}, times their corresponding state vectors of rewards.
+To compute the expected QALYs and costs for the Sick-Sicker model under SoC and strategy A, we apply Equation \eqref{eq:exp-rew-cycle} by multiplying the cohort trace matrix, \texttt{m\_M}, times the corresponding strategy-specific state vectors of rewards. Similarly, To compute the expected rewards for strategies B and AB, we multiply the cohort trace matrix accounting for the effectiveness of treatment B, \texttt{m\_M\_strB}, times their corresponding state vectors of rewards.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -877,13 +894,13 @@ To compute the expected QALYs and costs for the Sick-Sicker model under SoC and 
 \CommentTok{\# Vector of costs for strategy A}
 \NormalTok{v\_cost\_strA }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strA}
 \CommentTok{\# Vector of QALYs for strategy B}
-\NormalTok{v\_qaly\_strB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_trtB }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strB}
+\NormalTok{v\_qaly\_strB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strB}
 \CommentTok{\# Vector of costs for strategy B}
-\NormalTok{v\_cost\_strB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_trtB }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strB}
+\NormalTok{v\_cost\_strB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strB}
 \CommentTok{\# Vector of QALYs for strategy AB}
-\NormalTok{v\_qaly\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_trtB }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strAB}
+\NormalTok{v\_qaly\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strAB}
 \CommentTok{\# Vector of costs for strategy AB}
-\NormalTok{v\_cost\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_trtB }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strAB}
+\NormalTok{v\_cost\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strAB}
 \end{Highlighting}
 \end{Shaded}
 
