@@ -274,3 +274,18 @@ format_table_cea <- function(table_cea) {
   table_cea$`ICER ($/QALY)` <- comma(round(table_cea$`ICER ($/QALY)`, 0))
   return(table_cea)
 }
+
+#' Number of ticks for \code{ggplot2} plots
+#'
+#' Function for determining number of ticks on axis of \code{ggplot2} plots.
+#' @param n integer giving the desired number of ticks on axis of
+#' \code{ggplot2} plots. Non-integer values are rounded down.
+#' @section Details:
+#' Based on function \code{pretty}.
+#' @return a vector of axis-label breaks
+#' @export
+number_ticks <- function(n) {
+  function(limits) {
+    pretty(limits, n + 1)
+  }
+}

@@ -206,6 +206,58 @@ The monthly probability can then be calculated from the monthly rate using equat
 
 Sometimes, transition probabilities might be available from published literature in one time period (e.g., annual). In contrast, the model cycle length could be in a different time scale (e.g., monthly), requiring the analyst to convert the transition probability to the desired cycle length using the equations described above. Furthermore, the conversion may differ for different parameters if they come from various sources and cycle lengths. 
 
+# Time-independent cSTM dynamics
+A cSTM consists of three core components: (1) a state vector, $\mathbf{m}_t$, that stores the distribution of the cohort across all health states in cycle $t$ where $t = 0,\ldots, n_T$; (2) the cohort trace matrix, $M$, that stacks $\mathbf{m}_t$ for all $t$ and represents the distribution of the cohort in the various states over time; and (3) a transition probability matrix, $P$.[@Iskandar2018a] If the cSTM is comprised of $n_S$ discrete health states, $\mathbf{m}_t$ is a $1 \times n_S$ vector and $P$ is a $n_S \times n_S$ matrix. The $i$-th element of $\mathbf{m}_t$, where $i = 1,\ldots, n_S$, represents the proportion of the cohort in the $i$-th health state in cycle $t$, referred to as $m_{[t,i]}$. Thus, $\mathbf{m}_t$ is written as:
+$$
+\mathbf{m}_t =
+  \begin{bmatrix}
+m_{[t,1]} & m_{[t,2]} & \cdots & m_{[t,n_S]}
+\end{bmatrix}.
+$$
+The elements of $P$ are the transition probabilities of moving from state $i$ to state $j$, $p_{[i,j]}$, where $\{i,j\} = 1,\ldots, n_S$ and all should have values between 0 and 1.
+$$
+  P = 
+  \begin{bmatrix}
+    p_{[1,1]} & p_{[1,2]} & \cdots & p_{[1,n_S]} \\
+    p_{[2,1]} & p_{[2,2]} & \cdots & p_{[2,n_S]} \\
+    \vdots    & \vdots  & \ddots & \vdots   \\
+    p_{[n_S,1]} & p_{[n_S,2]} & \cdots & p_{[n_S,n_S]} \\
+  \end{bmatrix}.
+$$
+For $P$ to be a correctly specified transition probability matrix, all rows of the transition probability matrix must sum to one, $\sum_{j=1}^{n_S}{p_{[i,j]}} = 1$ for all $i = 1,\ldots,n_S$.
+
+The state vector at cycle $t+1$ ($\mathbf{m}_{t+1}$) is then calculated as the matrix product of the state vector at cycle $t$, $\mathbf{m}_{t}$, and the transition probability matrix, $P$, such that
+
+$$
+  \mathbf{m}_{t+1} = \mathbf{m}_{t} P \text{ for } t = 0,\ldots, (n_T - 1),
+$$
+where $\mathbf{m}_1$ is computed from $\mathbf{m}_{0}$, the initial state vector with the distribution of the cohort across all health states at the start of the simulation (cycle 0). Then, we iteratively apply this equation through $t = \left(n_T-1 \right)$.
+
+The cohort trace matrix, $M$, is a matrix of dimensions $(n_T+1) \times n_S$ where each row is a state vector $(-\mathbf{m}_{t}-)$, such that
+
+$$
+  M = 
+  \begin{bmatrix}
+    - \mathbf{m}_0 -  \\
+    - \mathbf{m}_1 -  \\
+     \vdots \\
+    - \mathbf{m}_{n_T} -  
+  \end{bmatrix}. 
+$$
+
+Note that the initial cycle (i.e., cycle 0) corresponds to $t=0$, which is on the first row of $M$. Thus, $M$ stores the output of the cSTM, which could be used to compute various epidemiological, and economic outcomes, such as life expectancy, prevalence, cumulative resource use, and costs, etc. Table \@ref(tab:cSTM-components-table) describes the elements related to the core components of cSTM and their suggested R code names. For a more detailed description of the variable types, data structure, R name for all cSTM elements, please see the Supplementary Material.
+
+Table: (\#tab:cSTM-components-table) Components of a cSTM with their R name.
+
+| Element | Description               | R name |   |
+|---------|---------------------------|:------:|---|
+| $n_S$   | Number of states          | `n_states`|   |
+| $\mathbf{m}_0$   | Initial state vector      | `v_m_init`   |   |
+| $\mathbf{m}_t$   | State vector in cycle $t$ | `v_mt` |   |
+| $M$     | Cohort trace matrix       | `m_M`  |   |
+| $P$     | Time-independent transition probability matrix| `m_P` |   |
+
+
 # Case study: Sick-Sicker model
 
 In this tutorial, we will use the previously published 4-state "Sick-Sicker" model for conducting a cost-effectiveness analysis (CEA) of multiple strategies to illustrate the various aspects of cSTM implementation in R.[@Enns2015e;@Krijkamp2018] Figure \@ref(fig:STD-Sick-Sicker) represents the state-transition diagram of the Sick-Sicker model. 
@@ -332,61 +384,9 @@ p_S1S2_trtB <- 1 - exp(-r_S1S2_trtB*cycle_length) # probability to become Sicker
                                                   # under treatment B conditional on surviving
 ```
 
-# Conceptualizing and implementing time-independent cSTM dynamics
-A cSTM consists of three core components: (1) a state vector, $\mathbf{m}_t$, that stores the distribution of the cohort across all health states in cycle $t$ where $t = 0,\ldots, n_T$; (2) the cohort trace matrix, $M$, that stacks $\mathbf{m}_t$ for all $t$ and represents the distribution of the cohort in the various states over time; and (3) a transition probability matrix, $P$.[@Iskandar2018a] If the cSTM is comprised of $n_S$ discrete health states, $\mathbf{m}_t$ is a $1 \times n_S$ vector and $P$ is a $n_S \times n_S$ matrix. The $i$-th element of $\mathbf{m}_t$, where $i = 1,\ldots, n_S$, represents the proportion of the cohort in the $i$-th health state in cycle $t$, referred to as $m_{[t,i]}$. Thus, $\mathbf{m}_t$ is written as:
-$$
-\mathbf{m}_t =
-  \begin{bmatrix}
-m_{[t,1]} & m_{[t,2]} & \cdots & m_{[t,n_S]}
-\end{bmatrix}.
-$$
-The elements of $P$ are the transition probabilities of moving from state $i$ to state $j$, $p_{[i,j]}$, where $\{i,j\} = 1,\ldots, n_S$ and all should have values between 0 and 1.
-$$
-  P = 
-  \begin{bmatrix}
-    p_{[1,1]} & p_{[1,2]} & \cdots & p_{[1,n_S]} \\
-    p_{[2,1]} & p_{[2,2]} & \cdots & p_{[2,n_S]} \\
-    \vdots    & \vdots  & \ddots & \vdots   \\
-    p_{[n_S,1]} & p_{[n_S,2]} & \cdots & p_{[n_S,n_S]} \\
-  \end{bmatrix}.
-$$
-For $P$ to be a correctly specified transition probability matrix, all rows of the transition probability matrix must sum to one, $\sum_{j=1}^{n_S}{p_{[i,j]}} = 1$ for all $i = 1,\ldots,n_S$.
-
-The state vector at cycle $t+1$ ($\mathbf{m}_{t+1}$) is then calculated as the matrix product of the state vector at cycle $t$, $\mathbf{m}_{t}$, and the transition probability matrix, $P$, such that
-
-$$
-  \mathbf{m}_{t+1} = \mathbf{m}_{t} P \text{ for } t = 0,\ldots, (n_T - 1),
-$$
-where $\mathbf{m}_1$ is computed from $\mathbf{m}_{0}$, the initial state vector with the distribution of the cohort across all health states at the start of the simulation (cycle 0). Then, we iteratively apply this equation through $t = \left(n_T-1 \right)$.
-
-The cohort trace matrix, $M$, is a matrix of dimensions $(n_T+1) \times n_S$ where each row is a state vector $(-\mathbf{m}_{t}-)$, such that
-
-$$
-  M = 
-  \begin{bmatrix}
-    - \mathbf{m}_0 -  \\
-    - \mathbf{m}_1 -  \\
-     \vdots \\
-    - \mathbf{m}_{n_T} -  
-  \end{bmatrix}. 
-$$
-
-Note that the initial cycle (i.e., cycle 0) corresponds to $t=0$, which is on the first row of $M$. Thus, $M$ stores the output of the cSTM, which could be used to compute various epidemiological, and economic outcomes, such as life expectancy, prevalence, cumulative resource use, and costs, etc. Table \@ref(tab:cSTM-components-table) describes the elements related to the core components of cSTM and their suggested R code names. For a more detailed description of the variable types, data structure, R name for all cSTM elements, please see the Supplementary Material.
-
-Table: (\#tab:cSTM-components-table) Components of a cSTM with their R name.
-
-| Element | Description               | R name |   |
-|---------|---------------------------|:------:|---|
-| $n_S$   | Number of states          | `n_states`|   |
-| $\mathbf{m}_0$   | Initial state vector      | `v_m_init`   |   |
-| $\mathbf{m}_t$   | State vector in cycle $t$ | `v_mt` |   |
-| $M$     | Cohort trace matrix       | `m_M`  |   |
-| $P$     | Time-independent transition probability matrix| `m_P` |   |
-
 For the Sick-Sicker model, the entire cohort starts in the H state. Therefore, we create the $1 \times n_S$ initial state vector `v_m_init` with all of the cohort assigned to the H state:
 ```{r Sick-Sicker-s0}
 v_m_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
-v_m_init
 ```
 
 The variable `v_m_init` is used to initialize $M$ represented by `m_M` for the cohort under under strategies SoC or A, and by `m_M_trtB` for the cohort under strategies B or AB.
@@ -471,13 +471,13 @@ kable(head(round(cbind(Cycle = as.numeric(rownames(m_M)), m_M), 3)),
       booktabs = TRUE,
       caption = "The distribution of the cohort under strategies SoC and A for the first six cycles of the time-independent Sick-Sicker model. The first row, labeled with cycle 0, contains the distribution of the cohort at time zero.",
       align = c("c", "c", "c", "c", "c")) %>%
-  kable_styling(latex_options = "hold_position")
+  kableExtra::kable_styling(latex_options = "hold_position")
 ```
 
 ```{r Sick-Sicker-Trace-TimeHom, echo=FALSE, fig.cap='Cohort trace of the time-independent cSTM under strategies SoC and A.', message=FALSE, warning=FALSE, fig.pos="H"} 
 cols <- get_DARTH_cols()
 lty <-  c("H" = 1, "S1" = 2, "S2" = 4, "D" = 3)
-ggplot(melt(m_M), aes(x = Var1, y = value, 
+ggplot(reshape2::melt(m_M), aes(x = Var1, y = value, 
                       color = Var2, linetype = Var2)) +
   geom_line(size = 1) +
   scale_colour_manual(name = "Health state", 
