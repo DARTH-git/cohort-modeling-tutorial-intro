@@ -511,17 +511,17 @@ ggplot(reshape2::melt(m_M), aes(x = Var1, y = value,
 ```
 
 # Cost and effectiveness outcomes
-cSTMs can be used to generate different effectiveness and economic outputs. In a CEA, the outcomes are typically the total expected QALYs and total costs accrued by the cohort over a predefined time horizon. However, epidemiological outcomes are often used to produce other measures of interest or model calibration and validation. Some common epidemiological outcomes include survival, prevalence, incidence, the average number of events, and lifetime risk of events.[@Siebert2012c] In this tutorial, we describe how to generate the effectiveness and economic outcomes. In an accompanying tutorial,[@Alarid-Escudero2021b] we describe how to compute epidemiological outcomes.
+We are interested in computing the total QALYs and total costs accrued by the cohort over a predefined time horizon for a CEA. In an accompanying tutorial,[@Alarid-Escudero2021b] we describe how to compute epidemiological outcomes from cSTMs, such as survival, prevalence and life expectancy.[@Siebert2012c] Epidemiological outcomes are often used to produce other measures of interest for model calibration and validation.
 
 ## Effectiveness and economic outcomes
 ### State rewards
-A state reward refers to a value assigned to individuals for being in a given state. In a cost-utility context, these could be either utilities or costs associated with remaining in a certain health state for one cycle. The total expected reward of an outcome of interest for the entire cohort at each cycle can be represented by a column vector $\mathbf{y}$ of size $n_T+1$. To calculate $\mathbf{y}$, we compute the matrix product of the cohort trace matrix times a *vector* of state rewards $\mathbf{r}$ of the same dimension as the number of states ($n_S$), such that
+A state reward refers to a value assigned to individuals for being in a given health state. In a CEA context, these could be either utilities or costs associated with remaining in a specific health state for one cycle. The column vector $\mathbf{y}$ of size $n_T+1$ can represent the total expected reward of an outcome of interest for the entire cohort at each cycle. To calculate $\mathbf{y}$, we compute the matrix product of the cohort trace matrix times a *vector* of state rewards $\mathbf{r}$ of the same dimension as the number of states ($n_S$), such that
 \begin{equation}
   \mathbf{y} = M\mathbf{r}.
   (\#eq:exp-rew-cycle)
 \end{equation}
 <!-- Note that rewards can also be time- or age-dependent; in such cases, the vector of state rewards will be time-dependent, $\mathbf{r}_t$.  -->
-For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, `v_u_SoC` and `v_c_SoC`, respectively, contain the utilities and costs corresponding with being in each of the four health states under SoC, which are shown in Table \@ref(tab:param-table).
+For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, `v_u_SoC` and `v_c_SoC`, respectively, represent the utilities and costs corresponding with being in each of the four health states under SoC, which are shown in Table \@ref(tab:param-table).
 
 ```{r State-rewards-UC}
 # Vector of state utilities under SOC
@@ -530,15 +530,16 @@ v_u_SoC <- c(H = u_H, S1 = u_S1, S2 = u_S2, D = u_D)
 v_c_SoC <- c(H = c_H, S1 = c_S1, S2 = c_S2, D = c_D)
 ```
 
-We account for the benefits and costs of both treatments individually and their combination to create the state-reward vectors under treatments A and B (strategies A and B, respectively) and when applied jointly (strategy AB). Only treatment A affects QoL, so we create a vector of utilities for strategy A, `v_u_strA`, where we substitute the utility of being in S1 under SOC, `u_S1`, with the utility associated with the benefit of treatment A in being in that state, `u_trtA`. Treatment B does not affect QoL, so the vector of utilities for strategy B, `v_u_strB`, is the same as for SoC However, when both treatments A and B are applied jointly (strategy AB), the resulting vector of utilities `v_u_strAB` equals that of strategy A. 
+We account for the benefits and costs of both treatments individually and their combination to create the state-reward vectors under treatments A and B (strategies A and B, respectively) and when applied jointly (strategy AB). Only treatment A affects QoL, so we create a vector of utilities
+specific to strategies involving treatment A (strategies A and AB), `v_u_strA` and `v_u_strAB`. These vectors will have the same utility weights as for strategy SoC except for being in S1, which we assign the utility associated with the benefit of treatment A in being in that state, `u_trtA`. Treatment B does not affect QoL, so the vector of utilities for strategy involving treatment B, `v_u_strB`, is the same as for SoC.
 
 ```{r State-rewards-U-Tr}
 # Vector of state utilities for strategy A
 v_u_strA <- c(H = u_H, S1 = u_trtA, S2 = u_S2, D = u_D)
 # Vector of state utilities for strategy B
-v_u_strB <- v_u_SoC
+v_u_strB <- c(H = u_H, S1 = u_S1, S2 = u_S2, D = u_D)
 # Vector of state utilities for strategy AB
-v_u_strAB <- v_u_strA
+v_u_strAB <- c(H = u_H, S1 = u_trtA, S2 = u_S2, D = u_D)
 ```
 
 Both treatments A and B incur a cost. To create the vector of state costs for strategy A, `v_c_strA`, we add the cost of treatment A, `c_trtA`, to the state costs of S1 and S2. Similarly, when constructing the vector of state costs for strategy B, `v_c_strB`, we add the cost of treatment B, `c_trtB`, to the state costs of S1 and S2. Finally, for the vector of state costs for strategy AB, `v_c_strAB`, we add both treatment costs to the state costs of S1 and S2.
