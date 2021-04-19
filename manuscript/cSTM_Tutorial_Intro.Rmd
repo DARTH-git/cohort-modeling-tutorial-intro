@@ -390,7 +390,7 @@ For the Sick-Sicker model, the entire cohort starts in the H state. Therefore, w
 v_m_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
 ```
 
-The variable `v_m_init` is used to initialize $M$ represented by `m_M` for the cohort under under strategies SoC or A, and by `m_M_trtB` for the cohort under strategies B or AB.
+The variable `v_m_init` is used to initialize $M$ represented by `m_M` for the cohort under strategy SoC. We also create a trace for each of the other treatment-based strategies.
 
 ```{r Sick-Sicker-M}
 ## Initialize cohort trace for SoC
@@ -399,13 +399,16 @@ m_M <- matrix(NA,
               dimnames = list(0:n_cycles, v_names_states))
 # Store the initial state vector in the first row of the cohort trace
 m_M[1, ] <- v_m_init
-## Initialize cohort trace under treatment B
-m_M_trtB <- m_M # structure and initial states remain the same.
+## Initialize cohort trace for strategies A, B, and AB
+# Structure and initial states are the same as for SoC
+m_M_trtA  <- m_M # Strategy A
+m_M_trtB  <- m_M # Strategy B
+m_M_trtAB <- m_M # Strategy AB
 ```
 
 Note that the initial state vector, `v_m_init`, can be modified to account for the cohort's distribution across the states at the start of the simulation and might vary by strategy.
 
-Since the Sick-Sicker model consists of `r n_states` states, we create a `r n_states` $\times$ `r n_states` transition probability matrix, `m_P`. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of `m_P`, we specify first the row number (or name) and then the column number (or name) separated by a comma. For example, the transition probability of going from state Healthy (H) to state Sick (S1) could be accessed by `m_P[1, 2]` or by using the corresponding row or column state-names as characters `m_P["H", "S1"]`. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times `1-p_HD`, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, `p_HS1` by `1-p_HD`.
+Since the Sick-Sicker model consists of `r n_states` states, we create a `r n_states` $\times$ `r n_states` transition probability matrix for strategy SoC, `m_P`. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of `m_P`, we specify first the row number (or name) and then the column number (or name) separated by a comma. For example, the transition probability of going from state Healthy (H) to state Sick (S1) could be accessed by `m_P[1, 2]` or by using the corresponding row or column state-names as characters `m_P["H", "S1"]`. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times `1-p_HD`, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, `p_HS1` by `1-p_HD`.
 
 ```{r Sick-Sicker-P2}
 ## Initialize transition probability matrix
