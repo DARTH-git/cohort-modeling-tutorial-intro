@@ -137,15 +137,15 @@ p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB) # probability to become Sicker when
 ####################### Construct state-transition models ######################
 ## Initial state vector
 # All starting healthy
-v_s_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
-v_s_init
+v_m_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
+v_m_init
 
 ## Initialize cohort trace for cSTM for strategies SoC and A
 m_M <- matrix(0, 
               nrow = (n_cycles + 1), ncol = n_states,
               dimnames = list(0:n_cycles, v_names_states))
 # Store the initial state vector in the first row of the cohort trace
-m_M[1, ] <- v_s_init
+m_M[1, ] <- v_m_init
 ## Initialize cohort trace for strategies B and AB
 m_M_strB <- m_M # structure and initial states remain the same.
 

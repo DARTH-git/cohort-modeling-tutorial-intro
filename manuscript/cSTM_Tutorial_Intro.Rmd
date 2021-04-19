@@ -305,7 +305,7 @@ u_D    <- 0     # utility of being dead for one cycle
 u_trtA <- 0.95  # utility when receiving treatment A for one cycle
 ```
 
-To compute the background mortality risk, `p_HD`, from the background mortality rate for the same cycle length (i.e.,`cycle_length=1`), we apply Equation \@ref(eq:rate-to-prob-ann) to `r_HD`. To compute the mortality risks of the cohort in S1 and S2, we multiply the background mortality rate `r_HD` by the hazard ratios `hr_S1` and `hr_S2`, respectively, and then convert back to probabilities using Equation \@ref(eq:rate-to-prob-ann). These calculations are required because hazard ratios only apply to rates and not to probabilities. The code below performs the computation in R. In the supplementary material, we provide R functions that compute transformations between rates and probabilities since these transformations are frequently used.
+To compute the background mortality risk, `p_HD`, from the background mortality rate for the same cycle length (i.e., `cycle_length=1`), we apply Equation \@ref(eq:rate-to-prob-ann) to `r_HD`. To compute the mortality risks of the cohort in S1 and S2, we multiply the background mortality rate `r_HD` by the hazard ratios `hr_S1` and `hr_S2`, respectively, and then convert back to probabilities using Equation \@ref(eq:rate-to-prob-ann). These calculations are required because hazard ratios only apply to rates and not to probabilities. The code below performs the computation in R. In the supplementary material, we provide R functions that compute transformations between rates and probabilities since these transformations are frequently used.
 
 ```{r Sick-Sicker-Params, eval=TRUE}
 ## Mortality rates
@@ -318,7 +318,7 @@ p_S1D <- 1 - exp(-r_S1D*cycle_length) # probability of dying when Sick
 p_S2D <- 1 - exp(-r_S2D*cycle_length) # probability of dying when Sicker
 ```
 
-To compute the risk of progression from S1 to S2 under treatment B, we first transform `p_S1S2` to a rate, `r_S1S2`, using Equation \@ref(eq:prob-to-rate-ann). Then, we multiply the hazard ratio of treatment B to the rate of progressing from S1 to S2 and transform it back to probabilities by applying Equation \@ref(eq:rate-to-prob-ann).
+To compute the risk of progression from S1 to S2 under treatment B, we first transform `p_S1S2` to a rate, `r_S1S2`, using Equation \@ref(eq:prob-to-rate-ann). Then, we multiply the hazard ratio of treatment B by the rate of progressing from S1 to S2 and transform it back to probabilities by applying Equation \@ref(eq:rate-to-prob-ann).
 
 ```{r New-Treatment-2-Effectiveness, eval=TRUE}
 ## Transition probability of becoming Sicker when Sick for treatment B
@@ -340,7 +340,7 @@ $$
 m_{[t,1]} & m_{[t,2]} & \cdots & m_{[t,n_S]}
 \end{bmatrix}.
 $$
-The elements of $P$ are the transition probabilities of moving from state $i$ to state $j$, $p_{[i,j]}$, where $\{i,j\} = 1,\ldots, n_S$ and $t = 0,\ldots,n_T$
+The elements of $P$ are the transition probabilities of moving from state $i$ to state $j$, $p_{[i,j]}$, where $\{i,j\} = 1,\ldots, n_S$ and all should have values between 0 and 1.
 $$
   P = 
   \begin{bmatrix}
@@ -350,14 +350,14 @@ $$
     p_{[n_S,1]} & p_{[n_S,2]} & \cdots & p_{[n_S,n_S]} \\
   \end{bmatrix}.
 $$
-Note that all rows of the transition probability matrix must sum to one, $\sum_{j=1}^{n_S}{p_{[i,j]}} = 1$ for all $i = 1,\ldots,n_S$.
+For $P$ to be a correctly specified transition probability matrix, all rows of the transition probability matrix must sum to one, $\sum_{j=1}^{n_S}{p_{[i,j]}} = 1$ for all $i = 1,\ldots,n_S$.
 
 The state vector at cycle $t+1$ ($\mathbf{m}_{t+1}$) is then calculated as the matrix product of the state vector at cycle $t$, $\mathbf{m}_{t}$, and the transition probability matrix, $P$, such that
 
 $$
   \mathbf{m}_{t+1} = \mathbf{m}_{t} P \text{ for } t = 0,\ldots, (n_T - 1),
 $$
-where $\mathbf{m}_1$ is computed from $\mathbf{m}_{0}$ and represents the initial state vector with the distribution of the cohort across all health states at the start of the simulation (cycle 0). Then, we iteratively apply this equation until $t = n_T$.
+where $\mathbf{m}_1$ is computed from $\mathbf{m}_{0}$, the initial state vector with the distribution of the cohort across all health states at the start of the simulation (cycle 0). Then, we iteratively apply this equation through $t = \left(n_T-1 \right)$.
 
 The cohort trace matrix, $M$, is a matrix of dimensions $(n_T+1) \times n_S$ where each row is a state vector $(-\mathbf{m}_{t}-)$, such that
 
@@ -371,26 +371,25 @@ $$
   \end{bmatrix}. 
 $$
 
-Note that the initial cycle (i.e., cycle 0) corresponds to $t=0$, which is on the first row of $M$. Thus, $M$ stores the output of the cSTM, which could be used to compute various economic outcomes, such as cumulative resource use and costs. Table \@ref(tab:cSTM-components-table) describes the elements related to the core components of cSTM and their suggested R code names. For a more detailed description of the variable types, data structure, R name for all cSTM elements, please see the Supplementary Material.
+Note that the initial cycle (i.e., cycle 0) corresponds to $t=0$, which is on the first row of $M$. Thus, $M$ stores the output of the cSTM, which could be used to compute various epidemiological, and economic outcomes, such as life expectancy, prevalence, cumulative resource use, and costs, etc. Table \@ref(tab:cSTM-components-table) describes the elements related to the core components of cSTM and their suggested R code names. For a more detailed description of the variable types, data structure, R name for all cSTM elements, please see the Supplementary Material.
 
 Table: (\#tab:cSTM-components-table) Components of a cSTM with their R name.
 
 | Element | Description               | R name |   |
 |---------|---------------------------|:------:|---|
 | $n_S$   | Number of states          | `n_states`|   |
-| $\mathbf{m}_0$   | Initial state vector      | `v_s_init`   |   |
+| $\mathbf{m}_0$   | Initial state vector      | `v_m_init`   |   |
 | $\mathbf{m}_t$   | State vector in cycle $t$ | `v_mt` |   |
 | $M$     | Cohort trace matrix       | `m_M`  |   |
 | $P$     | Time-independent transition probability matrix| `m_P` |   |
-| $\mathbf{A}$ | Transition-dynamics array | `a_A` |   |
 
-For the Sick-Sicker model, the entire cohort starts in the H state. Therefore, we create the $1 \times n_S$ initial state vector `v_s_init` with all of the cohort assigned to the H state:
+For the Sick-Sicker model, the entire cohort starts in the H state. Therefore, we create the $1 \times n_S$ initial state vector `v_m_init` with all of the cohort assigned to the H state:
 ```{r Sick-Sicker-s0}
-v_s_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
-v_s_init
+v_m_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
+v_m_init
 ```
 
-The variable `v_s_init` is used to initialize $M$ represented by `m_M` for the cohort under under strategies SoC or A, and by `m_M_trtB` for the cohort under strategies B or AB.
+The variable `v_m_init` is used to initialize $M$ represented by `m_M` for the cohort under under strategies SoC or A, and by `m_M_trtB` for the cohort under strategies B or AB.
 
 ```{r Sick-Sicker-M}
 ## Initialize cohort trace for SoC
@@ -398,12 +397,12 @@ m_M <- matrix(NA,
               nrow = (n_cycles + 1), ncol = n_states, 
               dimnames = list(0:n_cycles, v_names_states))
 # Store the initial state vector in the first row of the cohort trace
-m_M[1, ] <- v_s_init
+m_M[1, ] <- v_m_init
 ## Initialize cohort trace under treatment B
 m_M_trtB <- m_M # structure and initial states remain the same.
 ```
 
-Note that the initial state vector, `v_s_init`, can be modified to account for the cohort's distribution across the states at the start of the simulation and might vary by strategy.
+Note that the initial state vector, `v_m_init`, can be modified to account for the cohort's distribution across the states at the start of the simulation and might vary by strategy.
 
 Since the Sick-Sicker model consists of `r n_states` states, we create a `r n_states` $\times$ `r n_states` transition probability matrix, `m_P`. We initialize the matrix with default values of zero for all transition probabilities and then populate it with the corresponding transition probabilities. To access an element of `m_P`, we specify first the row number (or name) and then the column number (or name) separated by a comma. For example, the transition probability of going from state Healthy (H) to state Sick (S1) could be accessed by `m_P[1, 2]` or by using the corresponding row or column state-names as characters `m_P["H", "S1"]`. We assume that all transitions to non-death states are conditional on not dying in a cycle. Thus, we first condition on surviving by multiplying the transition probabilities times `1-p_HD`, the probability of not dying in a cycle. For example, to obtain the probability of transitioning from H to S1, we multiply the transition probability from H to S1 conditional on being alive, `p_HS1` by `1-p_HD`.
 
