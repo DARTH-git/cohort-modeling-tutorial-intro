@@ -140,16 +140,19 @@ p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB) # probability to become Sicker when
 v_m_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
 v_m_init
 
-## Initialize cohort trace for cSTM for strategies SoC and A
-m_M <- matrix(0, 
-              nrow = (n_cycles + 1), ncol = n_states,
+## Initialize cohort trace for SoC
+m_M <- matrix(NA, 
+              nrow = (n_cycles + 1), ncol = n_states, 
               dimnames = list(0:n_cycles, v_names_states))
 # Store the initial state vector in the first row of the cohort trace
 m_M[1, ] <- v_m_init
-## Initialize cohort trace for strategies B and AB
-m_M_strB <- m_M # structure and initial states remain the same.
+## Initialize cohort trace for strategies A, B, and AB
+# Structure and initial states are the same as for SoC
+m_M_strA  <- m_M # Strategy A
+m_M_strB  <- m_M # Strategy B
+m_M_strAB <- m_M # Strategy AB
 
-## Initialize transition probability matrix 
+## Initialize transition probability matrix for strategy SoC
 # all transitions to a non-death state are assumed to be conditional on survival 
 m_P <- matrix(0, 
               nrow = n_states, ncol = n_states, 
@@ -171,37 +174,48 @@ m_P["S2", "D"]  <- p_S2D
 # From D
 m_P["D", "D"]   <- 1
 
-### For strategies B and AB
-## Initialize transition probability array for strategies B and AB
+## Initialize transition probability matrix for strategy A as a copy of SoC's
+m_P_strA <- m_P
+
+## Initialize transition probability matrix for strategy B
 m_P_strB <- m_P
-## Only need to update the probabilities involving the transition from Sick to Sicker, p_S1S2
-# From S1
+# Update only transition probabilities from S1 involving p_S1S2
 m_P_strB["S1", "S1"] <- (1 - p_S1D) * (1 - (p_S1H + p_S1S2_trtB))
 m_P_strB["S1", "S2"] <- (1 - p_S1D) * p_S1S2_trtB
+
+## Initialize transition probability matrix for strategy AB as a copy of B's
+m_P_strAB <- m_P_strB
 
 ### Check if transition probability matrices are valid
 ## Check that transition probabilities are [0, 1]
 check_transition_probability(m_P,      verbose = TRUE)
+check_transition_probability(m_P_strA, verbose = TRUE)
 check_transition_probability(m_P_strB, verbose = TRUE)
+check_transition_probability(m_P_strAB, verbose = TRUE)
 ## Check that all rows sum to 1
 check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
+check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
 check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
+check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
 
 #### Run Markov model ####
 # Iterative solution of time-independent cSTM
 for(t in 1:n_cycles){
-  ## Fill in cohort trace
-  # For strategies SoC and A
-  m_M[t + 1, ]      <- m_M[t, ]      %*% m_P
-  # For strategies B and AB
+  # For SoC
+  m_M[t + 1, ] <- m_M[t, ] %*% m_P
+  # For strategy A
+  m_M_strA[t + 1, ] <- m_M_strA[t, ] %*% m_P_strA
+  # For strategy B
   m_M_strB[t + 1, ] <- m_M_strB[t, ] %*% m_P_strB
+  # For strategy AB
+  m_M_strAB[t + 1, ] <- m_M_strAB[t, ] %*% m_P_strAB
 }
 
 ## Store the cohort traces in a list
 l_m_M <- list(m_M,
-              m_M,
+              m_M_strA,
               m_M_strB,
-              m_M_strB)
+              m_M_strAB)
 names(l_m_M) <- v_names_str
 
 #### Plot Outputs ####
@@ -353,7 +367,7 @@ head(df_psa_input)
 ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
   facet_wrap(~Parameter, scales = "free") +
   geom_histogram(aes(y = ..density..)) +
-  scale_x_continuous(breaks = dampack::number_ticks(4)) + 
+  scale_x_continuous(breaks = number_ticks(4)) + 
   ylab("") +
   theme_bw(base_size = 16) + 
   theme(axis.text = element_text(size = 6),
