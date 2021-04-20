@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  19 APR 2021 11:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  19 APR 2021 19:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -800,13 +800,13 @@ gure.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.837 \end{equation}
-                     <./figs/Sick-Sicker-Trace-TimeHom-1.pdf>]
-Underfull \vbox (badness 2772) detected at line 882
+l.839 
+       <./figs/Sick-Sicker-Trace-TimeHom-1.pdf>] [14]
+Overfull \vbox (2.03758pt too high) detected at line 931
  []
 
-[14] [15] [16]
-Overfull \hbox (41.8286pt too wide) in paragraph at lines 1024--1034
+[15] [16]
+Overfull \hbox (41.8286pt too wide) in paragraph at lines 1029--1039
  [][] 
  []
 
@@ -816,76 +816,68 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <figs/Sick-Sicker-CEA-1.pdf, id=236, 569.12625pt x 423.5825pt>
 File: figs/Sick-Sicker-CEA-1.pdf Graphic file (type pdf)
 <use figs/Sick-Sicker-CEA-1.pdf>
-Package pdftex.def Info: figs/Sick-Sicker-CEA-1.pdf  used on input line 1040.
+Package pdftex.def Info: figs/Sick-Sicker-CEA-1.pdf  used on input line 1045.
 (pdftex.def)             Requested size: 469.7781pt x 349.64085pt.
 [17pdfTeX warning (ext4): destination with the same identifier (name{table.4}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1045 \end{figure}
-                   ] [18pdfTeX warning (ext4): destination with the same identi
-fier (name{table.5}) has been already used, duplicate ignored
+l.1051 
+       ] [18pdfTeX warning (ext4): destination with the same identifier (name{t
+able.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1051 
-       pdfTeX warning (ext4): destination with the same identifier (name{figure
-.3}) has been already used, duplicate ignored
+l.1060   \texttt
+                {generate\_psa\_params(n\_sim,\ seed)}: a function that gene...
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
+s been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1051 
-        <./figs/Sick-Sicker-CEA-1.pdf>]
-<figs/CE-scatter-1.pdf, id=269, 569.12625pt x 415.5525pt>
+l.1060   \texttt
+                {generate\_psa\_params(n\_sim,\ seed)}: a function that gene...
+ <./figs/Sick-Sicker-CEA-1.pdf>]
+<figs/CE-scatter-1.pdf, id=268, 569.12625pt x 415.5525pt>
 File: figs/CE-scatter-1.pdf Graphic file (type pdf)
 <use figs/CE-scatter-1.pdf>
-Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 1068.
+Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 1072.
 (pdftex.def)             Requested size: 469.7781pt x 343.01259pt.
 [19]
-<figs/CEAC-1.pdf, id=283, 568.1225pt x 423.5825pt>
+<figs/CEAC-1.pdf, id=281, 568.1225pt x 423.5825pt>
 File: figs/CEAC-1.pdf Graphic file (type pdf)
 <use figs/CEAC-1.pdf>
-Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 1079.
+Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 1083.
 (pdftex.def)             Requested size: 469.7731pt x 350.25487pt.
 [20pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1085 
+l.1089 
         <./figs/CE-scatter-1.pdf>]
-<figs/ELC-1.pdf, id=304, 569.12625pt x 423.5825pt>
+<figs/ELC-1.pdf, id=301, 569.12625pt x 423.5825pt>
 File: figs/ELC-1.pdf Graphic file (type pdf)
 <use figs/ELC-1.pdf>
-Package pdftex.def Info: figs/ELC-1.pdf  used on input line 1090.
+Package pdftex.def Info: figs/ELC-1.pdf  used on input line 1094.
 (pdftex.def)             Requested size: 469.7781pt x 349.64085pt.
 [21pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1096 
+l.1100 
         <./figs/CEAC-1.pdf>] [22pdfTeX warning (ext4): destination with the sam
 e identifier (name{figure.6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1104 I
+l.1108 I
         n general, cSTMs are recommended when the number of states is ``not ...
  <./figs/ELC-1.pdf>] [23]
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 1123--1126
-[][] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1123--1126
-
- []
-
-
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 1127--1130
-[][][] []
+[][] []
  []
 
 
@@ -953,7 +945,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1151--1154
 
  []
 
-[24]
+
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 1155--1158
 [][][] []
  []
@@ -963,7 +955,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1155--1158
 
  []
 
-
+[24]
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 1159--1162
 [][][] []
  []
@@ -1093,7 +1085,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1207--1210
 
  []
 
-[25]
+
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 1211--1214
 [][][] []
  []
@@ -1103,7 +1095,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1211--1214
 
  []
 
-
+[25]
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 1215--1218
 [][][] []
  []
@@ -1223,7 +1215,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1259--1262
 
  []
 
-[26]
+
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 1263--1266
 [][][] []
  []
@@ -1233,56 +1225,62 @@ Underfull \hbox (badness 10000) in paragraph at lines 1263--1266
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1269.
+[26]
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 1267--1270
+[][][] []
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1267--1270
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1273.
 [27]
-Package atveryend Info: Executing hook `AfterLastShipout' on input line 1269.
+Package atveryend Info: Executing hook `AfterLastShipout' on input line 1273.
 (./cSTM_Tutorial_Intro.xwm) (./cSTM_Tutorial_Intro.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1269.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1269.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1273.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1273.
  ) 
 Here is how much of TeX's memory you used:
- 19468 strings out of 480608
- 303304 string characters out of 5903631
- 666929 words of memory out of 5000000
+ 19465 strings out of 480608
+ 303157 string characters out of 5903631
+ 666683 words of memory out of 5000000
  34730 multiletter control sequences out of 15000+600000
- 621001 words of font info for 156 fonts, out of 8000000 for 9000
+ 620918 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,14n,75p,2053b,830s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{conceptualizing-and-implementing-time-independent
--cSTM-dynamics} has been referenced but does not exist, replaced by a fixed one
-
-
-{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/loca
-l/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2020
-/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2020/texmf-dist/f
-onts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/d
-vips/lm/lm-mathex.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm
--rm.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/l
-ocal/texlive/2020/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/loca
-l/texlive/2020/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/
-2020/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2020/texmf
--dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2020/texmf-dist/fonts
-/type1/public/lm/lmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/pub
-lic/lm/lmmi10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmm
-i5.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/tex
-live/2020/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2020/t
-exmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2020/texmf-dist/f
-onts/type1/public/lm/lmr6.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/p
-ublic/lm/lmr7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr
-8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/
-local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texl
-ive/2020/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2020/t
-exmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2020/texmf-dist/f
-onts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/
-public/lm/lmsy8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/l
-mtk10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtko10.pfb
-></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/loc
-al/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on cSTM_Tutorial_Intro.pdf (27 pages, 853389 bytes).
+{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
+cal/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/20
+20/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2020/texmf-dist
+/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc
+/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/
+lm-rm.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr
+/local/texlive/2020/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/lo
+cal/texlive/2020/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texliv
+e/2020/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2020/tex
+mf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2020/texmf-dist/fon
+ts/type1/public/lm/lmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/p
+ublic/lm/lmmi10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/l
+mmi5.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/t
+exlive/2020/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2020
+/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2020/texmf-dist
+/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1
+/public/lm/lmr7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/l
+mr8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr9.pfb></us
+r/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/te
+xlive/2020/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2020
+/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2020/texmf-dist
+/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type
+1/public/lm/lmsy8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm
+/lmtk10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtko10.p
+fb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
+Output written on cSTM_Tutorial_Intro.pdf (27 pages, 853633 bytes).
 PDF statistics:
- 565 PDF objects out of 1000 (max. 8388607)
- 490 compressed objects within 5 object streams
- 118 named destinations out of 1000 (max. 500000)
+ 563 PDF objects out of 1000 (max. 8388607)
+ 488 compressed objects within 5 object streams
+ 117 named destinations out of 1000 (max. 500000)
  16511 words of extra memory for PDF output out of 17280 (max. 10000000)
 

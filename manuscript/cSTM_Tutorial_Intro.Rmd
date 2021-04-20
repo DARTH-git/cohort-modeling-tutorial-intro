@@ -743,7 +743,7 @@ colnames(df_e) <- v_names_str
 
 1. `generate_psa_params(n_sim, seed)`: a function that generates a sample of size `n_sim` for the model parameters, `df_psa_input`, from their distributions defined in Table \@ref(tab:param-table). The function input `seed` sets the seed of the pseudo-random number generator used in sampling parameter values, which ensures reproducibility of the PSA results. 
 
-2. `decision_model(l_params_all, verbose = FALSE)`: a function that wraps the R code of the time-independent cSTM described in section [Conceptualizing and implementing time-independent cSTM dynamics](#conceptualizing-and-implementing-time-independent-cSTM-dynamics). This function requires inputting a list of all model parameter values, `l_params_all` and whether the user wants print messages on whether transition probability matrices are valid via the `verbose` parameter.
+2. `decision_model(l_params_all, verbose = FALSE)`: a function that wraps the R code of the time-independent cSTM described in section \@ref(time-independent-cstm-dynamics). This function requires inputting a list of all model parameter values, `l_params_all` and whether the user wants print messages on whether transition probability matrices are valid via the `verbose` parameter.
 3. `calculate_ce_out(l_params_all, n_wtp = 100000)`: a function that calculates total discounted costs and QALYs based on the `decision_model` function output. This function also computes the net monetary benefit (NMB) for a given willingness-to-pay threshold, specified by the argument `n_wtp`.
 These functions are provided in the accompanying GitHub repository of this manuscript.
 

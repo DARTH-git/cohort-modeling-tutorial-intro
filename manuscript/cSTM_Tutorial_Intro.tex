@@ -822,7 +822,7 @@ Cycle & H & S1 & S2 & D\\
 \hypertarget{cost-and-effectiveness-outcomes}{%
 \section{Cost and effectiveness outcomes}\label{cost-and-effectiveness-outcomes}}
 
-cSTMs can be used to generate different effectiveness and economic outputs. In a CEA, the outcomes are typically the total expected QALYs and total costs accrued by the cohort over a predefined time horizon. However, epidemiological outcomes are often used to produce other measures of interest or model calibration and validation. Some common epidemiological outcomes include survival, prevalence, incidence, the average number of events, and lifetime risk of events.\textsuperscript{\protect\hyperlink{ref-Siebert2012c}{5}} In this tutorial, we describe how to generate the effectiveness and economic outcomes. In an accompanying tutorial,\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2021b}{17}} we describe how to compute epidemiological outcomes.
+We are interested in computing the total QALYs and total costs accrued by the cohort over a predefined time horizon for a CEA. In an accompanying tutorial,\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2021b}{17}} we describe how to compute epidemiological outcomes from cSTMs, such as survival, prevalence and life expectancy.\textsuperscript{\protect\hyperlink{ref-Siebert2012c}{5}} Epidemiological outcomes are often used to produce other measures of interest for model calibration and validation.
 
 \hypertarget{effectiveness-and-economic-outcomes}{%
 \subsection{Effectiveness and economic outcomes}\label{effectiveness-and-economic-outcomes}}
@@ -830,12 +830,12 @@ cSTMs can be used to generate different effectiveness and economic outputs. In a
 \hypertarget{state-rewards}{%
 \subsubsection{State rewards}\label{state-rewards}}
 
-A state reward refers to a value assigned to individuals for being in a given state. In a cost-utility context, these could be either utilities or costs associated with remaining in a certain health state for one cycle. The total expected reward of an outcome of interest for the entire cohort at each cycle can be represented by a column vector \(\mathbf{y}\) of size \(n_T+1\). To calculate \(\mathbf{y}\), we compute the matrix product of the cohort trace matrix times a \emph{vector} of state rewards \(\mathbf{r}\) of the same dimension as the number of states (\(n_S\)), such that
+A state reward refers to a value assigned to individuals for being in a given health state. In a CEA context, these could be either utilities or costs associated with remaining in a specific health state for one cycle. The column vector \(\mathbf{y}\) of size \(n_T+1\) can represent the total expected reward of an outcome of interest for the entire cohort at each cycle. To calculate \(\mathbf{y}\), we compute the matrix product of the cohort trace matrix times a \emph{vector} of state rewards \(\mathbf{r}\) of the same dimension as the number of states (\(n_S\)), such that
 \begin{equation}
   \mathbf{y} = M\mathbf{r}.
   \label{eq:exp-rew-cycle}
 \end{equation}
-For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, \texttt{v\_u\_SoC} and \texttt{v\_c\_SoC}, respectively, contain the utilities and costs corresponding with being in each of the four health states under SoC, which are shown in Table \ref{tab:param-table}.
+For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, \texttt{v\_u\_SoC} and \texttt{v\_c\_SoC}, respectively, represent the utilities and costs corresponding with being in each of the four health states under SoC, which are shown in Table \ref{tab:param-table}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -846,16 +846,17 @@ For the Sick-Sicker model, we create a vector of utilities and costs for each of
 \end{Highlighting}
 \end{Shaded}
 
-We account for the benefits and costs of both treatments individually and their combination to create the state-reward vectors under treatments A and B (strategies A and B, respectively) and when applied jointly (strategy AB). Only treatment A affects QoL, so we create a vector of utilities for strategy A, \texttt{v\_u\_strA}, where we substitute the utility of being in S1 under SOC, \texttt{u\_S1}, with the utility associated with the benefit of treatment A in being in that state, \texttt{u\_trtA}. Treatment B does not affect QoL, so the vector of utilities for strategy B, \texttt{v\_u\_strB}, is the same as for SoC However, when both treatments A and B are applied jointly (strategy AB), the resulting vector of utilities \texttt{v\_u\_strAB} equals that of strategy A.
+We account for the benefits and costs of both treatments individually and their combination to create the state-reward vectors under treatments A and B (strategies A and B, respectively) and when applied jointly (strategy AB). Only treatment A affects QoL, so we create a vector of utilities
+specific to strategies involving treatment A (strategies A and AB), \texttt{v\_u\_strA} and \texttt{v\_u\_strAB}. These vectors will have the same utility weights as for strategy SoC except for being in S1, which we assign the utility associated with the benefit of treatment A in being in that state, \texttt{u\_trtA}. Treatment B does not affect QoL, so the vector of utilities for strategy involving treatment B, \texttt{v\_u\_strB}, is the same as for SoC.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Vector of state utilities for strategy A}
 \NormalTok{v\_u\_strA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_trtA, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D)}
 \CommentTok{\# Vector of state utilities for strategy B}
-\NormalTok{v\_u\_strB }\OtherTok{\textless{}{-}}\NormalTok{ v\_u\_SoC}
+\NormalTok{v\_u\_strB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_S1, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D)}
 \CommentTok{\# Vector of state utilities for strategy AB}
-\NormalTok{v\_u\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ v\_u\_strA}
+\NormalTok{v\_u\_strAB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_trtA, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -890,24 +891,24 @@ To compute the expected QALYs and costs for the Sick-Sicker model under SoC and 
 \CommentTok{\# Vector of costs under SoC}
 \NormalTok{v\_cost\_SoC }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_SoC}
 \CommentTok{\# Vector of QALYs for strategy A}
-\NormalTok{v\_qaly\_strA }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strA}
+\NormalTok{v\_qaly\_strA }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strA }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strA}
 \CommentTok{\# Vector of costs for strategy A}
-\NormalTok{v\_cost\_strA }\OtherTok{\textless{}{-}}\NormalTok{ m\_M }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strA}
+\NormalTok{v\_cost\_strA }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strA }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strA}
 \CommentTok{\# Vector of QALYs for strategy B}
 \NormalTok{v\_qaly\_strB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strB}
 \CommentTok{\# Vector of costs for strategy B}
 \NormalTok{v\_cost\_strB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strB}
 \CommentTok{\# Vector of QALYs for strategy AB}
-\NormalTok{v\_qaly\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strAB}
+\NormalTok{v\_qaly\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strAB }\SpecialCharTok{\%*\%}\NormalTok{ v\_u\_strAB}
 \CommentTok{\# Vector of costs for strategy AB}
-\NormalTok{v\_cost\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strB }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strAB}
+\NormalTok{v\_cost\_strAB }\OtherTok{\textless{}{-}}\NormalTok{ m\_M\_strAB }\SpecialCharTok{\%*\%}\NormalTok{ v\_c\_strAB}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{within-cycle-correction}{%
 \subsubsection{Within-cycle correction}\label{within-cycle-correction}}
 
-Discretizing a continuous-time cSTM with a discrete-time cSTM might introduce biases in the time spent on each state.\textsuperscript{\protect\hyperlink{ref-VanRosmalen2013}{21}} One approach to reducing these biases is to reduce cycle length, which will require simulating the model for a larger number of cycles, which sometimes is not computationally efficient. Another approach to better approximate the expected rewards of cumulative health and cost outcomes from a continuous-time process using a discrete-time model is to use within-cycle corrections (WCC).\textsuperscript{\protect\hyperlink{ref-Hunink2014}{22}} In this tutorial, we use Simpson's 1/3rd rule as a WCC by multiplying the rewards (e.g., costs and effectiveness) by \(1/3\) in the first and last cycles, by \(4/3\) if cycle number is odd, and by \(2/3\) if the cycle number is even.\textsuperscript{\protect\hyperlink{ref-Elbasha2016a}{24}} We implement the WCC by generating a column vector \(\mathbf{wcc}\) of size \(n_T+1\) with values corresponding to the first, \(t=0\), and last cycle, \(t= n_T + 1\), equal to \(1/3\), and the entries corresponding to the even and odd cycles with \(2/3\) and \(4/3\), respectively.
+A discrete-time cSTM is an approximation of dynamics that, in reality, occur in continuous time. The discretization of the occurrence of events into discrete-time cycles in a discrete-time cSTM might introduce biases when estimating outcomes based on state occupancy.\textsuperscript{\protect\hyperlink{ref-VanRosmalen2013}{21}} One approach to reducing these biases is to reduce the cycle length, requiring to simulate the model for a larger number of cycles, which can be computationally burdensome. Another approach is to use within-cycle corrections (WCC).\textsuperscript{\protect\hyperlink{ref-Hunink2014}{22}} In this tutorial, we use Simpson's 1/3rd rule as the WCC method by multiplying the rewards (e.g., costs and effectiveness) by \(1/3\) in the first and last cycles, by \(4/3\) if cycle number is odd, and by \(2/3\) if the cycle number is even.\textsuperscript{\protect\hyperlink{ref-Elbasha2016a}{24}} We implement the WCC by generating a column vector \(\mathbf{wcc}\) of size \(n_T+1\) with values corresponding to the first, \(t=0\), and last cycle, \(t= n_T\), equal to \(1/3\), and the entries corresponding to the even and odd cycles with \(2/3\) and \(4/3\), respectively.
 
 \[
   \mathbf{wcc} = \left[\frac{1}{3}, \frac{2}{3}, \frac{4}{3}, \cdots, \frac{1}{3}\right]
@@ -917,10 +918,13 @@ The within-cycle correction vector is the same for both costs and QALYs; thus, o
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# First, we define two functions to identify if a number is even or odd}
+\NormalTok{is\_even }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x }\SpecialCharTok{\%\%} \DecValTok{2} \SpecialCharTok{==} \DecValTok{0}
+\NormalTok{is\_odd  }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x }\SpecialCharTok{\%\%} \DecValTok{2} \SpecialCharTok{!=} \DecValTok{0}
 \DocumentationTok{\#\# Vector with cycles}
 \NormalTok{v\_cycles }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, n\_cycles }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
 \DocumentationTok{\#\# Generate 2/3 and 4/3 multipliers for even and odd entries, respectively}
-\NormalTok{v\_wcc }\OtherTok{\textless{}{-}}\NormalTok{ ((v\_cycles }\SpecialCharTok{\%\%} \DecValTok{2}\NormalTok{) }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{2}\SpecialCharTok{/}\DecValTok{3}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ ((v\_cycles }\SpecialCharTok{\%\%} \DecValTok{2}\NormalTok{) }\SpecialCharTok{!=} \DecValTok{0}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{4}\SpecialCharTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{v\_wcc }\OtherTok{\textless{}{-}} \FunctionTok{is\_even}\NormalTok{(v\_cycles)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{2}\SpecialCharTok{/}\DecValTok{3}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{is\_odd}\NormalTok{(v\_cycles)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{4}\SpecialCharTok{/}\DecValTok{3}\NormalTok{)}
 \DocumentationTok{\#\# Substitute 1/3 in first and last entries}
 \NormalTok{v\_wcc[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ v\_wcc[n\_cycles }\SpecialCharTok{+} \DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{/}\DecValTok{3}
 \end{Highlighting}
@@ -929,11 +933,12 @@ The within-cycle correction vector is the same for both costs and QALYs; thus, o
 \hypertarget{discounting-future-rewards}{%
 \subsubsection{Discounting future rewards}\label{discounting-future-rewards}}
 
-Future costs and benefits are often discounted by a specific rate to calculate the net present value of these rewards. To account for discounting, the generated rewards per cycle are multiplied by the cycle-specific discount weight. The vector of expected rewards, \(\mathbf{y}\), is multiplied by a discounting column vector \(\mathbf{d}\) of size \(n_T+1\) where each of its \(t\)-th entry represents the discounting for cycle \(t\)
+We often discount future costs and benefits by a specific rate to calculate the net present value of these rewards. We then use this rate to generate a column vector with cycle-specific discount weights \(\mathbf{d}\) of size \(n_T+1\) where its \(t\)-th entry represents the discounting for cycle \(t\)
+
 \[
-  \mathbf{d} = \left[1, \frac{1}{(1+d)^{1}}, \frac{1}{(1+d)^{2}}, \cdots, \frac{1}{(1+d)^{n_T}}\right],
+  \mathbf{d'} = \left[1, \frac{1}{(1+d)^{1}}, \frac{1}{(1+d)^{2}}, \cdots, \frac{1}{(1+d)^{n_T}}\right],
 \]
-where \(d\) is the cycle-length discount rate. Therefore, the total expected discounted outcome over the \(n_T\) cycles, \(y\), is obtained by the inner product between \(\mathbf{y}\) transposed, \(\mathbf{y'}\), and \(\mathbf{d}\),
+where \(d\) is the cycle-length discount rate. At the end of the simulation loop, we multiply the vector of expected rewards, \(\mathbf{y}\), by a discounting column vector. The total expected discounted outcome summed over the \(n_T\) cycles, \(y\), is obtained by the inner product between \(\mathbf{y}\) transposed, \(\mathbf{y'}\), and \(\mathbf{d}\),
 \begin{equation}
  y = \mathbf{y'} \mathbf{d}.
  \label{eq:tot-exp-disc-rewd}
@@ -949,13 +954,13 @@ The discount vectors for costs and QALYs for the Sick-Sicker model, \texttt{v\_d
 \end{Highlighting}
 \end{Shaded}
 
-To account for both discounting and within-cycle correction, we incorporate \(\mathbf{wcc}\) in equation \eqref{eq:tot-exp-disc-rewd} using an element-wise multiplication with \(\mathbf{d}\), indicated by the \(\odot\) sign.
+To compute the total expected discounted QALYs and costs under all four strategies accounting for both discounting and WCC, we incorporate \(\mathbf{wcc}\) in equation \eqref{eq:tot-exp-disc-rewd} using an element-wise multiplication with \(\mathbf{d}\), indicated by the \(\odot\) sign.
 \begin{equation}
  y = \mathbf{y}^{'} \left(\mathbf{d} \odot \mathbf{wcc}\right).
  \label{eq:tot-exp-disc-rewd-wcc}
 \end{equation}
 
-To compute the total expected discounted QALYs and costs under all four strategies accounting for within-cycle correction, we apply Equation \eqref{eq:tot-exp-disc-rewd-wcc} to the vectors with the rewards, discounts, and within-cycle correction.
+To compute the total expected discounted and WCC-corrected QALYs under all four strategies in R, we apply Equation \eqref{eq:tot-exp-disc-rewd-wcc} to the reward vectors of each strategy.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -996,10 +1001,10 @@ Strategy AB & \$361,341 & 23.354\\
 
 The total expected discounted QALYs and costs for the Sick-Sicker model under the four strategies accounting for within-cycle correction are shown in Table \ref{tab:Expected-outcomes-table}.
 
-\hypertarget{cost-effectiveness-analysis-and-incremental-cost-effectiveness-ratios-icers}{%
-\section{Cost-effectiveness analysis and incremental cost-effectiveness ratios (ICERs)}\label{cost-effectiveness-analysis-and-incremental-cost-effectiveness-ratios-icers}}
+\hypertarget{incremental-cost-effectiveness-ratios-icers}{%
+\section{Incremental cost-effectiveness ratios (ICERs)}\label{incremental-cost-effectiveness-ratios-icers}}
 
-We combine the total expected discounted costs and QALYs for all four strategies into outcome-specific vectors, \texttt{v\_cost\_str} for costs and \texttt{v\_qaly\_str} for QALYs. We use the R package \texttt{dampack} (\url{https://cran.r-project.org/web/packages/dampack/})\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2021}{25}} to calculate the incremental costs and effectiveness and the incremental cost-effectiveness ratio (ICER) the non-dominated strategies and create the data frame \texttt{df\_cea} with this information.
+We combine the total expected discounted costs and QALYs for all four strategies into outcome-specific vectors, \texttt{v\_cost\_str} for costs and \texttt{v\_qaly\_str} for QALYs. We use the R package \texttt{dampack} (\url{https://cran.r-project.org/web/packages/dampack/})\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2021}{25}} to calculate the incremental costs and effectiveness and the incremental cost-effectiveness ratio (ICER) between non-dominated strategies and create the data frame \texttt{df\_cea} with this information.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1047,21 +1052,20 @@ Figure \ref{fig:Sick-Sicker-CEA} shows the cost-effectiveness efficient frontier
 \hypertarget{probabilistic-sensitivity-analysis}{%
 \section{Probabilistic sensitivity analysis}\label{probabilistic-sensitivity-analysis}}
 
-To quantify the effect of model parameter uncertainty on cost-effectiveness outcomes, we conducted a probabilistic sensitivity analysis (PSA).\textsuperscript{\protect\hyperlink{ref-Briggs2012}{26}} In a PSA, we randomly draw parameter sets from distributions that reflect the current uncertainty in model parameter estimates. The distribution for all the parameters and their values are described in Table \ref{tab:param-table} and more detailed in the Supplementary Material. For each sampled set of parameter values, we compute model outcomes (e.g., total discounted cost and QALYs) for each strategy. In a previously published manuscript, we describe the implementation of these steps in R.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}} Briefly, to conduct the PSA, we create three R functions:
+To quantify the effect of model parameter uncertainty on cost-effectiveness outcomes, we conducted a probabilistic sensitivity analysis (PSA).\textsuperscript{\protect\hyperlink{ref-Briggs2012}{26}} In a PSA, we randomly draw parameter sets from distributions that reflect the current uncertainty in model parameter estimates. The distribution for all the parameters and their values are described in Table \ref{tab:param-table} and more detail in the Supplementary Material. For each sampled set of parameter values, we compute model outcomes (e.g., total discounted cost and QALYs) for each strategy. In a previously published manuscript, we describe the implementation of these steps in R.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}} Briefly, to conduct the PSA, we create three R functions:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
-  A function called \texttt{generate\_psa\_params(n\_sim,\ seed)} with arguments \texttt{n\_sim} and \texttt{seed}. The function generates a sample of size \texttt{n\_sim} for the model parameters from their distributions defined in Table \ref{tab:param-table}. The function also takes a seed number as input, \texttt{seed}, which ensures reproducibility of the PSA results. By calling this function, we generate the sample of parameter sets for the PSA, \texttt{df\_psa\_input}, via: \texttt{df\_psa\_input\ \textless{}-\ generate\_psa\_params(n\_sim\ =\ n\_sim)}.
+  \texttt{generate\_psa\_params(n\_sim,\ seed)}: a function that generates a sample of size \texttt{n\_sim} for the model parameters, \texttt{df\_psa\_input}, from their distributions defined in Table \ref{tab:param-table}. The function input \texttt{seed} sets the seed of the pseudo-random number generator used in sampling parameter values, which ensures reproducibility of the PSA results.
 \item
-  A function called \texttt{decision\_model(l\_params\_all)} that wraps the R code of the time-independent cSTM described in section \protect\hyperlink{conceptualizing-and-implementing-time-independent-cSTM-dynamics}{Conceptualizing and implementing time-independent cSTM dynamics}. This function requires inputting a list of all model parameter values, \texttt{l\_params\_all} and whether the user wants print messages via the \texttt{verbose} parameter.
+  \texttt{decision\_model(l\_params\_all,\ verbose\ =\ FALSE)}: a function that wraps the R code of the time-independent cSTM described in section \ref{time-independent-cstm-dynamics}. This function requires inputting a list of all model parameter values, \texttt{l\_params\_all} and whether the user wants print messages on whether transition probability matrices are valid via the \texttt{verbose} parameter.
 \item
-  A function called \texttt{calculate\_ce\_out(l\_params\_all,\ n\_wtp\ =\ 100000)} that calculates total discounted costs and QALYs based on the \texttt{decision\_model} function output. This function also computes the net monetary benefit (NMB) for a given willingness-to-pay threshold, specified by the argument \texttt{n\_wtp}.
-  These functions are provided in the Supplementary Material and the accompanying GitHub repository of this manuscript.
+  \texttt{calculate\_ce\_out(l\_params\_all,\ n\_wtp\ =\ 100000)}: a function that calculates total discounted costs and QALYs based on the \texttt{decision\_model} function output. This function also computes the net monetary benefit (NMB) for a given willingness-to-pay threshold, specified by the argument \texttt{n\_wtp}.
+  These functions are provided in the accompanying GitHub repository of this manuscript.
 \end{enumerate}
 
-To conduct the PSA of the CEA using the time-independent Sick-Sicker cSTM, we sampled 1,000 parameter sets for all the parameters from the distributions defined in Table \ref{tab:param-table}. For each sampled parameter set, we simulated each strategy. Results from a PSA can be represented in various ways. For example, the joint distribution, 95\% confidence ellipse, and the expected values of the total discounted costs and QALYs for each strategy can be plotted in a cost-effectiveness (CE) scatter plot ( Figure \ref{fig:CE-scatter}),\textsuperscript{\protect\hyperlink{ref-Briggs2002}{27}} where each of the 1,000 simulations are plotted as a point in the graph. The CE scatter plot for CEA using the time-independent model shows that strategy AB has the highest expected costs and QALYs. Standard of care has the lowest expected cost and QALYs. Strategy B is more effective and least costly than Strategy A. Strategy A is a strongly dominated strategy.
+To conduct the PSA of the CEA using the time-independent Sick-Sicker cSTM, we sampled 1,000 parameter sets from their distributions. For each sampled parameter set, we simulated each strategy. Results from a PSA can be represented in various ways. For example, the joint distribution, 95\% confidence ellipse, and the expected values of the total discounted costs and QALYs for each strategy can be plotted in a cost-effectiveness scatter plot (Figure \ref{fig:CE-scatter}),\textsuperscript{\protect\hyperlink{ref-Briggs2002}{27}} where each of the 1,000 simulations are plotted as a point in the graph. The CE scatter plot for CEA using the time-independent model shows that strategy AB has the highest expected costs and QALYs. Standard of care has the lowest expected cost and QALYs. Strategy B is more effective and least costly than Strategy A. Strategy A is a strongly dominated strategy.
 
 \begin{figure}[H]
 
@@ -1072,7 +1076,7 @@ To conduct the PSA of the CEA using the time-independent Sick-Sicker cSTM, we sa
 \caption{Cost-effectiveness scatter plot.}\label{fig:CE-scatter}
 \end{figure}
 
-In Figure \ref{fig:CEAC}, we present the cost-effectiveness acceptability curves (CEACs), which shows the probability that each strategy is cost-effective, and the cost-effectiveness frontier (CEAF), which shows the strategy with the highest expected monetary benefit, over a range of willingness-to-pay (WTP) thresholds. Each strategy's net monetary benefit (NMB) is defined as the product of total discounted QALYs and the WTP threshold minus the total discounted costs,\textsuperscript{\protect\hyperlink{ref-Stinnett1998b}{28}} calculated for each PSA parameter set sample. At WTP thresholds less than \$70,000 per QALY, SoC is the strategy with the highest probability of being cost-effective and the highest expected NMB. Strategy B has the highest probability of being cost-effective and the highest expected NMB for WTP thresholds between \$70,000 and \$125,000 per QALY. Strategy AB has the highest expected NMB for WTP thresholds greater than or equal to \$125,000 per QALY and is the strategy with the highest probability of being cost-effective.
+Figure \ref{fig:CEAC} presents the cost-effectiveness acceptability curves (CEACs), which show the probability that each strategy is cost-effective, and the cost-effectiveness frontier (CEAF), which shows the strategy with the highest expected monetary benefit, over a range of willingness-to-pay (WTP) thresholds. Each strategy's net monetary benefit (NMB) is computed using \(\text{NMB} = \text{QALY} \times \text{WTP} - \text{Cost}\)\textsuperscript{\protect\hyperlink{ref-Stinnett1998b}{28}} for each PSA sample. At WTP thresholds less than \$70,000 per QALY gained, strategy SoC has both the highest probability of being cost-effective and the highest expected NMB. This switches to strategy B for WTP thresholds between \$70,000 and \$125,000 per QALY gained and to strategy AB for WTP thresholds greater than or equal to \$125,000 per QALY gained.
 
 \begin{figure}[H]
 
@@ -1083,7 +1087,7 @@ In Figure \ref{fig:CEAC}, we present the cost-effectiveness acceptability curves
 \caption{Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF).}\label{fig:CEAC}
 \end{figure}
 
-The code provided in the GitHub repository also produces expected loss curves (ELCs). These curves quantify the expected loss from each strategy over a range of WTP thresholds (Figure \ref{fig:ELC}). The expected loss considers both the probability of making the wrong decision and the magnitude of the loss due to this decision, representing the foregone benefits of choosing a suboptimal strategy. The expected loss of the optimal strategy represents the lowest envelope of the ELCs because, given current information, the loss cannot be minimized further. The lower envelope also represents the expected value of perfect information (EVPI), which quantifies the value of eliminating parameter uncertainty. The strategy SoC has the lowest expected loss for WTP thresholds less than \$65,000 per QALY, strategy B has the lowest expected loss for WTP threshold greater than or equal to \$70,000 and less than \$125,000. Strategy AB has the lowest expected loss for WTP threshold greater than or equal to \$125,000 per QALY. At a WTP threshold of \$125,000 per QALY, the EVPI is highest at \$9,577. For a more detailed description of these outputs and the R code to generate them, we refer the reader to a previous publication by our group.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019}{29}}
+The code provided in the GitHub repository also produces expected loss curves (ELCs). These curves quantify the expected loss from each strategy over a range of WTP thresholds (Figure \ref{fig:ELC}). The expected loss considers both the probability of making the wrong decision and the magnitude of the loss due to this decision, representing the foregone benefits of choosing a suboptimal strategy. The expected loss of the optimal strategy represents the lowest envelope of the ELCs because, given current information, the loss cannot be minimized further. The lower envelope also represents the expected value of perfect information (EVPI), which quantifies the value of eliminating parameter uncertainty. At a WTP threshold of \$125,000 per QALY, the EVPI is highest at \$9,577. For a more detailed description of CEAC, CEAF, ELC and EVPI interpretations and the R code to generate them, we refer the reader to previously published literature.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019}{29}}
 
 \begin{figure}[H]
 
@@ -1218,7 +1222,7 @@ Dr.~Alarid-Escudero was supported by a grant from the National Cancer Institute 
 
 \leavevmode\hypertarget{ref-Alarid-Escudero2021}{}%
 \CSLLeftMargin{25. }
-\CSLRightInline{Alarid-Escudero F, Easterly CA, Knowlton G, et al. {dampack: Decision-Analytic Modeling Package}, \url{https://cran.r-project.org/web/packages/dampack/\%20https://github.com/DARTH-git/dampack} (2021).}
+\CSLRightInline{Alarid-Escudero F, Knowlton G, Easterly CA, et al. Decision analytic modeling package (dampack), \url{https://cran.r-project.org/web/packages/dampack/\%20https://github.com/DARTH-git/dampack} (2021).}
 
 \leavevmode\hypertarget{ref-Briggs2012}{}%
 \CSLLeftMargin{26. }
