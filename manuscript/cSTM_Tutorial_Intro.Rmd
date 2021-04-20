@@ -513,8 +513,7 @@ ggplot(reshape2::melt(m_M), aes(x = Var1, y = value,
 # Cost and effectiveness outcomes
 We are interested in computing the total QALYs and total costs accrued by the cohort over a predefined time horizon for a CEA. In an accompanying tutorial,[@Alarid-Escudero2021b] we describe how to compute epidemiological outcomes from cSTMs, such as survival, prevalence and life expectancy.[@Siebert2012c] Epidemiological outcomes are often used to produce other measures of interest for model calibration and validation.
 
-## Effectiveness and economic outcomes
-### State rewards
+## State rewards
 A state reward refers to a value assigned to individuals for being in a given health state. In a CEA context, these could be either utilities or costs associated with remaining in a specific health state for one cycle. The column vector $\mathbf{y}$ of size $n_T+1$ can represent the total expected reward of an outcome of interest for the entire cohort at each cycle. To calculate $\mathbf{y}$, we compute the matrix product of the cohort trace matrix times a *vector* of state rewards $\mathbf{r}$ of the same dimension as the number of states ($n_S$), such that
 \begin{equation}
   \mathbf{y} = M\mathbf{r}.
@@ -583,7 +582,7 @@ v_qaly_strAB <- m_M_strAB %*% v_u_strAB
 v_cost_strAB <- m_M_strAB %*% v_c_strAB
 ```
 
-### Within-cycle correction
+## Within-cycle correction
 A discrete-time cSTM is an approximation of dynamics that, in reality, occur in continuous time. The discretization of the occurrence of events into discrete-time cycles in a discrete-time cSTM might introduce biases when estimating outcomes based on state occupancy.[@VanRosmalen2013] One approach to reducing these biases is to reduce the cycle length,  requiring to simulate the model for a larger number of cycles, which can be computationally burdensome. Another approach is to use within-cycle corrections (WCC).[@Siebert2012c, @Hunink2014] In this tutorial, we use Simpson's 1/3rd rule as the WCC method by multiplying the rewards (e.g., costs and effectiveness) by $1/3$ in the first and last cycles, by $4/3$ if cycle number is odd, and by $2/3$ if the cycle number is even.[@Elbasha2016, @Elbasha2016a] We implement the WCC by generating a column vector $\mathbf{wcc}$ of size $n_T+1$ with values corresponding to the first, $t=0$, and last cycle, $t= n_T$, equal to $1/3$, and the entries corresponding to the even and odd cycles with $2/3$ and $4/3$, respectively.
 
 \[
@@ -603,7 +602,7 @@ v_wcc <- is_even(v_cycles)*(2/3) + is_odd(v_cycles)*(4/3)
 v_wcc[1] <- v_wcc[n_cycles + 1] <- 1/3
 ```
 
-### Discounting future rewards
+## Discounting future rewards
 We often discount future costs and benefits by a specific rate to calculate the net present value of these rewards. We then use this rate to generate a column vector with cycle-specific discount weights $\mathbf{d}$ of size $n_T+1$ where its $t$-th entry represents the discounting for cycle $t$
 
 $$
