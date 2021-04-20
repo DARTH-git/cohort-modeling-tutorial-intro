@@ -21,8 +21,8 @@ header-includes:
 - \usepackage{amsmath}
 - \usepackage{float}
 - \usepackage{setspace}\onehalfspacing
-- \usepackage[printwatermark]{xwatermark}
-- \newwatermark[allpages,color=gray!20,angle=45,scale=2,xpos=0,ypos=0]{DRAFT, Do Not Share}
+# - \usepackage[printwatermark]{xwatermark}
+# - \newwatermark[allpages,color=gray!20,angle=45,scale=2,xpos=0,ypos=0]{DRAFT, Do Not Share}
 - \renewcommand{\contentsname}{}\vspace{-.5cm} # Removes heading of Contents
 keywords: "Markov models, state-transition models, decision models, Tutorial, R"
 link-citations: yes

@@ -4,12 +4,11 @@
 \contentsline {section}{\numberline {3}Time-independent cSTM dynamics}{4}{section.3}%
 \contentsline {section}{\numberline {4}Case study: Sick-Sicker model}{6}{section.4}%
 \contentsline {section}{\numberline {5}Cost and effectiveness outcomes}{13}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Effectiveness and economic outcomes}{13}{subsection.5.1}%
-\contentsline {subsubsection}{\numberline {5.1.1}State rewards}{13}{subsubsection.5.1.1}%
-\contentsline {subsubsection}{\numberline {5.1.2}Within-cycle correction}{15}{subsubsection.5.1.2}%
-\contentsline {subsubsection}{\numberline {5.1.3}Discounting future rewards}{16}{subsubsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1}State rewards}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Within-cycle correction}{15}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Discounting future rewards}{16}{subsection.5.3}%
 \contentsline {section}{\numberline {6}Incremental cost-effectiveness ratios (ICERs)}{17}{section.6}%
-\contentsline {section}{\numberline {7}Probabilistic sensitivity analysis}{18}{section.7}%
+\contentsline {section}{\numberline {7}Probabilistic sensitivity analysis}{19}{section.7}%
 \contentsline {section}{\numberline {8}Discussion}{22}{section.8}%
 \contentsline {section}{\numberline {9}Acknowledgements}{23}{section.9}%
 \contentsline {section}{References}{24}{section*.2}%
