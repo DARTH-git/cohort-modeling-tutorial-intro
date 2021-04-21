@@ -111,7 +111,7 @@ u_S2   <- 0.5   # utility when Sicker
 u_D    <- 0     # utility when Dead 
 u_trtA <- 0.95  # utility when being treated with A
 
-# Discount weight (equal discounting is assumed for costs and effects)
+# Discount weight for costs and effects
 v_dwc  <- 1 / ((1 + d_e) ^ (0:n_cycles))
 v_dwe  <- 1 / ((1 + d_c) ^ (0:n_cycles))
 
