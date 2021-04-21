@@ -85,7 +85,7 @@ n_str       <- length(v_names_str)        # number of strategies
 v_wcc <- darthtools::gen_wcc(n_cycles = n_cycles, 
                              method = "Simpson1/3") # vector of wcc
 
-## Transition probabilities (per cycle), hazard ratios 
+## Transition probabilities (per cycle) and hazard ratios 
 r_HD   <- 0.002 # constant rate of dying when Healthy (all-cause mortality)
 p_HS1  <- 0.15  # probability to become Sick when Healthy conditional on surviving
 p_S1H  <- 0.5   # probability to become Healthy when Sick conditional on surviving
