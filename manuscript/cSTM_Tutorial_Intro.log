@@ -1,13 +1,12 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  20 APR 2021 10:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  15 JUN 2021 12:26
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **cSTM_Tutorial_Intro.tex
 (./cSTM_Tutorial_Intro.tex
 LaTeX2e <2020-10-01> patch level 4
-L3 programming layer <2021-02-18>
-(/usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+L3 programming layer <2021-02-18> (/usr/local/texlive/2021/texmf-dist/tex/latex
+/base/article.cls
 Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
 (/usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
@@ -23,25 +22,20 @@ File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2020/09/23 v2.17i AMS math features
 \@mathmargin=\skip49
-
 For additional information on amsmath, use the `?' option.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01 AMS text
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks15
 \ex@=\dimen139
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen140
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
 \inf@bad=\count187
@@ -81,10 +75,8 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \mathdisplay@stack=\toks19
 LaTeX Info: Redefining \[ on input line 2923.
 LaTeX Info: Redefining \] on input line 2924.
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/amssymb.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
@@ -92,8 +84,7 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/lm/lmodern.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -127,39 +118,29 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-)
-(/usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifxetex.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
-
 (/usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2020/03/06 v1.0d TeX engine tests
-))
-(/usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifluatex.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifluatex.sty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/base/fontenc.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2020/08/10 v2.0s Standard LaTeX package
 LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
 2.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/base/inputenc.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2020/08/01 v1.3d Input encoding file
 \inpenc@prehook=\toks20
 \inpenc@posthook=\toks21
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/base/textcomp.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/upquote/upquote.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/upquote/upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/microtype.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2021/03/14 v2.8c Micro-typographical refinements (RS)
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks22
@@ -170,7 +151,6 @@ LaTeX Info: Redefining \textls on input line 790.
 \MT@outer@kern=\dimen148
 LaTeX Info: Redefining \textmicrotypecontext on input line 1374.
 \MT@listname@count=\count266
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2021/03/14 v2.8c Definitions specific to pdftex (RS)
 
@@ -179,34 +159,25 @@ LaTeX Info: Redefining \lslig on input line 915.
 \MT@outer@space=\skip52
 )
 Package microtype Info: Loading configuration file microtype.cfg.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2021/03/14 v2.8c microtype main configuration file (RS)
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/parskip/parskip.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/parskip/parskip.sty
 Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
-
 (/usr/local/texlive/2021/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count267
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/xcolor/xcolor.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 )
@@ -219,50 +190,38 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/xurl/xurl.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/xurl/xurl.sty
 Package: xurl 2020/12/30 v 0.09a modify URL breaks
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/bookmark/bookmark.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2021-02-27 v7.00k Hypertext links for LaTeX
-
 (/usr/local/texlive/2021/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
-
 (/usr/local/texlive/2021/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/usr/local/texlive/2021/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/hycolor/hycolor.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/auxhook/auxhook.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/auxhook/auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 )
 \@linkdim=\dimen149
 \Hy@linkcounter=\count268
 \Hy@pagecounter=\count269
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2021-02-27 v7.00k Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -273,12 +232,10 @@ File: hyperref-langpatches.def 2021-02-27 v7.00k Hyperref: patches for babel la
 nguages
 ) (/usr/local/texlive/2021/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count270
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2021-02-27 v7.00k Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
@@ -295,10 +252,8 @@ Package hyperref Info: Bookmarks ON on input line 4445.
 \c@Hy@tempcnt=\count271
 LaTeX Info: Redefining \url on input line 4804.
 \XeTeXLinkMargin=\dimen150
-
 (/usr/local/texlive/2021/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-
 (/usr/local/texlive/2021/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
@@ -315,7 +270,6 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6100.
 Package hyperref Info: PDF/A mode OFF on input line 6105.
 LaTeX Info: Redefining \ref on input line 6145.
 LaTeX Info: Redefining \pageref on input line 6149.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
 ge
@@ -326,10 +280,8 @@ with kernel methods
 \c@Hfootnote=\count275
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2021-02-27 v7.00k Hyperref driver for pdfTeX
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
 e
@@ -351,10 +303,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
 \BKM@id=\count278
-))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
-
 (/usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
@@ -370,8 +320,7 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layouthoffset=\dimen159
 \Gm@layoutvoffset=\dimen160
 \Gm@dimlist=\toks24
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
 Package: fancyvrb 2021/01/20 v3.7 verbatim text (tvz,hv)
 \FV@CodeLineNo=\count282
 \FV@InFile=\read2
@@ -379,16 +328,14 @@ Package: fancyvrb 2021/01/20 v3.7 verbatim text (tvz,hv)
 \c@FancyVerbLine=\count283
 \FV@StepNumber=\count284
 \FV@OutFile=\write3
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/framed/framed.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/framed/framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \OuterFrameSep=\skip54
 \fb@frw=\dimen161
 \fb@frh=\dimen162
 \FrameRule=\dimen163
 \FrameSep=\dimen164
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/tools/longtable.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
 \LTleft=\skip55
 \LTright=\skip56
@@ -405,8 +352,7 @@ Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
 \c@LT@tables=\count288
 \c@LT@chunks=\count289
 \LT@p@ftn=\toks25
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/booktabs/booktabs.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen166
 \lightrulewidth=\dimen167
@@ -425,8 +371,7 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count292
 \@lastruleclass=\count293
 \@thisrulewidth=\dimen178
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/tools/array.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/tools/array.sty
 Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
 \col@sep=\dimen179
 \ar@mcellbox=\box54
@@ -435,8 +380,7 @@ Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
 \extratabsurround=\skip59
 \backup@length=\skip60
 \ar@cellbox=\box55
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/tools/calc.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count294
 \calc@Bcount=\count295
@@ -448,72 +392,58 @@ LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count296
 \calc@Cskip=\skip63
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/footnotehyper/footnotehyper.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/footnotehyper/footnotehyper.sty
 Package: footnotehyper 2021/02/04 v1.1d hyperref aware footnote.sty (JFB)
 \FNH@notes=\box56
 \FNH@width=\dimen183
 \FNH@toks=\toks27
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 )
 \Gin@req@height=\dimen184
 \Gin@req@width=\dimen185
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count297
 \float@exts=\toks28
 \float@box=\box57
 \@float@everytoks=\toks29
 \@floatcapt=\box58
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/setspace/setspace.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/multirow/multirow.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip64
 \multirow@cntb=\count298
 \multirow@dima=\skip65
 \bigstrutjot=\dimen186
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen187
 \WF@size=\dimen188
 \c@WF@wrappedlines=\count299
 \WF@box=\box59
 \WF@everypar=\toks30
 Package: wrapfig 2003/01/31  v 3.6
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/colortbl/colortbl.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
 \everycr=\toks31
 \minrowclearance=\skip66
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/tabu/tabu.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/tabu/tabu.sty
 Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box60
@@ -551,15 +481,13 @@ Package: threeparttable 2003/06/13  v 3.0
 (/usr/local/texlive/2021/texmf-dist/tex/latex/threeparttablex/threeparttablex.s
 ty
 Package: threeparttablex 2013/07/23 v0.3 by daleif
- (/usr/local/texlive/2021/texmf-dist/tex/latex/environ/environ.sty
+(/usr/local/texlive/2021/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
 \TPTL@width=\skip68
-)
-(/usr/local/texlive/2021/texmf-dist/tex/generic/ulem/ulem.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/ulem/ulem.sty
 \UL@box=\box66
 \UL@hyphenbox=\box67
 \UL@skip=\skip69
@@ -570,8 +498,7 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 \ULC@box=\box68
 Package: ulem 2019/11/18
 \ULdepth=\dimen258
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/makecell/makecell.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen259
 \c@nlinenum=\count308
@@ -579,13 +506,11 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 )
 \cslhangindent=\skip70
 \csllabelwidth=\skip71
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count309
 \l__pdf_internal_box=\box69
-)
-(./cSTM_Tutorial_Intro.aux)
+) (./cSTM_Tutorial_Intro.aux)
 \openout1 = `cSTM_Tutorial_Intro.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 159.
@@ -617,12 +542,10 @@ LaTeX Info: Redefining \showhyphens on input line 159.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
-)
-(/usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+) (/usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count310
 \scratchdimen=\dimen260
@@ -639,16 +562,13 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package hyperref Info: Link coloring OFF on input line 159.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 )
@@ -661,7 +581,6 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 159.
 LaTeX Info: Redefining \pageref on input line 159.
 LaTeX Info: Redefining \nameref on input line 159.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -703,19 +622,16 @@ File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
 61.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
 161.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
 161.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -727,37 +643,31 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 161.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 161
 .
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-msa.cfg
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 161
 .
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-(/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-msb.cfg
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 61.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 161.
-
 (./cSTM_Tutorial_Intro.toc
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 3.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 3.
- [1
+[1
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
 \tf@toc=\write4
@@ -765,536 +675,526 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
 74.
-
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [2] [3] [4]
-Overfull \vbox (2.6003pt too high) has occurred while \output is active []
-
-
-[5]
-<figs/Sick-Sicker.png, id=127, 369.0588pt x 255.8358pt>
+) [2] [3] [4] [5]
+<figs/Sick-Sicker.png, id=129, 369.0588pt x 255.8358pt>
 File: figs/Sick-Sicker.png Graphic file (type png)
 <use figs/Sick-Sicker.png>
-Package pdftex.def Info: figs/Sick-Sicker.png  used on input line 297.
+Package pdftex.def Info: figs/Sick-Sicker.png  used on input line 296.
 (pdftex.def)             Requested size: 369.06352pt x 255.83907pt.
- [6pdfTeX warning (ext4): destination with the same identifier (name{figure.1})
- has been already used, duplicate ignored
+[6pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
+has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.308 
+l.307 
        <./figs/Sick-Sicker.png>]
-Overfull \hbox (4.0974pt too wide) in paragraph at lines 328--328
+Overfull \hbox (4.0974pt too wide) in paragraph at lines 327--327
  []|\T1/lmtt/m/n/10 v_names_states| 
  []
 
 [7]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 363.
-
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 362.
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 363.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 362.
 
-[8] [9] [10]
+[8]
+Underfull \vbox (badness 1776) detected at line 418
+ []
+
+[9] [10]
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-489.
- (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/ts1lmtt.fd
+488.
+(/usr/local/texlive/2021/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `TS1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `TS1/lmtt/b/sl' tried instead on input line 489.
+(Font)              Font shape `TS1/lmtt/b/sl' tried instead on input line 488.
 
 
 [11]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<figs/Sick-Sicker-Trace-TimeHom-1.pdf, id=177, 564.1075pt x 408.52625pt>
+<figs/Sick-Sicker-Trace-TimeHom-1.pdf, id=178, 564.1075pt x 408.52625pt>
 File: figs/Sick-Sicker-Trace-TimeHom-1.pdf Graphic file (type pdf)
 <use figs/Sick-Sicker-Trace-TimeHom-1.pdf>
 Package pdftex.def Info: figs/Sick-Sicker-Trace-TimeHom-1.pdf  used on input li
-ne 568.
+ne 567.
 (pdftex.def)             Requested size: 469.75845pt x 340.19875pt.
 [12] [13pdfTeX warning (ext4): destination with the same identifier (name{table
 .3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.581 ...tion{State rewards}\label{state-rewards}}
+l.580 ...tion{State rewards}\label{state-rewards}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{figure.2}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.581 ...tion{State rewards}\label{state-rewards}}
+l.580 ...tion{State rewards}\label{state-rewards}}
                                                    <./figs/Sick-Sicker-Trace-Ti
-meHom-1.pdf>] [14] [15] [16]
-Overfull \vbox (0.6563pt too high) detected at line 771
- []
-
-[17pdfTeX warning (ext4): destination with the same identifier (name{table.4}) 
-has been already used, duplicate ignored
+meHom-1.pdf>] [14] [15] [16] [17pdfTeX warning (ext4): destination with the sam
+e identifier (name{table.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.771 \end{Shaded}
+l.770 \end{Shaded}
                   ]
-Overfull \hbox (45.16193pt too wide) in paragraph at lines 779--789
+Overfull \hbox (45.16193pt too wide) in paragraph at lines 778--788
  [][] 
  []
 
-<figs/Sick-Sicker-CEA-1.pdf, id=243, 569.12625pt x 423.5825pt>
+<figs/Sick-Sicker-CEA-1.pdf, id=244, 569.12625pt x 423.5825pt>
 File: figs/Sick-Sicker-CEA-1.pdf Graphic file (type pdf)
 <use figs/Sick-Sicker-CEA-1.pdf>
-Package pdftex.def Info: figs/Sick-Sicker-CEA-1.pdf  used on input line 795.
+Package pdftex.def Info: figs/Sick-Sicker-CEA-1.pdf  used on input line 794.
 (pdftex.def)             Requested size: 469.7781pt x 349.64085pt.
 [18pdfTeX warning (ext4): destination with the same identifier (name{table.5}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.801 
+l.800 
       ] [19pdfTeX warning (ext4): destination with the same identifier (name{fi
 gure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.814   \texttt
+l.813   \texttt
                {calculate\_ce\_out(l\_params\_all,\ n\_wtp\ =\ 100000)}: a f...
  <./figs/Sick-Sicker-CEA-1.pdf>]
-<figs/CE-scatter-1.pdf, id=274, 569.12625pt x 415.5525pt>
+<figs/CE-scatter-1.pdf, id=275, 569.12625pt x 415.5525pt>
 File: figs/CE-scatter-1.pdf Graphic file (type pdf)
 <use figs/CE-scatter-1.pdf>
-Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 822.
+Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 821.
 (pdftex.def)             Requested size: 469.7781pt x 343.01259pt.
- [20pdfTeX warning (ext4): destination with the same identifier (name{figure.4}
-) has been already used, duplicate ignored
+[20pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
+ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.830 
+l.829 
        <./figs/CE-scatter-1.pdf>]
-<figs/CEAC-1.pdf, id=296, 568.1225pt x 423.5825pt>
+<figs/CEAC-1.pdf, id=297, 568.1225pt x 423.5825pt>
 File: figs/CEAC-1.pdf Graphic file (type pdf)
 <use figs/CEAC-1.pdf>
-Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 833.
+Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 832.
 (pdftex.def)             Requested size: 469.7731pt x 350.25487pt.
-<figs/ELC-1.pdf, id=299, 569.12625pt x 423.5825pt>
+<figs/ELC-1.pdf, id=300, 569.12625pt x 423.5825pt>
 File: figs/ELC-1.pdf Graphic file (type pdf)
 <use figs/ELC-1.pdf>
-Package pdftex.def Info: figs/ELC-1.pdf  used on input line 844.
+Package pdftex.def Info: figs/ELC-1.pdf  used on input line 843.
 (pdftex.def)             Requested size: 469.7781pt x 349.64085pt.
- [21pdfTeX warning (ext4): destination with the same identifier (name{figure.5}
-) has been already used, duplicate ignored
+[21pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
+ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.850 
+l.849 
        <./figs/CEAC-1.pdf>] [22pdfTeX warning (ext4): destination with the same
  identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.858 I
+l.857 I
        n general, cSTMs are recommended when the number of states is conside...
  <./figs/ELC-1.pdf>] [23]
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 875--878
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 874--877
 [][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 875--878
+Underfull \hbox (badness 10000) in paragraph at lines 874--877
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 879--882
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 878--881
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 879--882
+Underfull \hbox (badness 10000) in paragraph at lines 878--881
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 883--886
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 882--885
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 883--886
+Underfull \hbox (badness 10000) in paragraph at lines 882--885
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 887--890
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 886--889
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 887--890
+Underfull \hbox (badness 10000) in paragraph at lines 886--889
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 891--894
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 890--893
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 891--894
+Underfull \hbox (badness 10000) in paragraph at lines 890--893
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 895--898
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 894--897
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 895--898
+Underfull \hbox (badness 10000) in paragraph at lines 894--897
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 899--902
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 898--901
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 899--902
+Underfull \hbox (badness 10000) in paragraph at lines 898--901
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 903--906
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 902--905
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 903--906
+Underfull \hbox (badness 10000) in paragraph at lines 902--905
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 907--910
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 906--909
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 907--910
+Underfull \hbox (badness 10000) in paragraph at lines 906--909
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 911--914
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 910--913
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 911--914
+Underfull \hbox (badness 10000) in paragraph at lines 910--913
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 915--918
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 914--917
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 915--918
+Underfull \hbox (badness 10000) in paragraph at lines 914--917
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 919--922
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 918--921
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 919--922
+Underfull \hbox (badness 10000) in paragraph at lines 918--921
 
  []
 
 [24]
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 923--926
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 922--925
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 923--926
+Underfull \hbox (badness 10000) in paragraph at lines 922--925
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 927--930
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 926--929
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 927--930
+Underfull \hbox (badness 10000) in paragraph at lines 926--929
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 931--934
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 930--933
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 931--934
+Underfull \hbox (badness 10000) in paragraph at lines 930--933
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 935--938
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 934--937
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 935--938
+Underfull \hbox (badness 10000) in paragraph at lines 934--937
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 939--942
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 938--941
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 939--942
+Underfull \hbox (badness 10000) in paragraph at lines 938--941
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 943--946
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 942--945
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 943--946
+Underfull \hbox (badness 10000) in paragraph at lines 942--945
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 947--950
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 946--949
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 947--950
+Underfull \hbox (badness 10000) in paragraph at lines 946--949
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 951--954
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 950--953
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 951--954
+Underfull \hbox (badness 10000) in paragraph at lines 950--953
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 955--958
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 954--957
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 955--958
+Underfull \hbox (badness 10000) in paragraph at lines 954--957
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 959--962
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 958--961
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 959--962
+Underfull \hbox (badness 10000) in paragraph at lines 958--961
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 963--966
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 962--965
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 963--966
+Underfull \hbox (badness 10000) in paragraph at lines 962--965
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 967--970
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 966--969
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 967--970
+Underfull \hbox (badness 10000) in paragraph at lines 966--969
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 971--974
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 970--973
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 971--974
+Underfull \hbox (badness 10000) in paragraph at lines 970--973
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 975--978
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 974--977
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 975--978
+Underfull \hbox (badness 10000) in paragraph at lines 974--977
 
  []
 
 [25]
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 979--982
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 978--981
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 979--982
+Underfull \hbox (badness 10000) in paragraph at lines 978--981
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 983--986
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 982--985
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 983--986
+Underfull \hbox (badness 10000) in paragraph at lines 982--985
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 987--990
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 986--989
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 987--990
+Underfull \hbox (badness 10000) in paragraph at lines 986--989
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 991--994
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 990--993
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 991--994
+Underfull \hbox (badness 10000) in paragraph at lines 990--993
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 995--998
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 994--997
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 995--998
+Underfull \hbox (badness 10000) in paragraph at lines 994--997
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 999--1002
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 998--1001
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 999--1002
+Underfull \hbox (badness 10000) in paragraph at lines 998--1001
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 1003--1006
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 1002--1005
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1003--1006
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1005
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 1007--1010
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 1006--1009
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1007--1010
+Underfull \hbox (badness 10000) in paragraph at lines 1006--1009
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 1011--1014
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 1010--1013
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1011--1014
+Underfull \hbox (badness 10000) in paragraph at lines 1010--1013
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 1015--1018
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 1014--1017
 [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1015--1018
+Underfull \hbox (badness 10000) in paragraph at lines 1014--1017
 
  []
 
-[26] (./cSTM_Tutorial_Intro.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[26] (./cSTM_Tutorial_Intro.aux) ) 
 Here is how much of TeX's memory you used:
- 15124 strings out of 478994
- 224762 string characters out of 5858184
+ 15132 strings out of 478994
+ 224840 string characters out of 5858184
  590776 words of memory out of 5000000
  31945 multiletter control sequences out of 15000+600000
- 492128 words of font info for 194 fonts, out of 8000000 for 9000
+ 492478 words of font info for 198 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  85i,12n,88p,2007b,451s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
-cal/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/20
-21/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2021/texmf-dist
-/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc
-/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lm/
-lm-rm.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx10.pfb>
-</usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/loca
-l/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2
-021/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2021/texmf-
-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts
-/type1/public/lm/lmmi5.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publ
-ic/lm/lmmi7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr10
-.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/
-local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texli
-ve/2021/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2021/texm
-f-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2021/texmf-dist/fonts
-/type1/public/lm/lmr8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
-c/lm/lmr9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmri10.
-pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/
-local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texli
-ve/2021/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2021/tex
-mf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2021/texmf-dist/fon
-ts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
-ublic/lm/lmtko10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/
-lmtt10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtti10.pf
-b>
-Output written on cSTM_Tutorial_Intro.pdf (26 pages, 842922 bytes).
+{/usr/local/texlive/2021/texmf-dist/fonts/enc
+/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lm/
+lm-ec.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/u
+sr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/t
+exlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/202
+1/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}</usr/local/texlive/2021/texmf-dist/f
+onts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
+/public/lm/lmbx12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm
+/lmbx9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmex10.pfb
+></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/loc
+al/texlive/2021/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/
+2021/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2021/texmf-
+dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/
+type1/public/lm/lmr12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
+c/lm/lmr17.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr6.p
+fb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/loc
+al/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2
+021/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2021/texmf-di
+st/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
+ype1/public/lm/lmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
+c/lm/lmsy5.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmsy7.
+pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/l
+ocal/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texli
+ve/2021/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></usr/local/texlive/2021/t
+exmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2021/texmf-dist/
+fonts/type1/public/lm/lmtti10.pfb>
+Output written on cSTM_Tutorial_Intro.pdf (26 pages, 843795 bytes).
 PDF statistics:
- 557 PDF objects out of 1000 (max. 8388607)
- 484 compressed objects within 5 object streams
+ 558 PDF objects out of 1000 (max. 8388607)
+ 485 compressed objects within 5 object streams
  114 named destinations out of 1000 (max. 500000)
  51343 words of extra memory for PDF output out of 51595 (max. 10000000)
 
