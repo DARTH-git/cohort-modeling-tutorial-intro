@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  9 AUG 2021 20:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  10 AUG 2021 14:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1191,7 +1191,7 @@ ocal/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texli
 ve/2021/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></usr/local/texlive/2021/t
 exmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2021/texmf-dist/
 fonts/type1/public/lm/lmtti10.pfb>
-Output written on cSTM_Tutorial_Intro.pdf (26 pages, 843239 bytes).
+Output written on cSTM_Tutorial_Intro.pdf (26 pages, 843233 bytes).
 PDF statistics:
  558 PDF objects out of 1000 (max. 8388607)
  485 compressed objects within 5 object streams

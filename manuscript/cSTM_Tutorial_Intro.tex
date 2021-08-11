@@ -154,7 +154,7 @@
 
 \title{An Introductory Tutorial to Cohort State-Transition Models in R}
 \author{Fernando Alarid-Escudero, PhD\footnote{Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico} \and Eline Krijkamp, MSc\footnote{Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands} \and Eva A. Enns, PhD\footnote{Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA} \and Alan Yang, MSc\footnote{The Hospital for Sick Children, Toronto} \and Myriam G.M. Hunink, PhD\(^\dagger\)\footnote{Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA} \and Petros Pechlivanoglou, PhD\footnote{The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada} \and Hawre Jalal, MD, PhD\footnote{University of Pittsburgh, Pittsburgh, PA, USA}}
-\date{2021-08-09}
+\date{2021-08-10}
 
 \begin{document}
 \maketitle
@@ -836,7 +836,7 @@ Figure \ref{fig:CEAC} presents the cost-effectiveness acceptability curves (CEAC
 \caption{Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF).}\label{fig:CEAC}
 \end{figure}
 
-The code provided in the GitHub repository also produces expected loss curves (ELCs). These curves quantify the expected loss from each strategy over a range of WTP thresholds (Figure \ref{fig:ELC}). The expected loss considers both the probability of making the wrong decision and the magnitude of the loss due to this decision, representing the foregone benefits of choosing a suboptimal strategy. The expected loss of the optimal strategy represents the lowest envelope of the ELCs because, given current information, the loss cannot be minimized further. The lower envelope also represents the expected value of perfect information (EVPI), which quantifies the value of eliminating parameter uncertainty. At a WTP threshold of \$125,000 per QALY, the EVPI is highest at \$9,577. For a more detailed description of CEAC, CEAF, ELC and EVPI interpretations and the R code to generate them, we refer the reader to previously published literature.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019}{29}}
+The CEAC and CEAF do not show the magnitude of the expected net benefit lost (i.e., expected loss) when the chosen strategy is not the cost-effective strategy in all the samples of the PSA. To complement these results, we quantify expected loss from each strategy over a range of WTP thresholds with the expected loss curves (ELCs). These curves quantify the expected loss from each strategy over a range of WTP thresholds (Figure \ref{fig:ELC}). The expected loss considers both the probability of making the wrong decision and the magnitude of the loss due to this decision, representing the foregone benefits of choosing a suboptimal strategy. The expected loss of the optimal strategy represents the lowest envelope of the ELCs because, given current information, the loss cannot be minimized further. The lower envelope also represents the expected value of perfect information (EVPI), which quantifies the value of eliminating parameter uncertainty. At a WTP threshold of \$125,000 per QALY, the EVPI is highest at \$9,577. For a more detailed description of CEAC, CEAF, ELC and EVPI interpretations and the R code to generate them, we refer the reader to previously published literature.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019}{29}}
 
 \begin{figure}[H]
 
