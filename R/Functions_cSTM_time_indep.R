@@ -17,18 +17,19 @@ decision_model <- function(l_params_all, verbose = FALSE) {
     r_S1D <- r_HD * hr_S1        # Mortality in the Sick state
     r_S2D <- r_HD * hr_S2        # Mortality in the Sick state
     # transform rates to probabilities
-    p_HD  <- rate_to_prob(r_HD)  # Mortality risk in the Healthy state
-    p_S1D <- rate_to_prob(r_S1D) # Mortality risk in the Sick state
-    p_S2D <- rate_to_prob(r_S2D) # Mortality risk in the Sicker state
+    p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # Mortality risk in the Healthy state
+    p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # Mortality risk in the Sick state
+    p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # Mortality risk in the Sicker state
     
     ## Transition probability of becoming Sicker when Sick for treatment B
     # transform probability to rate
-    r_S1S2      <- prob_to_rate(p = p_S1S2)
+    r_S1S2      <- prob_to_rate(p = p_S1S2, t = cycle_length)
     # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick for treatment B
     r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
     # transform rate to probability
-    p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB) # probability to become Sicker when Sick 
+    # probability to become Sicker when Sick 
     # under treatment B conditional on surviving
+    p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB, t = cycle_length) 
     
     ##################### Construct state-transition models ####################
     ## Initial state vector

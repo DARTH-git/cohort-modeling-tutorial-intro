@@ -2,7 +2,8 @@
 ### Time-independent cSTMs in R                                              ###
 ################################################################################
 # This code forms the basis for the state-transition model of the tutorial: 
-# 'An Introductory Tutorial to Cohort State-Transition Models in R' 
+# 'An Introductory Tutorial to Cohort State-Transition Models in R for 
+# Cost-Effectiveness Analysis' 
 # Authors: 
 # - Fernando Alarid-Escudero <fernando.alarid@cide.edu>
 # - Eline Krijkamp
@@ -23,10 +24,15 @@
 ############################# Code of Appendix ############################### 
 ##############################################################################
 # Implements a time-independent Sick-Sicker cSTM model                       #
-# Standard of Care (SoC): best available care for the patients with the disease. This scenario reflects the natural history of the disease progressions
-# Strategy A: treatment A is given to all sick patients, patients in sick and sicker, but does only improves the utility of those being sick.
-# Strategy B: treatment B reduces disease progression from sick to sicker. However, it is not possible to distinguish those sick from sicker and therefore all individuals in one of the two sick states get the treatment.  
-# Strategy AB: This strategy combines treatment A and treatment B. The disease progression is reduced and Sick individuals has an improved utility. 
+# - Standard of Care (SoC): best available care for the patients with the 
+# disease. This scenario reflects the natural history of the disease progression.
+# - Strategy A: treatment A is given to all sick patients, patients in sick and 
+# sicker, but does only improves the utility of those being sick.
+# - Strategy B: treatment B reduces disease progression from sick to sicker. 
+# However, it is not possible to distinguish those sick from sicker and 
+# therefore all individuals in one of the two sick states get the treatment.  
+# Strategy AB: This strategy combines treatment A and treatment B. The disease 
+# progression is reduced and Sick individuals has an improved utility. 
 
 ################################ Initial setup ############################### 
 rm(list = ls())    # remove any variables in R's memory 
@@ -63,6 +69,7 @@ source("R/Functions.R")
 
 ################################ Model input ################################# 
 ## General setup
+cycle_length <- 1                         # cycle length equal to one year
 n_age_init  <- 25                         # age at baseline
 n_age_max   <- 100                        # maximum age of follow up
 n_cycles    <- n_age_max - n_age_init     # time horizon, number of cycles
@@ -121,18 +128,19 @@ v_dwe  <- 1 / ((1 + d_c) ^ (0:n_cycles))
 r_S1D <- r_HD * hr_S1        # Mortality in the Sick state
 r_S2D <- r_HD * hr_S2        # Mortality in the Sick state
 # transform rates to probabilities
-p_HD  <- rate_to_prob(r_HD)  # Mortality risk in the Healthy state
-p_S1D <- rate_to_prob(r_S1D) # Mortality risk in the Sick state
-p_S2D <- rate_to_prob(r_S2D) # Mortality risk in the Sicker state
+p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # Mortality risk in the Healthy state
+p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # Mortality risk in the Sick state
+p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # Mortality risk in the Sicker state
 
 ## Transition probability of becoming Sicker when Sick for treatment B
 # transform probability to rate
-r_S1S2      <- prob_to_rate(p = p_S1S2)
+r_S1S2      <- prob_to_rate(p = p_S1S2, t = cycle_length)
 # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick for treatment B
 r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
 # transform rate to probability
-p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB) # probability to become Sicker when Sick 
-                                             # under treatment B conditional on surviving
+# probability to become Sicker when Sick 
+# under treatment B conditional on surviving
+p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB, t = cycle_length) 
 
 ####################### Construct state-transition models ######################
 ## Initial state vector
