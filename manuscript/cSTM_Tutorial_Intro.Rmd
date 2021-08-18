@@ -1,5 +1,5 @@
 ---
-title: 'An Introductory Tutorial to Cohort State-Transition Models in R for Cost-Effectiveness Analysis'
+title: 'An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example'
 author: 
   - Fernando Alarid-Escudero, PhD^[Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico]
   - Eline Krijkamp, MSc^[Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands]
