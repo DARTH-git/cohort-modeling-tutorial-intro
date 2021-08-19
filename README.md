@@ -15,16 +15,84 @@ following manuscript:
     Example](http://arxiv.org/abs/2001.07824). arXiv:200107824v3.
     2021:1-26.
 
+The release that accompanies the published article has been archived in
+zenodo: <https://zenodo.org/record/5093594#.YPYyDy1h1qs>
+
 The
 [`R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/tree/main/R)
 folder includes two different scripts corresponding to functions used to
-synthesize cSTMs outputs and conduct several sensitivity analyses: -
-[`Funtions.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions.R):
-Functions to generate epidemiological measures from time-dependent
-cSTMs. -
-[`Functions_cSTM_time_indep.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions_cSTM_time_indep.R):
-These functions wrap the time-dependent cSTM, compute CEA measures, and
-generate probabilistic sensitivity analysis (PSA) input datasets.
+synthesize cSTMs outputs and conduct several sensitivity analyses:
+
+-   [`Funtions.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions.R):
+    Functions to generate epidemiological measures from time-dependent
+    cSTMs.
+-   [`Functions_cSTM_time_indep.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions_cSTM_time_indep.R):
+    These functions wrap the time-dependent cSTM, compute CEA measures,
+    and generate probabilistic sensitivity analysis (PSA) input
+    datasets.
+
+## How to cite this R code in your article
+
+You can cite the R code in this repository like this “we based our
+analysis using the R code from Alarid-Escudero F et al. (2021)”. Here is
+the full bibliographic reference to include in your reference list for
+the manuscript and the R code (don’t forget to update the ‘last
+accessed’ date):
+
+> Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
+> Pechlivanoglou P, Jalal H. An Introductory Tutorial on Cohort
+> State-Transition Models in R Using a Cost-Effectiveness Analysis
+> Example (<http://arxiv.org/abs/2001.07824>). arXiv:200107824v3.
+> 2021:1-26.
+
+> Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
+> Pechlivanoglou P, Jalal H (2021). R Code for An Introductory Tutorial
+> on Cohort State-Transition Models in R Using a Cost-Effectiveness
+> Analysis Example (Version v0.9.0). Zenodo.
+> [10.5281/zenodo.5093594](https://www.doi.org/10.5281/zenodo.5093594).
+> Last accessed 19 August 2021.
+
+If you adapted the code, you should indicate “Adapted from:” or “Based
+on” so it is understood that you modified the code. For more information
+on how to cite computer code, we refer the user to review [Writing Code
+(from MIT Research
+Guide)](https://integrity.mit.edu/handbook/writing-code), which provides
+examples of how and when to cite computer code.
+
+## Preliminaries
+
+-   Install
+    [RStudio](https://www.rstudio.com/products/rstudio/download/)
+-   Install
+    [`dampack`](https://cran.r-project.org/web/packages/dampack/index.html)
+    R package from CRAN
+
+``` r
+# Install release version from CRAN
+install.packages("dampack")
+
+# Or install development version from GitHub
+# devtools::install_github("DARTH-git/dampack")
+```
+
+-   Install `devtools` to install
+    [`darthtools`](https://github.com/DARTH-git/darthtools) R package
+    from [DARTH’s GitHub](https://github.com/DARTH-git)
+
+``` r
+# Install release version from CRAN
+install.packages("devtools")
+
+# Or install development version from GitHub
+# devtools::install_github("r-lib/devtools")
+```
+
+-   Install `darthtools` using `devtools`
+
+``` r
+# Install development version from GitHub
+devtools::install_github("DARTH-git/darthtools")
+```
 
 We recommend familiarizing with the [DARTH](http://darthworkgroup.com)
 coding framework described in
@@ -40,6 +108,25 @@ To run the CEA, you require [`dampack`: Decision-Analytic Modeling
 Package](https://cran.r-project.org/web/packages/dampack/index.html), an
 R package for analyzing and visualizing the health economic outputs of
 decision models.
+
+## Use repository as a regular coding template
+
+1.  On the [tutorial’s GitHub
+    repository](https://github.com/DARTH-git/cohort-modeling-tutorial-intro),
+    navigate to the main page of the repository
+    (<https://github.com/DARTH-git/cohort-modeling-tutorial-intro>).
+2.  Above the file list, click **Clone or download** and select either
+    1.  **Open in desktop**, which requires the user to have a GitHub
+        desktop installed, or
+    2.  **Download zip** that will ask the user to download the whole
+        repository as a .zip file.
+3.  Open the RStudio project `cohort-modeling-tutorial-intro.Rproj`.
+4.  Install all the required packages (as mentioned above)
+    -   [`dampack`](https://cran.r-project.org/web/packages/dampack/index.html)
+    -   [`darthtools`](https://github.com/DARTH-git/darthtools)
+5.  Run the scripts in the analysis folder.
+6.  Modify or adapt these scripts as needed for your project or
+    analysis.
 
 ## Full list of Contributors:
 
