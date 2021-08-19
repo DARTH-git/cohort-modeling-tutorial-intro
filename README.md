@@ -48,7 +48,7 @@ accessed’ date):
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
 > Pechlivanoglou P, Jalal H (2021). R Code for An Introductory Tutorial
 > on Cohort State-Transition Models in R Using a Cost-Effectiveness
-> Analysis Example (Version v0.9.0). Zenodo.
+> Analysis Example (Version v0.1.0). Zenodo.
 > [10.5281/zenodo.5093594](https://www.doi.org/10.5281/zenodo.5093594).
 > Last accessed 19 August 2021.
 
