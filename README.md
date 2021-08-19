@@ -1,6 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<!-- [![DOI](https://zenodo.org/badge/331070175.svg)](https://zenodo.org/badge/latestdoi/331070175) -->
+
+[![DOI](https://zenodo.org/badge/357362984.svg)](https://zenodo.org/badge/latestdoi/357362984)
 
 # An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example
 
@@ -16,7 +17,7 @@ following manuscript:
     2021:1-26.
 
 The release that accompanies the published article has been archived in
-zenodo: <https://zenodo.org/record/5093594#.YPYyDy1h1qs>
+zenodo: <https://zenodo.org/badge/latestdoi/357362984>
 
 The
 [`R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/tree/main/R)
@@ -48,8 +49,8 @@ accessed’ date):
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
 > Pechlivanoglou P, Jalal H (2021). R Code for An Introductory Tutorial
 > on Cohort State-Transition Models in R Using a Cost-Effectiveness
-> Analysis Example (Version v0.1.0). Zenodo.
-> [10.5281/zenodo.5093594](https://www.doi.org/10.5281/zenodo.5093594).
+> Analysis Example (Version v0.1.1). Zenodo.
+> [10.5281/zenodo.5223093](https://www.doi.org/10.5281/zenodo.5223093).
 > Last accessed 19 August 2021.
 
 If you adapted the code, you should indicate “Adapted from:” or “Based

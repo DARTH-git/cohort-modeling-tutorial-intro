@@ -3,7 +3,7 @@ output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<!-- [![DOI](https://zenodo.org/badge/331070175.svg)](https://zenodo.org/badge/latestdoi/331070175) -->
+[![DOI](https://zenodo.org/badge/357362984.svg)](https://zenodo.org/badge/latestdoi/357362984)
 
 # An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example
 
@@ -11,7 +11,7 @@ This GitHub repository provides the code of the tutorial on how to implement tim
 
 - Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example](http://arxiv.org/abs/2001.07824). arXiv:200107824v3. 2021:1-26.
 
-The release that accompanies the published article has been archived in zenodo: https://zenodo.org/record/5093594#.YPYyDy1h1qs
+The release that accompanies the published article has been archived in zenodo: https://zenodo.org/badge/latestdoi/357362984
 
 The [`R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/tree/main/R) folder includes two different scripts corresponding to functions used to synthesize cSTMs outputs and conduct several sensitivity analyses:
 
@@ -24,7 +24,7 @@ You can cite the R code in this repository like this "we based our analysis usin
 
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example (http://arxiv.org/abs/2001.07824). arXiv:200107824v3. 2021:1-26. 
 
-> Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H (2021). R Code for An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example (Version v0.1.0). Zenodo. [10.5281/zenodo.5093594](https://www.doi.org/10.5281/zenodo.5093594). Last accessed 19 August 2021.
+> Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H (2021). R Code for An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example (Version v0.1.1). Zenodo. [10.5281/zenodo.5223093](https://www.doi.org/10.5281/zenodo.5223093). Last accessed 19 August 2021.
 
 If you adapted the code, you should indicate "Adapted from:" or "Based on" so it is understood that you modified the code. For more information on how to cite computer code, we refer the user to review [Writing Code (from MIT Research Guide)](https://integrity.mit.edu/handbook/writing-code), which provides examples of how and when to cite computer code.
 
