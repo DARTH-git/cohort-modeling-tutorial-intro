@@ -25,12 +25,12 @@ folder includes two different scripts corresponding to functions used to
 synthesize cSTMs outputs and conduct several sensitivity analyses:
 
 -   [`Funtions.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions.R):
-    Functions to generate epidemiological measures from time-dependent
+    Functions to generate epidemiological measures from time-independent
     cSTMs.
 -   [`Functions_cSTM_time_indep.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions_cSTM_time_indep.R):
-    These functions wrap the time-dependent cSTM, compute CEA measures,
-    and generate probabilistic sensitivity analysis (PSA) input
-    datasets.
+    These functions wrap the time-independent cSTM, compute CEA
+    measures, and generate probabilistic sensitivity analysis (PSA)
+    input datasets.
 
 ## How to cite this R code in your article
 
