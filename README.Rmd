@@ -15,8 +15,8 @@ The release that accompanies the published article has been archived in zenodo: 
 
 The [`R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/tree/main/R) folder includes two different scripts corresponding to functions used to synthesize cSTMs outputs and conduct several sensitivity analyses:
 
-   - [`Funtions.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions.R): Functions to generate epidemiological measures from time-dependent cSTMs.
-   - [`Functions_cSTM_time_indep.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions_cSTM_time_indep.R): These functions wrap the time-dependent cSTM, compute CEA measures, and generate probabilistic sensitivity analysis (PSA) input datasets.
+   - [`Funtions.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions.R): Functions to generate epidemiological measures from time-independent cSTMs.
+   - [`Functions_cSTM_time_indep.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions_cSTM_time_indep.R): These functions wrap the time-independent cSTM, compute CEA measures, and generate probabilistic sensitivity analysis (PSA) input datasets.
 
 ## How to cite this R code in your article
 
