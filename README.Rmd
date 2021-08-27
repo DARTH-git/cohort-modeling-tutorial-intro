@@ -7,7 +7,7 @@ output: github_document
 
 # An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example
 
-This GitHub repository provides the code of the tutorial on how to implement time-dependent cohort state-transition models (cSTMs) in R using a cost-effectiveness analysis (CEA) example, explained in the following manuscript: 
+This GitHub repository provides the code of the tutorial on how to implement time-independent cohort state-transition models (cSTMs) in R using a cost-effectiveness analysis (CEA) example, explained in the following manuscript: 
 
 - Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example](http://arxiv.org/abs/2001.07824). arXiv:200107824v3. 2021:1-26.
 
