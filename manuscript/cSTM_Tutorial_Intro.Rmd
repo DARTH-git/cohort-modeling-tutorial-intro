@@ -26,7 +26,7 @@ header-includes:
 - \renewcommand{\contentsname}{}\vspace{-.5cm} # Removes heading of Contents
 keywords: "Markov models, state-transition models, decision models, Tutorial, R"
 link-citations: yes
-csl: sage-vancouver.csl
+csl: vancouver-superscript.csl
 site: bookdown::bookdown_site
 tags:
 - Markov models
