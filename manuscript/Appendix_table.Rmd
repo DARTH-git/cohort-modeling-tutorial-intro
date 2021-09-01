@@ -88,6 +88,7 @@ This table contains an overview of the key model components used in the code for
 |              |  **Probabilistic analysis  structures**         |               |                 |                   |             |
 |              | Number of PSA iterations         | `n_sim`      | scalar          |                   | numeric     |
 |              | List that stores all the values of the input parameters     | `l_params_all`    |  list        |     | numeric   |
+|              | Data frame with the parameter values for each PSA iteration    | `df_psa_input`    |  data frame        |     | numeric   |
 |              | Vector with the names of all the input parameters    | `v_names_params`    |  vector      |     | character   |
 |              | List with the model outcomes of the PSA for all strategies    | `l_psa`    |  list        |     | numeric   |
 |              | Vector with a sequence of relevant willingness-to-pay values    | `v_wtp`    |  vector      |     | numeric   |
