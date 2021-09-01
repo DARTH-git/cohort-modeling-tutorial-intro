@@ -65,6 +65,7 @@ This table contains an overview of the key model components used in the code for
 |              | Additional costs treatment A    | `c_trtA`      | scalar          |                   | numeric   | 
 |              | Additional costs treatment B    | `c_trtB`      | scalar          |                   | numeric   | 
 |              | Vector of state costs for a strategy        | `v_c_str`    |  vector        | 1 x `n_states`    | numeric   |
+|              | list that stores the vectors of state costs for each strategy     | `l_c`    |  list        |     | numeric   |
 |              |                                 |               |                 |                   |           |
 |              | **Utility weights**             |               |                 |                   |           |
 |              |  Healthy individuals            | `u_H`         | scalar          |                   | numeric   |
@@ -73,19 +74,23 @@ This table contains an overview of the key model components used in the code for
 |              |  Dead individuals               | `u_D`         | scalar          |                   | numeric   | 
 |              |  Treated with treatment A       | `u_trtA`      | scalar          |                   | numeric   | 
 |              |  Vector of state utilities for a strategy        | `v_u_str`    |  vector        | 1 x `n_states`    | numeric   |
+|              |  List that stores the vectors of state utilities for each strategy     | `l_u`    |  list        |     | numeric   |
 |              |                                 |               |                 |                   |           |
 |              |  **Outcome structures**         |               |                 |                   |             |  
 |              | Expected QALYs per cycle under a strategy       | `v_qaly_str`    |  vector        | 1 x (`n_t` + 1)    | numeric   |
 |              | Expected costs per cycle under a strategy       | `v_cost_str`    |  vector        | 1 x (`n_t` + 1)    | numeric   |
-|              | Total expected discounted QALYs for a strategy  | `n_tot_qaly_str`|  scalar        |                    | numeric   |
-|              | Total expected discounted costs for a strategy  | `n_tot_cost_str`|  scalar        |                    | numeric   |
+|              | Vector of expected discounted QALYs for each strategy  | `v_tot_qaly`    |  vector       |    1 x `n_states`      | numeric   |
+|              | Vector of expected discounted costs for each strategy  | `v_tot_cost`|  vector        |  1 x `n_states`            | numeric   |
 |              | Summary matrix with costs and QALYS per strategy| `m_outcomes`    | table          |  `n_states`  x 2   |           |
 |              | Summary of the model outcomes                   | `df_cea`        | data frame     |                    |           |
 |              | Summary of the model outcomes                   | `table_cea`     | table          |                    |           |
 |              |                                 |               |                 |                   |           |
 |              |  **Probabilistic analysis  structures**         |               |                 |                   |             |
 |              | Number of PSA iterations         | `n_sim`      | scalar          |                   | numeric     |
-|              | Data frame with PSA input values for each iteration    | `df_psa_input`  | table          |                    |           |
-|              | Data frame to store the accumulated cost per strategy for each PSA iteration    | `df_c`  | table          |      `n_sim`  x `n_states `              |    numeric       |
-|              | Data frame to store the accumulated effects per strategy for each PSA iteration    | `df_e`  | table          |      `n_sim`  x `n_states `              |    numeric       |
+|              | List that stores all the values of the input parameters     | `l_params_all`    |  list        |     | numeric   |
+|              | Vector with the names of all the input parameters    | `v_names_params`    |  vector      |     | character   |
+|              | List with the model outcomes of the PSA for all strategies    | `l_psa`    |  list        |     | numeric   |
+|              | Vector with a sequence of relevant willingness-to-pay values    | `v_wtp`    |  vector      |     | numeric   |
+|              | Data frame to store expected costs and effects for each strategy from the PSA    | `df_out_ce_psa`  | table          |     |    numeric       |
+|              | Data frame to store incremental cost-effectiveness ratios (ICERs) from the PSA    | `df_cea_psa`  | table          |     |    numeric       |
 |              |     For more details about the PSA structures read the vignettes of `dampack`                            |               |                 |                   |           |
