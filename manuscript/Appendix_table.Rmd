@@ -89,31 +89,3 @@ This table contains an overview of the key model components used in the code for
 |              | Data frame to store the accumulated cost per strategy for each PSA iteration    | `df_c`  | table          |      `n_sim`  x `n_states `              |    numeric       |
 |              | Data frame to store the accumulated effects per strategy for each PSA iteration    | `df_e`  | table          |      `n_sim`  x `n_states `              |    numeric       |
 |              |     For more details about the PSA structures read the vignettes of `dampack`                            |               |                 |                   |           |
-
-
-
-### Table II: Input parameters for probabilistic analysis  
-| Parameter              | Distribution         | Distribution values      | Parameter mean       | Parameter standard error|
-|------------------------|----------------------|--------------------------|----------------------|---------|
-| Number of simulation   | `n_sim`              | 1000                     |                      |         |
-| - Constant rate of dying when Healthy (all-cause mortality)             |$Lognormal$ | $log(\mu)$ = $log(0.002)$   ,  $log(\sigma)$ = 0.01    | 0.002 |   0.00002|
-| Annual transition probabilities |                         |                          |                      |         |
-| - Disease onset (Healthy to Sick)                         |$Beta$ | \(\alpha\) = 30, \(\beta\) = 170       | 0.15 |   0.026 |
-| - Recovery (Sick to Healthy)                              |$Beta$ | \(\alpha\) = 60, \(\beta\) = 60        | 0.5   |   0.045 |
-| - Disease progression (Sick to Sicker) in the age-dependent model |$Beta$      | \(\alpha\) = 84, \(\beta\) = 716    | 0.106|   0.011  |
-| Risks of disease and treatment  |             |                          |                      |         |
-| - Hazard ratio of death in Sick vs Healthy                |$Lognormal$ | $log(\mu)$ = $log(3)$   ,  $log(\sigma)$ = 0.01      | 3    |   0.03  |
-| - Hazard ratio of death in Sicker vs Healthy              |$Lognormal$ | $log(\mu)$ = $log(10)$  ,  $log(\sigma)$ = 0.2       | 10   |   0.2     |
-| - Hazard ratio of Sick to Sicker under treatment B        |$Lognormal$ | $log(\mu)$ = $log(0.6)$  , $log(\sigma)$ = 0.2       |  0.60 |   0.013   |
-| Annual costs                                               |            |                                    |      |         |
-| - Healthy individuals                                      |$Gamma$     | $Shape$ = 100  , $Scale$ = 20      | 2000 |   200   |
-| - Sick individuals in Sick                                 |$Gamma$     | $Shape$ = 177.8, $Scale$ = 22.5    | 4000 |   300   |
-| - Sick individuals in Sicker                               |$Gamma$     | $Shape$ = 225  , $Scale$ = 66.7    | 15000|   1000  |
-| - Cost of treatment A for individuals in Sick or Sicker    |$Gamma$     | $Shape$ = 73.5, $Scale$ = 163.3    | 12000|   1400  |
-| - Cost of treatment B for individuals in Sick or Sicker    |$Gamma$     | $Shape$ = 86.2, $Scale$ = 150.8    | 13050|   1430  |
-| Utility weights                                            |            |                                    |      |         |
-| - Healthy individuals                                      |$Beta$      | \(\alpha\) = 200, \(\beta\) = 3    | 0.985|   0.008 |
-| - Sick individuals in Sick                                 |$Beta$      | \(\alpha\) = 130, \(\beta\) = 45   | 0.74 |   0.033 |
-| - Sick individuals in Sicker                               |$Beta$      | \(\alpha\) = 230, \(\beta\) = 230  | 0.5  |   0.023 |
-| - Individuals treated with treatment A                     |$Beta$      | \(\alpha\) = 300, \(\beta\) = 15   | 0.95 |   0.012 |
-
