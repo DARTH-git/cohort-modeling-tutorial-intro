@@ -64,7 +64,7 @@ This table contains an overview of the key model components used in the code for
 |              | Dead individuals                | `c_D`         | scalar          |                   | numeric   | 
 |              | Additional costs treatment A    | `c_trtA`      | scalar          |                   | numeric   | 
 |              | Additional costs treatment B    | `c_trtB`      | scalar          |                   | numeric   | 
-|              | Vector of state costs for a strategy A       | `v_c_str`    |  vector        | 1 x `n_states`    | numeric   |
+|              | Vector of state costs for a strategy        | `v_c_str`    |  vector        | 1 x `n_states`    | numeric   |
 |              |                                 |               |                 |                   |           |
 |              | **Utility weights**             |               |                 |                   |           |
 |              |  Healthy individuals            | `u_H`         | scalar          |                   | numeric   |
