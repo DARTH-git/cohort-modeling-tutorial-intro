@@ -91,6 +91,6 @@ This table contains an overview of the key model components used in the code for
 |              | Vector with the names of all the input parameters    | `v_names_params`    |  vector      |     | character   |
 |              | List with the model outcomes of the PSA for all strategies    | `l_psa`    |  list        |     | numeric   |
 |              | Vector with a sequence of relevant willingness-to-pay values    | `v_wtp`    |  vector      |     | numeric   |
-|              | Data frame to store expected costs and effects for each strategy from the PSA    | `df_out_ce_psa`  | table          |     |    numeric       |
-|              | Data frame to store incremental cost-effectiveness ratios (ICERs) from the PSA    | `df_cea_psa`  | table          |     |    numeric       |
+|              | Data frame to store expected costs and effects for each strategy from the PSA    | `df_out_ce_psa`  | data frame          |     |    numeric       |
+|              | Data frame to store incremental cost-effectiveness ratios (ICERs) from the PSA    | `df_cea_psa`  | data frame          |     |    numeric       |
 |              |     For more details about the PSA structures read the vignettes of `dampack`                            |               |                 |                   |           |
