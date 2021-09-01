@@ -1,5 +1,5 @@
 ---
-title: "Cohort State-Transition Models in R: A Tutorial - Part I"
+title: "An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example"
 subtitle: "Appendix"
 author: 
   - Fernando Alarid-Escudero, PhD^[Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico]
@@ -25,8 +25,9 @@ This table contains an overview of the key model components used in the code for
 
 | Element | Description                           | R name        | Data structure | Dimensions        | Data type   |
 |--------|----------------------------------------|--------------|-------------|---------------------|---------|
-| $n_t$        | Time horizon                     | `n_t`        | scalar          |                   | numeric     |
-| $v_s$        | Names of the health states       | `v_n`        | vector          | `n_states` x 1    | character   |
+| $n_t$        | Time horizon                     | `n_cycles`   | scalar          |                   | numeric     |
+|              | Cycle length                     | `cycle_length`| scalar         |                   | numeric     |
+| $v_s$        | Names of the health states       | `v_names_states`| vector       | `n_states` x 1    | character   |
 | $n_s$        | Number of health states          | `n_states`   | scalar          |                   | numeric     |
 | $v_{str}$    | Names of the strategies          | `v_names_str`| scalar          |                   | character   |
 | $n_{str}$    | Number of strategies             | `n_str`      | scalar          |                   | character   |
@@ -34,22 +35,27 @@ This table contains an overview of the key model components used in the code for
 | \(\mathbf{d_e}\)  | Discount rate for effects   | `d_e`        | scalar          |                   | numeric     |
 |              | Discount weights for costs       | `v_dwc`      | vector          | (`n_t` x 1 ) + 1  | numeric     | 
 |              | Discount weights for effects     | `v_dwe`      | vector          | (`n_t` x 1 ) + 1  | numeric     | 
+|              | Sequence of cycle numbers        | `v_cycles`   | vector          | (`n_t` x 1 ) + 1  | numeric     | 
 |\(\mathbf{wcc}\) | Within-cycle correction weights using Simpson's 1/3 rule    | `v_wcc`  | vector    | (`n_t` x 1 ) + 1  | numeric     |
 | $age_{_0}$   | Age at baseline                  | `n_age_init` | scalar          |                   | numeric     |
 | $age$        | Maximum age of follow up         | `n_age_max`  | scalar          |                   | numeric     |
 | \(M\)        | Cohort trace                     | `m_M`        | matrix          | (`n_t` + 1) x `n_states`    | numeric     |
-| \(m_0\)      | Initial state vector             | `v_s_init`   | vector          | 1 x `n_states`         | numeric     |
+| \(m_0\)      | Initial state vector             | `v_m_init`   | vector          | 1 x `n_states`         | numeric     |
 | \(m_t\)      | State vector in cycle t          | `v_mt`       | vector          | 1 x `n_states`         | numeric     |
 |              |                                  |              |                 |                   |             |
-|       |  **Transition probabilities**           |              |                 |                   |             |  
+|       |  **Transition probabilities and rates** |              |                 |                   |             |  
 | $p_{[H,S1]}$  | From Healthy to Sick conditional on surviving  | `p_HS1`      | scalar          |                   | numeric     |
 | $p_{[S1,H]}$  | From Sick to Healthy conditional on surviving  | `p_S1H`      | scalar          |                   | numeric     |
 | $p_{[S1,S2]}$ | From Sick to Sicker conditional on surviving   | `p_S1S2`     | scalar          |                   | numeric     |
+| $p_{[S1,S2]_{trtB}}$ | From Sicker to Sick under treatment B conditional on surviving   | `p_S1S2_trtB`     | scalar          |                   | numeric     |
 | $r_{[H,D]}$   | Constant rate of dying when Healthy (all-cause mortality rate)| `r_HD`       | scalar          |                   | numeric     |
+| $r_{[S1,S2]}$   | Constant rate of becoming Sicker when Sick   | `r_S1S2`       | scalar          |                   | numeric     |
+| $r_{[S1,S2]_{trtB}}$   | Constant rate of becoming Sicker when Sick for treatment B| `r_S1S2_trtB`       | scalar          |                   | numeric     |
 | $hr_{[S1,H]}$ | Hazard ratio of death in Sick vs Healthy       | `hr_S1`       | scalar          |                   | numeric     |
 | $hr_{[S2,H]}$ | Hazard ratio of death in Sicker vs Healthy     | `hr_S2`       | scalar          |                   | numeric     |
 | $hr_{[S1,S2]_{trtB}}$ | Hazard ratio of becoming Sicker when Sick under treatment B    | `hr_S1S2_trtB`| scalar   |  | numeric     |
-| \(P\)         | Time-independent transition probability matrix  | `m_P`  | matrix | `n_states` x `n_states`    | numeric     |
+| \(P\)         | Time-independent transition probability matrix*  | `m_P`  | matrix | `n_states` x `n_states`    | numeric     |
+|               |  * `_trtX` is used to specify for which strategy  the transition probability matrix is                              |               |                 |                   |           |
 |               |                                |               |                 |                   |           |
 |              | **Annual costs**                |               |                 |                   |           |
 |              | Healthy individuals             | `c_H`         | scalar          |                   | numeric   |
@@ -58,6 +64,7 @@ This table contains an overview of the key model components used in the code for
 |              | Dead individuals                | `c_D`         | scalar          |                   | numeric   | 
 |              | Additional costs treatment A    | `c_trtA`      | scalar          |                   | numeric   | 
 |              | Additional costs treatment B    | `c_trtB`      | scalar          |                   | numeric   | 
+|              | Vector of state costs for a strategy A       | `v_c_str`    |  vector        | 1 x `n_states`    | numeric   |
 |              |                                 |               |                 |                   |           |
 |              | **Utility weights**             |               |                 |                   |           |
 |              |  Healthy individuals            | `u_H`         | scalar          |                   | numeric   |
@@ -65,14 +72,25 @@ This table contains an overview of the key model components used in the code for
 |              |  Sick individuals in Sicker     | `u_S2`        | scalar          |                   | numeric   |
 |              |  Dead individuals               | `u_D`         | scalar          |                   | numeric   | 
 |              |  Treated with treatment A       | `u_trtA`      | scalar          |                   | numeric   | 
+|              |  Vector of state utilities for a strategy        | `v_u_str`    |  vector        | 1 x `n_states`    | numeric   |
 |              |                                 |               |                 |                   |           |
 |              |  **Outcome structures**         |               |                 |                   |             |  
 |              | Expected QALYs per cycle under a strategy       | `v_qaly_str`    |  vector        | 1 x (`n_t` + 1)    | numeric   |
 |              | Expected costs per cycle under a strategy       | `v_cost_str`    |  vector        | 1 x (`n_t` + 1)    | numeric   |
 |              | Total expected discounted QALYs for a strategy  | `n_tot_qaly_str`|  scalar        |                    | numeric   |
 |              | Total expected discounted costs for a strategy  | `n_tot_cost_str`|  scalar        |                    | numeric   |
-|              | Summary of the model outcomes   | `df_cea`       | data frame     |                    |           |
-|              | Summary of the model outcomes   | `table_cea`    | table          |                    |           |
+|              | Summary matrix with costs and QALYS per strategy| `m_outcomes`    | table          |  `n_states`  x 2   |           |
+|              | Summary of the model outcomes                   | `df_cea`        | data frame     |                    |           |
+|              | Summary of the model outcomes                   | `table_cea`     | table          |                    |           |
+|              |                                 |               |                 |                   |           |
+|              |  **Probabilistic analysis  structures**         |               |                 |                   |             |
+|              | Number of PSA iterations         | `n_sim`      | scalar          |                   | numeric     |
+|              | Data frame with PSA input values for each iteration    | `df_psa_input`  | table          |                    |           |
+|              | Data frame to store the accumulated cost per strategy for each PSA iteration    | `df_c`  | table          |      `n_sim`  x `n_states `              |    numeric       |
+|              | Data frame to store the accumulated effects per strategy for each PSA iteration    | `df_e`  | table          |      `n_sim`  x `n_states `              |    numeric       |
+|              |     For more details about the PSA structures read the vignettes of `dampack`                            |               |                 |                   |           |
+
+
 
 ### Table II: Input parameters for probabilistic analysis  
 | Parameter              | Distribution         | Distribution values      | Parameter mean       | Parameter standard error|
