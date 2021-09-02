@@ -1,0 +1,256 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  landscape]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example},
+  pdfauthor={Fernando Alarid-Escudero, PhD; Eline Krijkamp, MSc; Eva A. Enns, PhD; Alan Yang, MSc; Myriam G.M. Hunink, PhD\^{}\textbackslash dagger; Petros Pechlivanoglou, PhD; Hawre Jalal, MD, PhD},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{An Introductory Tutorial on Cohort State-Transition Models in R
+Using a Cost-Effectiveness Analysis Example}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Appendix}
+\author{Fernando Alarid-Escudero, PhD\footnote{Division of Public
+  Administration, Center for Research and Teaching in Economics (CIDE),
+  Aguascalientes, AGS, Mexico} \and Eline Krijkamp,
+MSc\footnote{Department of Epidemiology and Department of Radiology,
+  Erasmus University Medical Center, Rotterdam, The Netherlands} \and Eva
+A. Enns, PhD\footnote{Division of Health Policy and Management,
+  University of Minnesota School of Public Health, Minneapolis, MN, USA} \and Alan
+Yang, MSc\footnote{The Hospital for Sick Children, Toronto} \and Myriam
+G.M. Hunink, PhD\(^\dagger\)\footnote{Center for Health Decision
+  Sciences, Harvard T.H. Chan School of Public Health, Boston, USA} \and Petros
+Pechlivanoglou, PhD\footnote{The Hospital for Sick Children, Toronto and
+  University of Toronto, Toronto, Ontario, Canada} \and Hawre Jalal, MD,
+PhD\footnote{University of Pittsburgh, Pittsburgh, PA, USA}}
+\date{2021-09-01}
+
+\begin{document}
+\maketitle
+
+\hypertarget{cohort-tutorial-model-components}{%
+\subsection{Cohort tutorial model
+components}\label{cohort-tutorial-model-components}}
+
+\hypertarget{table-i}{%
+\subsubsection{Table I}\label{table-i}}
+
+This table contains an overview of the key model components used in the
+code for the Sick-Sicker example from the
+\href{http://darthworkgroup.com/}{DARTH} manuscript:
+\href{https://arxiv.org/abs/2001.07824}{``An Introductory Tutorial to
+Cohort State-Transition Models in R''}. The first column gives the
+mathematical notation for some of the model components that are used in
+the equations in the manuscript. The second column gives a description
+of the model component with the R name in the third column. The forth
+gives the data structure, e.g.~scalar, list, vector, matrix etc, with
+the according dimensions of this data structure in the fifth column. The
+final column indicated the type of data that is stored in the data
+structure, e.g.~numeric (5.2,6.3,7.4), category (A,B,C), integer
+(5,6,7), logical (TRUE, FALSE).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.10}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.33}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.14}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.14}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.17}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.12}}@{}}
+\toprule
+Parameter & Description & R name & Data structure & Dimensions & Data
+type \\
+\midrule
+\endhead
+\(n_t\) & Time horizon & \texttt{n\_cycles} & scalar & & numeric \\
+& Cycle length & \texttt{cycle\_length} & scalar & & numeric \\
+\(v_s\) & Names of the health states & \texttt{v\_names\_states} &
+vector & \texttt{n\_states} x 1 & character \\
+\(n_s\) & Number of health states & \texttt{n\_states} & scalar & &
+numeric \\
+\(v_{str}\) & Names of the strategies & \texttt{v\_names\_str} & scalar
+& & character \\
+\(n_{str}\) & Number of strategies & \texttt{n\_str} & scalar & &
+character \\
+\(d_c\) & Discount rate for costs & \texttt{d\_c} & scalar & &
+numeric \\
+\(d_e\) & Discount rate for effects & \texttt{d\_e} & scalar & &
+numeric \\
+\(\mathbf{d_c}\) & Discount weights vector for costs & \texttt{v\_dwc} &
+vector & (\texttt{n\_t} x 1 ) + 1 & numeric \\
+\(\mathbf{d_e}\) & Discount weights vector for effects & \texttt{v\_dwe}
+& vector & (\texttt{n\_t} x 1 ) + 1 & numeric \\
+& Sequence of cycle numbers & \texttt{v\_cycles} & vector &
+(\texttt{n\_t} x 1 ) + 1 & numeric \\
+\(\mathbf{wcc}\) & Within-cycle correction weights & \texttt{v\_wcc} &
+vector & (\texttt{n\_t} x 1 ) + 1 & numeric \\
+\(age_{_0}\) & Age at baseline & \texttt{n\_age\_init} & scalar & &
+numeric \\
+\(age\) & Maximum age of follow up & \texttt{n\_age\_max} & scalar & &
+numeric \\
+\(M\) & Cohort trace & \texttt{m\_M} & matrix & (\texttt{n\_t} + 1) x
+\texttt{n\_states} & numeric \\
+\(m_0\) & Initial state vector & \texttt{v\_m\_init} & vector & 1 x
+\texttt{n\_states} & numeric \\
+\(m_t\) & State vector in cycle \(t\) & \texttt{v\_mt} & vector & 1 x
+\texttt{n\_states} & numeric \\
+& & & & & \\
+& \textbf{Transition probabilities and rates} & & & & \\
+\(p_{[H,S1]}\) & From Healthy to Sick conditional on surviving &
+\texttt{p\_HS1} & scalar & & numeric \\
+\(p_{[S1,H]}\) & From Sick to Healthy conditional on surviving &
+\texttt{p\_S1H} & scalar & & numeric \\
+\(p_{[S1,S2]}\) & From Sick to Sicker conditional on surviving &
+\texttt{p\_S1S2} & scalar & & numeric \\
+\(p_{[S1,S2]_{trtB}}\) & From Sicker to Sick under treatment B
+conditional on surviving & \texttt{p\_S1S2\_trtB} & scalar & &
+numeric \\
+\(r_{[H,D]}\) & Constant rate of dying when Healthy (all-cause mortality
+rate) & \texttt{r\_HD} & scalar & & numeric \\
+\(r_{[S1,S2]}\) & Constant rate of becoming Sicker when Sick &
+\texttt{r\_S1S2} & scalar & & numeric \\
+\(r_{[S1,S2]_{trtB}}\) & Constant rate of becoming Sicker when Sick for
+treatment B & \texttt{r\_S1S2\_trtB} & scalar & & numeric \\
+\(hr_{[S1,H]}\) & Hazard ratio of death in Sick vs Healthy &
+\texttt{hr\_S1} & scalar & & numeric \\
+\(hr_{[S2,H]}\) & Hazard ratio of death in Sicker vs Healthy &
+\texttt{hr\_S2} & scalar & & numeric \\
+\(hr_{[S1,S2]_{trtB}}\) & Hazard ratio of becoming Sicker when Sick
+under treatment B & \texttt{hr\_S1S2\_trtB} & scalar & & numeric \\
+\(P\) & Time-independent transition probability matrix* & \texttt{m\_P}
+& matrix & \texttt{n\_states} x \texttt{n\_states} & numeric \\
+& * \texttt{\_trtX} is used to specify for which strategy the transition
+probability matrix is & & & & \\
+& & & & & \\
+& \textbf{Annual costs} & & & & \\
+& Healthy individuals & \texttt{c\_H} & scalar & & numeric \\
+& Sick individuals in Sick & \texttt{c\_S1} & scalar & & numeric \\
+& Sick individuals in Sicker & \texttt{c\_S2} & scalar & & numeric \\
+& Dead individuals & \texttt{c\_D} & scalar & & numeric \\
+& Additional costs treatment A & \texttt{c\_trtA} & scalar & &
+numeric \\
+& Additional costs treatment B & \texttt{c\_trtB} & scalar & &
+numeric \\
+& Vector of state costs for a strategy & \texttt{v\_c\_str} & vector & 1
+x \texttt{n\_states} & numeric \\
+& list that stores the vectors of state costs for each strategy &
+\texttt{l\_c} & list & & numeric \\
+& & & & & \\
+& \textbf{Utility weights} & & & & \\
+& Healthy individuals & \texttt{u\_H} & scalar & & numeric \\
+& Sick individuals in Sick & \texttt{u\_S1} & scalar & & numeric \\
+& Sick individuals in Sicker & \texttt{u\_S2} & scalar & & numeric \\
+& Dead individuals & \texttt{u\_D} & scalar & & numeric \\
+& Treated with treatment A & \texttt{u\_trtA} & scalar & & numeric \\
+& Vector of state utilities for a strategy & \texttt{v\_u\_str} & vector
+& 1 x \texttt{n\_states} & numeric \\
+& List that stores the vectors of state utilities for each strategy &
+\texttt{l\_u} & list & & numeric \\
+& & & & & \\
+& \textbf{Outcome structures} & & & & \\
+& Expected QALYs per cycle under a strategy & \texttt{v\_qaly\_str} &
+vector & 1 x (\texttt{n\_t} + 1) & numeric \\
+& Expected costs per cycle under a strategy & \texttt{v\_cost\_str} &
+vector & 1 x (\texttt{n\_t} + 1) & numeric \\
+& Vector of expected discounted QALYs for each strategy &
+\texttt{v\_tot\_qaly} & vector & 1 x \texttt{n\_states} & numeric \\
+& Vector of expected discounted costs for each strategy &
+\texttt{v\_tot\_cost} & vector & 1 x \texttt{n\_states} & numeric \\
+& Summary matrix with costs and QALYS per strategy &
+\texttt{m\_outcomes} & table & \texttt{n\_states} x 2 & \\
+& Summary of the model outcomes & \texttt{df\_cea} & data frame & & \\
+& Summary of the model outcomes & \texttt{table\_cea} & table & & \\
+& & & & & \\
+& \textbf{Probabilistic analysis structures} & & & & \\
+& Number of PSA iterations & \texttt{n\_sim} & scalar & & numeric \\
+& List that stores all the values of the input parameters &
+\texttt{l\_params\_all} & list & & numeric \\
+& Data frame with the parameter values for each PSA iteration &
+\texttt{df\_psa\_input} & data frame & & numeric \\
+& Vector with the names of all the input parameters &
+\texttt{v\_names\_params} & vector & & character \\
+& List with the model outcomes of the PSA for all strategies &
+\texttt{l\_psa} & list & & numeric \\
+& Vector with a sequence of relevant willingness-to-pay values &
+\texttt{v\_wtp} & vector & & numeric \\
+& Data frame to store expected costs and effects for each strategy from
+the PSA & \texttt{df\_out\_ce\_psa} & data frame & & numeric \\
+& Data frame to store incremental cost-effectiveness ratios (ICERs) from
+the PSA & \texttt{df\_cea\_psa} & data frame & & numeric \\
+& For more details about the PSA structures read \texttt{dampack}'s
+vignettes & & & & \\
+\bottomrule
+\end{longtable}
+
+\end{document}

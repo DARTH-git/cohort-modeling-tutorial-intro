@@ -10,7 +10,9 @@ author:
   - Petros Pechlivanoglou, PhD^[The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada]
   - Hawre Jalal, MD, PhD^[University of Pittsburgh, Pittsburgh, PA, USA]
 date: '`r Sys.Date()`'
-output: pdf_document
+output: 
+  pdf_document:
+    keep_tex: yes
 classoption: landscape
 ---
 
@@ -20,33 +22,33 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Cohort tutorial model components
 ### Table I
-This table contains an overview of the key model components used in the code for the Sick-Sicker example from the [DARTH](http://darthworkgroup.com/publications/) manuscript: “An Introductory Tutorial to Cohort State-Transition Models in R”. The first column gives the mathematical notation for some of the model components that are used in the equations in the manuscript. The second column gives a description of the model component with the R name in the third column. The forth gives the data structure, e.g. scalar, list, vector, matrix etc, with the according dimensions of this data structure in the fifth column. The final column indicated the type of data that is stored in the data structure, e.g. numeric (5.2,6.3,7.4), category (A,B,C), integer (5,6,7), logical (TRUE, FALSE).
+This table contains an overview of the key model components used in the code for the Sick-Sicker example from the [DARTH](http://darthworkgroup.com/) manuscript: [“An Introductory Tutorial to Cohort State-Transition Models in R”](https://arxiv.org/abs/2001.07824). The first column gives the mathematical notation for some of the model components that are used in the equations in the manuscript. The second column gives a description of the model component with the R name in the third column. The forth gives the data structure, e.g. scalar, list, vector, matrix etc, with the according dimensions of this data structure in the fifth column. The final column indicated the type of data that is stored in the data structure, e.g. numeric (5.2,6.3,7.4), category (A,B,C), integer (5,6,7), logical (TRUE, FALSE).
 
 
-| Element | Description                           | R name        | Data structure | Dimensions        | Data type   |
-|--------|----------------------------------------|--------------|-------------|---------------------|---------|
+| Parameter | Description                         | R name        | Data structure | Dimensions        | Data type   |
+|-----------|-------------------------------------|---------------|----------------|-------------------|-------------|
 | $n_t$        | Time horizon                     | `n_cycles`   | scalar          |                   | numeric     |
 |              | Cycle length                     | `cycle_length`| scalar         |                   | numeric     |
 | $v_s$        | Names of the health states       | `v_names_states`| vector       | `n_states` x 1    | character   |
 | $n_s$        | Number of health states          | `n_states`   | scalar          |                   | numeric     |
 | $v_{str}$    | Names of the strategies          | `v_names_str`| scalar          |                   | character   |
 | $n_{str}$    | Number of strategies             | `n_str`      | scalar          |                   | character   |
-| \(\mathbf{d_c}\)  | Discount rate for costs     | `d_c`        | scalar          |                   | numeric     |
-| \(\mathbf{d_e}\)  | Discount rate for effects   | `d_e`        | scalar          |                   | numeric     |
-|              | Discount weights for costs       | `v_dwc`      | vector          | (`n_t` x 1 ) + 1  | numeric     | 
-|              | Discount weights for effects     | `v_dwe`      | vector          | (`n_t` x 1 ) + 1  | numeric     | 
+| \(d_c\)      | Discount rate for costs          | `d_c`        | scalar          |                   | numeric     |
+| \(d_e\)      | Discount rate for effects        | `d_e`        | scalar          |                   | numeric     |
+| \(\mathbf{d_c}\) | Discount weights vector for costs  | `v_dwc`      | vector    | (`n_t` x 1 ) + 1  | numeric     | 
+| \(\mathbf{d_e}\) | Discount weights vector for effects| `v_dwe`      | vector    | (`n_t` x 1 ) + 1  | numeric     | 
 |              | Sequence of cycle numbers        | `v_cycles`   | vector          | (`n_t` x 1 ) + 1  | numeric     | 
-|\(\mathbf{wcc}\) | Within-cycle correction weights using Simpson's 1/3 rule    | `v_wcc`  | vector    | (`n_t` x 1 ) + 1  | numeric     |
+|\(\mathbf{wcc}\) | Within-cycle correction weights | `v_wcc`    | vector          | (`n_t` x 1 ) + 1  | numeric     |
 | $age_{_0}$   | Age at baseline                  | `n_age_init` | scalar          |                   | numeric     |
 | $age$        | Maximum age of follow up         | `n_age_max`  | scalar          |                   | numeric     |
-| \(M\)        | Cohort trace                     | `m_M`        | matrix          | (`n_t` + 1) x `n_states`    | numeric     |
-| \(m_0\)      | Initial state vector             | `v_m_init`   | vector          | 1 x `n_states`         | numeric     |
-| \(m_t\)      | State vector in cycle t          | `v_mt`       | vector          | 1 x `n_states`         | numeric     |
+| \(M\)        | Cohort trace           | `m_M`        | matrix          | (`n_t` + 1) x `n_states`    | numeric     |
+| \(m_0\)      | Initial state vector             | `v_m_init`   | vector          | 1 x `n_states`    | numeric     |
+| \(m_t\)      | State vector in cycle $t$          | `v_mt`       | vector          | 1 x `n_states`    | numeric     |
 |              |                                  |              |                 |                   |             |
 |       |  **Transition probabilities and rates** |              |                 |                   |             |  
-| $p_{[H,S1]}$  | From Healthy to Sick conditional on surviving  | `p_HS1`      | scalar          |                   | numeric     |
-| $p_{[S1,H]}$  | From Sick to Healthy conditional on surviving  | `p_S1H`      | scalar          |                   | numeric     |
-| $p_{[S1,S2]}$ | From Sick to Sicker conditional on surviving   | `p_S1S2`     | scalar          |                   | numeric     |
+| $p_{[H,S1]}$  | From Healthy to Sick conditional on surviving  | `p_HS1`      | scalar     |         | numeric     |
+| $p_{[S1,H]}$  | From Sick to Healthy conditional on surviving  | `p_S1H`      | scalar     |         | numeric     |
+| $p_{[S1,S2]}$ | From Sick to Sicker conditional on surviving   | `p_S1S2`     | scalar     |         | numeric     |
 | $p_{[S1,S2]_{trtB}}$ | From Sicker to Sick under treatment B conditional on surviving   | `p_S1S2_trtB`     | scalar          |                   | numeric     |
 | $r_{[H,D]}$   | Constant rate of dying when Healthy (all-cause mortality rate)| `r_HD`       | scalar          |                   | numeric     |
 | $r_{[S1,S2]}$   | Constant rate of becoming Sicker when Sick   | `r_S1S2`       | scalar          |                   | numeric     |
@@ -94,4 +96,4 @@ This table contains an overview of the key model components used in the code for
 |              | Vector with a sequence of relevant willingness-to-pay values    | `v_wtp`    |  vector      |     | numeric   |
 |              | Data frame to store expected costs and effects for each strategy from the PSA    | `df_out_ce_psa`  | data frame          |     |    numeric       |
 |              | Data frame to store incremental cost-effectiveness ratios (ICERs) from the PSA    | `df_cea_psa`  | data frame          |     |    numeric       |
-|              |     For more details about the PSA structures read the vignettes of `dampack`                            |               |                 |                   |           |
+|              |     For more details about the PSA structures read `dampack`'s vignettes |               |                 |                   |           |
