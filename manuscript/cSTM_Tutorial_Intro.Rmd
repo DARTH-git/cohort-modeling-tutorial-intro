@@ -385,7 +385,7 @@ r_S1S2 <- -log(1 - p_S1S2)/cycle_length
 r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
 # transform rate to probability
 # probability to become Sicker when Sick 
-# under treatment B conditional on surviving
+# under treatment B
 p_S1S2_trtB <- 1 - exp(-r_S1S2_trtB * cycle_length) 
 ```
 
