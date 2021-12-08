@@ -328,15 +328,15 @@ n_cycles <- (n_age_max - n_age_init)/cycle_length # time horizon, number of cycl
 v_names_states <- c("H", "S1", "S2", "D") # the 4 health states of the model:
                                # Healthy (H), Sick (S1), Sicker (S2), Dead (D)
 n_states <- length(v_names_states) # number of health states 
-d_e <- 0.03 # discount rate for QALYs of 3% per cycle 
-d_c <- 0.03 # discount rate for costs of 3% per cycle 
+d_e <- 0.03 # annual discount rate for QALYs of 3%
+d_c <- 0.03 # annual discount rate for costs of 3%
 v_names_str <- c("Standard of care", # store the strategy names
                  "Strategy A", 
                  "Strategy B",
                  "Strategy AB") 
 
 ## Transition probabilities (annual), and hazard ratios (HRs)
-r_HD    <- 0.002 # constant rate of dying when Healthy (all-cause mortality rate)
+r_HD    <- 0.002 # constant annual rate of dying when Healthy (all-cause mortality rate)
 p_HS1   <- 0.15  # probability of becoming Sick when Healthy
 p_S1H   <- 0.5   # probability of becoming Healthy when Sick
 p_S1S2  <- 0.105 # probability of becoming Sicker when Sick
@@ -348,31 +348,31 @@ hr_S1S2_trtB <- 0.6 # hazard ratio of becoming Sicker when Sick under treatment 
 
 ## State rewards
 ## Costs
-c_H    <- 2000  # cost of being Healthy for one cycle 
-c_S1   <- 4000  # cost of being Sick for one cycle 
-c_S2   <- 15000 # cost of being Sicker for one cycle
-c_D    <- 0     # cost of being dead for one cycle
-c_trtA <- 12000 # cost of receiving treatment A for one cycle
-c_trtB <- 13000 # cost of receiving treatment B for one cycle 
+c_H    <- 2000  # annual cost of being Healthy
+c_S1   <- 4000  # annual cost of being Sick
+c_S2   <- 15000 # annual cost of being Sicker
+c_D    <- 0     # annual cost of being dead
+c_trtA <- 12000 # annual cost of receiving treatment A
+c_trtB <- 13000 # annual cost of receiving treatment B
 # Utilities
-u_H    <- 1     # utility of being Healthy for one cycle 
-u_S1   <- 0.75  # utility of being Sick for one cycle 
-u_S2   <- 0.5   # utility of being Sicker for one cycle
-u_D    <- 0     # utility of being dead for one cycle
-u_trtA <- 0.95  # utility when receiving treatment A for one cycle
+u_H    <- 1     # annual utility of being Healthy
+u_S1   <- 0.75  # annual utility of being Sick
+u_S2   <- 0.5   # annual utility of being Sicker
+u_D    <- 0     # annual utility of being dead
+u_trtA <- 0.95  # annual utility when receiving treatment A
 ```
 
 To compute the background mortality risk, `p_HD`, from the background mortality rate for the same cycle length (i.e., `cycle_length = 1`), we apply Equation \@ref(eq:rate-to-prob-ann) to `r_HD`. To compute the mortality risks of the cohort in S1 and S2, we multiply the background mortality rate `r_HD` by the hazard ratios `hr_S1` and `hr_S2`, respectively, and then convert back to probabilities using Equation \@ref(eq:rate-to-prob-ann). These calculations are required because hazard ratios only apply to rates and not to probabilities. The code below performs the computation in R. In the `darthtools` package (https://github.com/DARTH-git/darthtools), we provide R functions that compute transformations between rates and probabilities since these transformations are frequently used.
 
 ```{r Sick-Sicker-Params, eval=TRUE}
 ## Mortality rates
-r_S1D <- r_HD * hr_S1 # rate of dying when Sick
-r_S2D <- r_HD * hr_S2 # rate of dying when Sicker
+r_S1D <- r_HD * hr_S1 # annual rate of dying when Sick
+r_S2D <- r_HD * hr_S2 # annual rate of dying when Sicker
 ## Probabilities of dying
 cycle_length <- 1
-p_HD  <- 1 - exp(-r_HD * cycle_length)  # background mortality risk (i.e., probability)
-p_S1D <- 1 - exp(-r_S1D * cycle_length) # probability of dying when Sick
-p_S2D <- 1 - exp(-r_S2D * cycle_length) # probability of dying when Sicker
+p_HD  <- 1 - exp(-r_HD * cycle_length)  # annual background mortality risk (i.e., probability)
+p_S1D <- 1 - exp(-r_S1D * cycle_length) # annual probability of dying when Sick
+p_S2D <- 1 - exp(-r_S2D * cycle_length) # annual probability of dying when Sicker
 ```
 
 To compute the risk of progression from S1 to S2 under treatment B, we first transform `p_S1S2` to a rate, `r_S1S2`, using Equation \@ref(eq:prob-to-rate-ann). Then, we multiply the hazard ratio of treatment B by the rate of progressing from S1 to S2 and transform it back to probabilities by applying Equation \@ref(eq:rate-to-prob-ann).

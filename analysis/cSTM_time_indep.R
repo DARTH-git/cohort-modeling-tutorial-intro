@@ -81,8 +81,8 @@ v_names_states <- c("H",  # the 4 health states of the model:
 n_states    <- length(v_names_states)     # number of health states 
 
 # Discounting factors
-d_c         <- 0.03                       # discount rate for costs 
-d_e         <- 0.03                       # discount rate for QALYs
+d_c <- 0.03 # annual discount rate for costs 
+d_e <- 0.03 # annual discount rate for QALYs
 
 # Strategies
 v_names_str <- c("Standard of care",      # store the strategy names
@@ -96,7 +96,7 @@ v_wcc <- darthtools::gen_wcc(n_cycles = n_cycles,
                              method = "Simpson1/3") # vector of wcc
 
 ## Transition probabilities (annual), and hazard ratios (HRs)
-r_HD   <- 0.002 # constant rate of dying when Healthy (all-cause mortality)
+r_HD   <- 0.002 # constant annual rate of dying when Healthy (all-cause mortality)
 p_HS1  <- 0.15  # probability to become Sick when Healthy conditional on surviving
 p_S1H  <- 0.5   # probability to become Healthy when Sick conditional on surviving
 p_S1S2 <- 0.105 # probability to become Sicker when Sick conditional on surviving
@@ -108,18 +108,18 @@ hr_S1S2_trtB <- 0.6  # hazard ratio of becoming Sicker when Sick under treatment
 
 ## State rewards
 # Costs
-c_H    <- 2000  # cost of remaining one cycle in Healthy 
-c_S1   <- 4000  # cost of remaining one cycle in Sick 
-c_S2   <- 15000 # cost of remaining one cycle in Sicker 
-c_D    <- 0     # cost of being dead (per cycle)
-c_trtA <- 12000 # cost of treatment A
-c_trtB <- 13000 # cost of treatment B
+c_H    <- 2000  # annual cost of being Healthy
+c_S1   <- 4000  # annual cost of being Sick
+c_S2   <- 15000 # annual cost of being Sicker
+c_D    <- 0     # annual cost of being dead
+c_trtA <- 12000 # annual cost of receiving treatment A
+c_trtB <- 13000 # annual cost of receiving treatment B
 # Utilities
-u_H    <- 1     # utility when Healthy 
-u_S1   <- 0.75  # utility when Sick 
-u_S2   <- 0.5   # utility when Sicker
-u_D    <- 0     # utility when Dead 
-u_trtA <- 0.95  # utility when being treated with A
+u_H    <- 1     # annual utility of being Healthy
+u_S1   <- 0.75  # annual utility of being Sick
+u_S2   <- 0.5   # annual utility of being Sicker
+u_D    <- 0     # annual utility of being dead
+u_trtA <- 0.95  # annual utility when receiving treatment A
 
 # Discount weight for costs and effects
 v_dwc  <- 1 / ((1 + d_e) ^ (0:n_cycles))
@@ -128,14 +128,14 @@ v_dwe  <- 1 / ((1 + d_c) ^ (0:n_cycles))
 ### Process model inputs
 ## Transition probabilities to the Dead state
 # compute mortality rates
-r_S1D <- r_HD * hr_S1        # Mortality in the Sick state
-r_S2D <- r_HD * hr_S2        # Mortality in the Sick state
+r_S1D <- r_HD * hr_S1 # annual mortality rate in the Sick state
+r_S2D <- r_HD * hr_S2 # annual mortality rate in the Sicker state
 # transform rates to probabilities
-p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # Mortality risk in the Healthy state
-p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # Mortality risk in the Sick state
-p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # Mortality risk in the Sicker state
+p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # annual mortality risk in the Healthy state
+p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # annual mortality risk in the Sick state
+p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # annual mortality risk in the Sicker state
 
-## Transition probability of becoming Sicker when Sick for treatment B
+## Annual transition probability of becoming Sicker when Sick for treatment B
 # transform probability to rate
 r_S1S2      <- prob_to_rate(p = p_S1S2, t = cycle_length)
 # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick for treatment B

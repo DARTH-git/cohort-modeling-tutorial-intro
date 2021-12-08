@@ -373,15 +373,15 @@ The following sections include R code snippets. All R code is stored as a GitHub
 \NormalTok{v\_names\_states }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"S1"}\NormalTok{, }\StringTok{"S2"}\NormalTok{, }\StringTok{"D"}\NormalTok{) }\CommentTok{\# the 4 health states of the model:}
                                \CommentTok{\# Healthy (H), Sick (S1), Sicker (S2), Dead (D)}
 \NormalTok{n\_states }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(v\_names\_states) }\CommentTok{\# number of health states }
-\NormalTok{d\_e }\OtherTok{\textless{}{-}} \FloatTok{0.03} \CommentTok{\# discount rate for QALYs of 3\% per cycle }
-\NormalTok{d\_c }\OtherTok{\textless{}{-}} \FloatTok{0.03} \CommentTok{\# discount rate for costs of 3\% per cycle }
+\NormalTok{d\_e }\OtherTok{\textless{}{-}} \FloatTok{0.03} \CommentTok{\# annual discount rate for QALYs of 3\%}
+\NormalTok{d\_c }\OtherTok{\textless{}{-}} \FloatTok{0.03} \CommentTok{\# annual discount rate for costs of 3\%}
 \NormalTok{v\_names\_str }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Standard of care"}\NormalTok{, }\CommentTok{\# store the strategy names}
                  \StringTok{"Strategy A"}\NormalTok{, }
                  \StringTok{"Strategy B"}\NormalTok{,}
                  \StringTok{"Strategy AB"}\NormalTok{) }
 
 \DocumentationTok{\#\# Transition probabilities (annual), and hazard ratios (HRs)}
-\NormalTok{r\_HD    }\OtherTok{\textless{}{-}} \FloatTok{0.002} \CommentTok{\# constant rate of dying when Healthy (all{-}cause mortality rate)}
+\NormalTok{r\_HD    }\OtherTok{\textless{}{-}} \FloatTok{0.002} \CommentTok{\# constant annual rate of dying when Healthy (all{-}cause mortality rate)}
 \NormalTok{p\_HS1   }\OtherTok{\textless{}{-}} \FloatTok{0.15}  \CommentTok{\# probability of becoming Sick when Healthy}
 \NormalTok{p\_S1H   }\OtherTok{\textless{}{-}} \FloatTok{0.5}   \CommentTok{\# probability of becoming Healthy when Sick}
 \NormalTok{p\_S1S2  }\OtherTok{\textless{}{-}} \FloatTok{0.105} \CommentTok{\# probability of becoming Sicker when Sick}
@@ -393,18 +393,18 @@ The following sections include R code snippets. All R code is stored as a GitHub
 
 \DocumentationTok{\#\# State rewards}
 \DocumentationTok{\#\# Costs}
-\NormalTok{c\_H    }\OtherTok{\textless{}{-}} \DecValTok{2000}  \CommentTok{\# cost of being Healthy for one cycle }
-\NormalTok{c\_S1   }\OtherTok{\textless{}{-}} \DecValTok{4000}  \CommentTok{\# cost of being Sick for one cycle }
-\NormalTok{c\_S2   }\OtherTok{\textless{}{-}} \DecValTok{15000} \CommentTok{\# cost of being Sicker for one cycle}
-\NormalTok{c\_D    }\OtherTok{\textless{}{-}} \DecValTok{0}     \CommentTok{\# cost of being dead for one cycle}
-\NormalTok{c\_trtA }\OtherTok{\textless{}{-}} \DecValTok{12000} \CommentTok{\# cost of receiving treatment A for one cycle}
-\NormalTok{c\_trtB }\OtherTok{\textless{}{-}} \DecValTok{13000} \CommentTok{\# cost of receiving treatment B for one cycle }
+\NormalTok{c\_H    }\OtherTok{\textless{}{-}} \DecValTok{2000}  \CommentTok{\# annual cost of being Healthy}
+\NormalTok{c\_S1   }\OtherTok{\textless{}{-}} \DecValTok{4000}  \CommentTok{\# annual cost of being Sick}
+\NormalTok{c\_S2   }\OtherTok{\textless{}{-}} \DecValTok{15000} \CommentTok{\# annual cost of being Sicker}
+\NormalTok{c\_D    }\OtherTok{\textless{}{-}} \DecValTok{0}     \CommentTok{\# annual cost of being dead}
+\NormalTok{c\_trtA }\OtherTok{\textless{}{-}} \DecValTok{12000} \CommentTok{\# annual cost of receiving treatment A}
+\NormalTok{c\_trtB }\OtherTok{\textless{}{-}} \DecValTok{13000} \CommentTok{\# annual cost of receiving treatment B}
 \CommentTok{\# Utilities}
-\NormalTok{u\_H    }\OtherTok{\textless{}{-}} \DecValTok{1}     \CommentTok{\# utility of being Healthy for one cycle }
-\NormalTok{u\_S1   }\OtherTok{\textless{}{-}} \FloatTok{0.75}  \CommentTok{\# utility of being Sick for one cycle }
-\NormalTok{u\_S2   }\OtherTok{\textless{}{-}} \FloatTok{0.5}   \CommentTok{\# utility of being Sicker for one cycle}
-\NormalTok{u\_D    }\OtherTok{\textless{}{-}} \DecValTok{0}     \CommentTok{\# utility of being dead for one cycle}
-\NormalTok{u\_trtA }\OtherTok{\textless{}{-}} \FloatTok{0.95}  \CommentTok{\# utility when receiving treatment A for one cycle}
+\NormalTok{u\_H    }\OtherTok{\textless{}{-}} \DecValTok{1}     \CommentTok{\# annual utility of being Healthy}
+\NormalTok{u\_S1   }\OtherTok{\textless{}{-}} \FloatTok{0.75}  \CommentTok{\# annual utility of being Sick}
+\NormalTok{u\_S2   }\OtherTok{\textless{}{-}} \FloatTok{0.5}   \CommentTok{\# annual utility of being Sicker}
+\NormalTok{u\_D    }\OtherTok{\textless{}{-}} \DecValTok{0}     \CommentTok{\# annual utility of being dead}
+\NormalTok{u\_trtA }\OtherTok{\textless{}{-}} \FloatTok{0.95}  \CommentTok{\# annual utility when receiving treatment A}
 \end{Highlighting}
 \end{Shaded}
 
@@ -413,13 +413,13 @@ To compute the background mortality risk, \texttt{p\_HD}, from the background mo
 \begin{Shaded}
 \begin{Highlighting}[]
 \DocumentationTok{\#\# Mortality rates}
-\NormalTok{r\_S1D }\OtherTok{\textless{}{-}}\NormalTok{ r\_HD }\SpecialCharTok{*}\NormalTok{ hr\_S1 }\CommentTok{\# rate of dying when Sick}
-\NormalTok{r\_S2D }\OtherTok{\textless{}{-}}\NormalTok{ r\_HD }\SpecialCharTok{*}\NormalTok{ hr\_S2 }\CommentTok{\# rate of dying when Sicker}
+\NormalTok{r\_S1D }\OtherTok{\textless{}{-}}\NormalTok{ r\_HD }\SpecialCharTok{*}\NormalTok{ hr\_S1 }\CommentTok{\# annual rate of dying when Sick}
+\NormalTok{r\_S2D }\OtherTok{\textless{}{-}}\NormalTok{ r\_HD }\SpecialCharTok{*}\NormalTok{ hr\_S2 }\CommentTok{\# annual rate of dying when Sicker}
 \DocumentationTok{\#\# Probabilities of dying}
 \NormalTok{cycle\_length }\OtherTok{\textless{}{-}} \DecValTok{1}
-\NormalTok{p\_HD  }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_HD }\SpecialCharTok{*}\NormalTok{ cycle\_length)  }\CommentTok{\# background mortality risk (i.e., probability)}
-\NormalTok{p\_S1D }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S1D }\SpecialCharTok{*}\NormalTok{ cycle\_length) }\CommentTok{\# probability of dying when Sick}
-\NormalTok{p\_S2D }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S2D }\SpecialCharTok{*}\NormalTok{ cycle\_length) }\CommentTok{\# probability of dying when Sicker}
+\NormalTok{p\_HD  }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_HD }\SpecialCharTok{*}\NormalTok{ cycle\_length)  }\CommentTok{\# annual background mortality risk (i.e., probability)}
+\NormalTok{p\_S1D }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S1D }\SpecialCharTok{*}\NormalTok{ cycle\_length) }\CommentTok{\# annual probability of dying when Sick}
+\NormalTok{p\_S2D }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S2D }\SpecialCharTok{*}\NormalTok{ cycle\_length) }\CommentTok{\# annual probability of dying when Sicker}
 \end{Highlighting}
 \end{Shaded}
 

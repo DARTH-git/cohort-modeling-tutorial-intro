@@ -14,14 +14,14 @@ decision_model <- function(l_params_all, verbose = FALSE) {
     ########################### Process model inputs ###########################
     ## Transition probabilities to the Dead state
     # compute mortality rates
-    r_S1D <- r_HD * hr_S1        # Mortality in the Sick state
-    r_S2D <- r_HD * hr_S2        # Mortality in the Sick state
+    r_S1D <- r_HD * hr_S1 # annual mortality rate in the Sick state
+    r_S2D <- r_HD * hr_S2 # annual mortality rate in the Sicker state
     # transform rates to probabilities
-    p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # Mortality risk in the Healthy state
-    p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # Mortality risk in the Sick state
-    p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # Mortality risk in the Sicker state
+    p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # annual mortality risk in the Healthy state
+    p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # annual mortality risk in the Sick state
+    p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # annual mortality risk in the Sicker state
     
-    ## Transition probability of becoming Sicker when Sick for treatment B
+    ## Annual transition probability of becoming Sicker when Sick for treatment B
     # transform probability to rate
     r_S1S2      <- prob_to_rate(p = p_S1S2, t = cycle_length)
     # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick for treatment B
