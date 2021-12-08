@@ -154,7 +154,7 @@
 
 \title{An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example}
 \author{Fernando Alarid-Escudero, PhD\footnote{Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico} \and Eline Krijkamp, MSc\footnote{Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands} \and Eva A. Enns, PhD\footnote{Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA} \and Alan Yang, MSc\footnote{The Hospital for Sick Children, Toronto} \and Myriam G.M. Hunink, PhD\(^\dagger\)\footnote{Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA} \and Petros Pechlivanoglou, PhD\footnote{The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada} \and Hawre Jalal, MD, PhD\footnote{University of Pittsburgh, Pittsburgh, PA, USA}}
-\date{2021-09-02}
+\date{2021-12-08}
 
 \begin{document}
 \maketitle
@@ -366,10 +366,10 @@ The following sections include R code snippets. All R code is stored as a GitHub
 \begin{Shaded}
 \begin{Highlighting}[]
 \DocumentationTok{\#\# General setup}
-\NormalTok{cycle\_length }\OtherTok{\textless{}{-}} \DecValTok{1} \CommentTok{\# cycle length equal one year}
+\NormalTok{cycle\_length }\OtherTok{\textless{}{-}} \DecValTok{1} \CommentTok{\# cycle length equal one year (use 1/12 for monthly)}
 \NormalTok{n\_age\_init }\OtherTok{\textless{}{-}} \DecValTok{25}  \CommentTok{\# age at baseline}
 \NormalTok{n\_age\_max  }\OtherTok{\textless{}{-}} \DecValTok{100} \CommentTok{\# maximum age of follow up}
-\NormalTok{n\_cycles }\OtherTok{\textless{}{-}}\NormalTok{ n\_age\_max }\SpecialCharTok{{-}}\NormalTok{ n\_age\_init }\CommentTok{\# number of cycles}
+\NormalTok{n\_cycles }\OtherTok{\textless{}{-}}\NormalTok{ (n\_age\_max }\SpecialCharTok{{-}}\NormalTok{ n\_age\_init)}\SpecialCharTok{/}\NormalTok{cycle\_length }\CommentTok{\# time horizon, number of cycles}
 \NormalTok{v\_names\_states }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"S1"}\NormalTok{, }\StringTok{"S2"}\NormalTok{, }\StringTok{"D"}\NormalTok{) }\CommentTok{\# the 4 health states of the model:}
                                \CommentTok{\# Healthy (H), Sick (S1), Sicker (S2), Dead (D)}
 \NormalTok{n\_states }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(v\_names\_states) }\CommentTok{\# number of health states }

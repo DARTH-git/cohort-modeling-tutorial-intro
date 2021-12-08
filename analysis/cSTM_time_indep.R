@@ -69,12 +69,15 @@ source("R/Functions.R")
 
 ################################ Model input ################################# 
 ## General setup
-cycle_length <- 1                         # cycle length equal to one year
-n_age_init  <- 25                         # age at baseline
-n_age_max   <- 100                        # maximum age of follow up
-n_cycles    <- n_age_max - n_age_init     # time horizon, number of cycles
-v_names_states <- c("H", "S1", "S2", "D") # the 4 health states of the model:
-                                          # Healthy (H), Sick (S1), Sicker (S2), Dead (D)
+cycle_length <- 1        # cycle length equal to one year (use 1/12 for monthly)
+n_age_init <- 25        # age at baseline
+n_age_max  <- 100       # maximum age of follow up
+n_cycles <- (n_age_max - n_age_init)/cycle_length # time horizon, number of cycles
+v_names_states <- c("H",  # the 4 health states of the model:
+                    "S1", # Healthy (H), Sick (S1), Sicker (S2), Dead (D)
+                    "S2", 
+                    "D") 
+                                          
 n_states    <- length(v_names_states)     # number of health states 
 
 # Discounting factors

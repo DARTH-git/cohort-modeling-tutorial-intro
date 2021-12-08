@@ -321,10 +321,10 @@ The following sections include R code snippets. All R code is stored as a GitHub
 
 ```{r Model-Params, eval=FALSE}
 ## General setup
-cycle_length <- 1 # cycle length equal one year
+cycle_length <- 1 # cycle length equal one year (use 1/12 for monthly)
 n_age_init <- 25  # age at baseline
 n_age_max  <- 100 # maximum age of follow up
-n_cycles <- n_age_max - n_age_init # number of cycles
+n_cycles <- (n_age_max - n_age_init)/cycle_length # time horizon, number of cycles
 v_names_states <- c("H", "S1", "S2", "D") # the 4 health states of the model:
                                # Healthy (H), Sick (S1), Sicker (S2), Dead (D)
 n_states <- length(v_names_states) # number of health states 
