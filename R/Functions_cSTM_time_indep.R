@@ -12,7 +12,7 @@
 decision_model <- function(l_params_all, verbose = FALSE) {
   with(as.list(l_params_all), {
     ########################### Process model inputs ###########################
-    ## Transition probabilities to the Dead state
+    ## Cycle-specific transition probabilities to the Dead state
     # compute mortality rates
     r_S1D <- r_HD * hr_S1 # annual mortality rate in the Sick state
     r_S2D <- r_HD * hr_S2 # annual mortality rate in the Sicker state

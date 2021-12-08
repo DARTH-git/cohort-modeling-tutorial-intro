@@ -126,7 +126,7 @@ v_dwc  <- 1 / ((1 + d_e) ^ (0:n_cycles))
 v_dwe  <- 1 / ((1 + d_c) ^ (0:n_cycles))
 
 ### Process model inputs
-## Transition probabilities to the Dead state
+## Cycle-specific transition probabilities to the Dead state
 # compute mortality rates
 r_S1D <- r_HD * hr_S1 # annual mortality rate in the Sick state
 r_S2D <- r_HD * hr_S2 # annual mortality rate in the Sicker state

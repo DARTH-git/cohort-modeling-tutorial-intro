@@ -415,8 +415,7 @@ To compute the background mortality risk, \texttt{p\_HD}, from the background mo
 \DocumentationTok{\#\# Mortality rates}
 \NormalTok{r\_S1D }\OtherTok{\textless{}{-}}\NormalTok{ r\_HD }\SpecialCharTok{*}\NormalTok{ hr\_S1 }\CommentTok{\# annual rate of dying when Sick}
 \NormalTok{r\_S2D }\OtherTok{\textless{}{-}}\NormalTok{ r\_HD }\SpecialCharTok{*}\NormalTok{ hr\_S2 }\CommentTok{\# annual rate of dying when Sicker}
-\DocumentationTok{\#\# Probabilities of dying}
-\NormalTok{cycle\_length }\OtherTok{\textless{}{-}} \DecValTok{1}
+\DocumentationTok{\#\# Cycle{-}specific probabilities of dying}
 \NormalTok{p\_HD  }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_HD }\SpecialCharTok{*}\NormalTok{ cycle\_length)  }\CommentTok{\# annual background mortality risk (i.e., probability)}
 \NormalTok{p\_S1D }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S1D }\SpecialCharTok{*}\NormalTok{ cycle\_length) }\CommentTok{\# annual probability of dying when Sick}
 \NormalTok{p\_S2D }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S2D }\SpecialCharTok{*}\NormalTok{ cycle\_length) }\CommentTok{\# annual probability of dying when Sicker}

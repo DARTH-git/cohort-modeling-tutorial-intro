@@ -368,8 +368,7 @@ To compute the background mortality risk, `p_HD`, from the background mortality 
 ## Mortality rates
 r_S1D <- r_HD * hr_S1 # annual rate of dying when Sick
 r_S2D <- r_HD * hr_S2 # annual rate of dying when Sicker
-## Probabilities of dying
-cycle_length <- 1
+## Cycle-specific probabilities of dying
 p_HD  <- 1 - exp(-r_HD * cycle_length)  # annual background mortality risk (i.e., probability)
 p_S1D <- 1 - exp(-r_S1D * cycle_length) # annual probability of dying when Sick
 p_S2D <- 1 - exp(-r_S2D * cycle_length) # annual probability of dying when Sicker
