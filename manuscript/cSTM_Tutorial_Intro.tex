@@ -505,21 +505,21 @@ Because treatment B alters progression from S1 to S2, we created a different tra
 \end{Highlighting}
 \end{Shaded}
 
-Once all transition matrices are created, we verify they are valid by checking that each row sums to one and that each entry is between 0 and 1 using the functions \texttt{check\_sum\_of\_transition\_array} and \texttt{check\_transition\_probability}, respectively. These functions are part of the \texttt{darthtools} package and have been described previously.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}}
+Once all transition matrices are created, we verify they are valid by checking that each row sums to one and that each entry is between 0 and 1. In the \texttt{darthtools} package (\url{https://github.com/DARTH-git/darthtools}), we provide R functions that do these checks, which have been described previously.\textsuperscript{\protect\hyperlink{ref-Alarid-Escudero2019e}{20}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \DocumentationTok{\#\#\# Check if transition probability matrices are valid}
 \DocumentationTok{\#\# Check that transition probabilities are [0, 1]}
-\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P)}
-\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P\_strA)}
-\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P\_strB)}
-\FunctionTok{check\_transition\_probability}\NormalTok{(m\_P\_strAB)}
+\NormalTok{m\_P }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&\&}\NormalTok{ m\_P }\SpecialCharTok{\textless{}=} \DecValTok{1}
+\NormalTok{m\_P\_strA }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&\&}\NormalTok{ m\_P\_strA }\SpecialCharTok{\textless{}=} \DecValTok{1}
+\NormalTok{m\_P\_strB }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&\&}\NormalTok{ m\_P\_strB }\SpecialCharTok{\textless{}=} \DecValTok{1}
+\NormalTok{m\_P\_strAB }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&\&}\NormalTok{ m\_P\_strAB }\SpecialCharTok{\textless{}=} \DecValTok{1}
 \DocumentationTok{\#\# Check that all rows sum to 1}
-\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P,      }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
-\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P\_strB, }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
-\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P\_strA, }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
-\FunctionTok{check\_sum\_of\_transition\_array}\NormalTok{(m\_P\_strAB, }\AttributeTok{n\_states =}\NormalTok{ n\_states, }\AttributeTok{n\_cycles =}\NormalTok{ n\_cycles)}
+\FunctionTok{rowSums}\NormalTok{(m\_P) }\SpecialCharTok{==} \DecValTok{1}
+\FunctionTok{rowSums}\NormalTok{(m\_P\_strA) }\SpecialCharTok{==} \DecValTok{1}
+\FunctionTok{rowSums}\NormalTok{(m\_P\_strB) }\SpecialCharTok{==} \DecValTok{1}
+\FunctionTok{rowSums}\NormalTok{(m\_P\_strAB) }\SpecialCharTok{==} \DecValTok{1}
 \end{Highlighting}
 \end{Shaded}
 

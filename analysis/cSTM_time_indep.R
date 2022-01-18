@@ -199,15 +199,15 @@ m_P_strAB <- m_P_strB
 
 ### Check if transition probability matrices are valid
 ## Check that transition probabilities are [0, 1]
-check_transition_probability(m_P,      verbose = TRUE)
-check_transition_probability(m_P_strA, verbose = TRUE)
-check_transition_probability(m_P_strB, verbose = TRUE)
-check_transition_probability(m_P_strAB, verbose = TRUE)
+darthtools::check_transition_probability(m_P,      verbose = TRUE)  # m_P >= 0 && m_P <= 1
+darthtools::check_transition_probability(m_P_strA, verbose = TRUE)  # m_P_strA >= 0 && m_P_strA <= 1
+darthtools::check_transition_probability(m_P_strB, verbose = TRUE)  # m_P_strB >= 0 && m_P_strB <= 1
+darthtools::check_transition_probability(m_P_strAB, verbose = TRUE) # m_P_strAB >= 0 && m_P_strAB <= 1
 ## Check that all rows sum to 1
-check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
-check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
-check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
-check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)
+darthtools::check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P) == 1
+darthtools::check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strA) == 1
+darthtools::check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strB) == 1
+darthtools::check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE) # rowSums(m_P_strAB) == 1
 
 #### Run Markov model ####
 # Iterative solution of time-independent cSTM

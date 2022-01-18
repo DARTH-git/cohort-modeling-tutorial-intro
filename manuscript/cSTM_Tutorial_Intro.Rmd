@@ -150,19 +150,20 @@ knitr::opts_chunk$set(fig.path="figs/", fig.width=8, fig.height=6, fig.align="ce
 
 Policymakers are often tasked with allocating limited healthcare resources under constrained budgets and uncertainty about future outcomes. Health economic evaluations might inform their final decisions. These economic evaluations often rely on decision models to synthesize evidence from different sources and project long-term outcomes of various alternative strategies. A commonly used decision model is the discrete-time cohort state-transition model (cSTM), often referred to as a Markov model.[@Kuntz2017]
 
-In a recent review, we illustrated the increased use of R's statistical programming framework in health decision sciences. We provided a summary of available resources to apply to medical decision making.[@Jalal2017b] Many packages have been explicitly developed to estimate and construct cSTMs in R. For example, the `markovchain`[@Spedicato2017] and `heemod`[@Filipovic-Pierucci2017] packages are designed to build cSTMs using a pre-defined structure. The `markovchain` package simulates time-independent, and time-dependent Markov chains but is not designed to conduct economic evaluations. `heemod` is a well-structured R package for economic evaluations. However, these packages are necessarily stylized and requiring users to follow a specific cSTM structure. For example, users are still required to set up the cSTM structure, specify the parameters, and run analyses in a pre-specified approach, limiting the understanding of how cSTMs work and are constructed. If the desired cSTM does not fit within this structure, using these packages can be challenging.
+A cSTM is a dynamic mathematical model in which a hypothetical cohort of individuals transition between different health states over time. A cSTM is most appropriate when the decision problem has a dynamic component (e.g., the disease process can vary over time) and can be described using a reasonable number of health states. cSTMs are often used because of their transparency, efficiency, ease of development, and debugging. cSTMs are usually computationally less demanding than iSTMs, providing the ability to conduct PSA and value-of-information (VOI) analyses that otherwise might not be computationally feasible with iSTMs.[@Siebert2012c] cSTMs have been used to evaluate screening and surveillance programs,[@Suijkerbuijk2018; @Sathianathen2018a] diagnostic procedures,[@Lu2018b] disease management programs,[@Djatche2018], interventions,[@Smith-Spangler2010] and policies.[@Pershing2014] 
+
+In a recent review, we illustrated the increased use of R's statistical programming framework in health decision sciences. We provided a summary of available resources to apply to medical decision making.[@Jalal2017b] Many packages have been explicitly developed to estimate and construct cSTMs in R. For example, the `markovchain`[@Spedicato2017] and `heemod`[@Filipovic-Pierucci2017] packages are designed to build cSTMs using a pre-defined structure. The `markovchain` package simulates time-independent, and time-dependent Markov chains but is not designed to conduct economic evaluations. `heemod` is a well-structured R package for economic evaluations. However, these packages are necessarily stylized and require users to specify the structure and inputs of their cSTM in a particular way. potentially without fully understanding how cSTMs work. If the desired cSTM does not fit within this structure, using these packages can be challenging.
 
 <!-- This introductory tutorial covers time-independent cSTMs and how to use them to conduct a full cost-effectiveness analysis (CEA) comparing multiple interventions and implementing probabilistic sensitivity analyses. The accompanying advanced tutorial covers cSTMs for which transition probabilities depend on simulation time and time spent in a state, calculation of various epidemiological outcomes, and incorporation of transition rewards.[@Alarid-Escudero2021b]  -->
 
-This tutorial demonstrates how to conduct a full cost-effectiveness analysis (CEA) comparing multiple interventions and implementing probabilistic sensitivity analysis (PSA) without needing a specialized cSTM package. We first describe each of the components of a time-independent cSTM. Then, we illustrate the implementation of these components with an example. Our general conceptualization should apply to other programming languages (e.g., MATLAB, Python, C++, and Julia). The reader can find the most up-to-date R code of the time-independent cSTM and the R code to create the tutorial graphs in the accompanying GitHub repository (https://github.com/DARTH-git/cohort-modeling-tutorial-intro) to replicate and modify the example to fit their needs. We assume that the reader is familiar with the basics of decision modeling and has a basic understanding of programming. Thus, a prior introduction to R and linear algebra for decision modelers is recommended.
+This tutorial demonstrates how to conduct a full cost-effectiveness analysis (CEA) comparing multiple interventions and implementing probabilistic sensitivity analysis (PSA) without needing a specialized cSTM package. We first describe each of the components of a time-independent cSTM. Then, we illustrate the implementation of these components with an example. Our general conceptualization should apply to other programming languages (e.g., MATLAB, Python, C++, and Julia). The reader can find the most up-to-date R code of the time-independent cSTM and the R code to create the tutorial graphs in the accompanying GitHub repository (https://github.com/DARTH-git/cohort-modeling-tutorial-intro) to replicate and modify the example to fit their needs. We assume that the reader is familiar with the basics of decision modeling and has a basic understanding of programming. Thus, a prior introduction to R, "for" loops, and linear algebra for decision modelers is recommended. The linear algebra concepts used throughout the code are explained in more detail in the Supplementary Material.
 
 This introductory tutorial aims to (1) conceptualize time-independent cSTMs for implementation in a programming language and (2) provide a template for implementing these cSTMs in _base_ R. We focus on using R _base_ packages, ensuring modelers understand the concept and structure of cSTMs and avoid the limitation of constructing cSTMs in a package-specific structure. We used previously developed R packages for visualizing CEA results and checking cSTMs are correctly specified.
 
 
 # Cohort state-transition models (cSTMs)
-A cSTM is a dynamic mathematical model in which a hypothetical cohort of individuals transition between different health states over time. In contrast, an individual-based state-transition model (iSTM) is a type of STM where simulated individuals transition between health states over time.[@Siebert2012c] We have previously published a tutorial on the implementation of iSTM in R.[@Krijkamp2018] 
 
-A cSTM is most appropriate when the decision problem has a dynamic component (e.g., the disease process can vary over time) and can be described using a reasonable number of health states. cSTMs are often used because of their transparency, efficiency, ease of development, and debugging. cSTMs are usually computationally less demanding than iSTMs, providing the ability to conduct PSA and value-of-information (VOI) analyses that otherwise might not be computationally feasible with iSTMs.[@Siebert2012c] cSTMs have been used to evaluate screening and surveillance programs,[@Suijkerbuijk2018; @Sathianathen2018a] diagnostic procedures,[@Lu2018b] disease management programs,[@Djatche2018], interventions,[@Smith-Spangler2010] and policies.[@Pershing2014] 
+<!-- In contrast, an individual-based state-transition model (iSTM) is a type of STM where simulated individuals transition between health states over time.[@Siebert2012c] We have previously published a tutorial on the implementation of iSTM in R.[@Krijkamp2018]  -->
 
 A cSTM consists of a set of $n_S$ mutually exclusive and collectively exhaustive health states. The cohort is assumed to be homogeneous within each health state. Individuals in the cohort residing in a particular health state are assumed to have the same characteristics and are indistinguishable from one another. The cohort transitions between health states with defined probabilities, which are called "transition probabilities". A transition probability represents the chance that individuals in the cohort residing in a state in a given cycle transition to another state or remain in the same state. In a cSTM, a one-cycle transition probability reflects a conditional probability of transitioning during the cycle, given that the person is alive at the beginning of the cycle.[@Miller1994] 
 
@@ -446,20 +447,20 @@ m_P_strB["S1", "S2"] <- (1 - p_S1D) * p_S1S2_trtB
 m_P_strAB <- m_P_strB
 ```
 
-Once all transition matrices are created, we verify they are valid by checking that each row sums to one and that each entry is between 0 and 1 using the functions `check_sum_of_transition_array` and `check_transition_probability`, respectively. These functions are part of the `darthtools` package and have been described previously.[@Alarid-Escudero2019e]
+Once all transition matrices are created, we verify they are valid by checking that each row sums to one and that each entry is between 0 and 1. In the `darthtools` package (https://github.com/DARTH-git/darthtools), we provide R functions that do these checks, which have been described previously.[@Alarid-Escudero2019e]
 
-```{r}
+```{r, results='hide'}
 ### Check if transition probability matrices are valid
 ## Check that transition probabilities are [0, 1]
-check_transition_probability(m_P)
-check_transition_probability(m_P_strA)
-check_transition_probability(m_P_strB)
-check_transition_probability(m_P_strAB)
+m_P >= 0 && m_P <= 1
+m_P_strA >= 0 && m_P_strA <= 1
+m_P_strB >= 0 && m_P_strB <= 1
+m_P_strAB >= 0 && m_P_strAB <= 1
 ## Check that all rows sum to 1
-check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles)
-check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles)
-check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles)
-check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles)
+rowSums(m_P) == 1
+rowSums(m_P_strA) == 1
+rowSums(m_P_strB) == 1
+rowSums(m_P_strAB) == 1
 ```
 
 Next, we obtain the cohort distribution across the `r n_states` states over `r n_cycles` cycles using a time-independent cSTM  under all four strategies. To achieve this, we iteratively compute the matrix product between each of the rows of `m_M` and `m_P`, and  between `m_M_strB` and `m_P_strB`, respectively, using the `%*%` symbol in R at each cycle using a `for` loop

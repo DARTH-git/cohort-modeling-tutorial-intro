@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  17 JAN 2022 19:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  17 JAN 2022 20:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -724,7 +724,7 @@ Underfull \vbox (badness 2393) detected at line 506
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<figs/Sick-Sicker-Trace-TimeHom-1.pdf, id=174, 564.1075pt x 408.52625pt>
+<figs/Sick-Sicker-Trace-TimeHom-1.pdf, id=175, 564.1075pt x 408.52625pt>
 File: figs/Sick-Sicker-Trace-TimeHom-1.pdf Graphic file (type pdf)
 <use figs/Sick-Sicker-Trace-TimeHom-1.pdf>
 Package pdftex.def Info: figs/Sick-Sicker-Trace-TimeHom-1.pdf  used on input li
@@ -752,7 +752,7 @@ Overfull \hbox (45.16193pt too wide) in paragraph at lines 779--789
  [][] 
  []
 
-<figs/Sick-Sicker-CEA-1.pdf, id=240, 569.12625pt x 423.5825pt>
+<figs/Sick-Sicker-CEA-1.pdf, id=241, 569.12625pt x 423.5825pt>
 File: figs/Sick-Sicker-CEA-1.pdf Graphic file (type pdf)
 <use figs/Sick-Sicker-CEA-1.pdf>
 Package pdftex.def Info: figs/Sick-Sicker-CEA-1.pdf  used on input line 793.
@@ -769,7 +769,7 @@ gure.3}) has been already used, duplicate ignored
 l.812   \texttt
                {calculate\_ce\_out(l\_params\_all,\ n\_wtp\ =\ 100000)}: a f...
  <./figs/Sick-Sicker-CEA-1.pdf>]
-<figs/CE-scatter-1.pdf, id=271, 569.12625pt x 415.5525pt>
+<figs/CE-scatter-1.pdf, id=272, 569.12625pt x 415.5525pt>
 File: figs/CE-scatter-1.pdf Graphic file (type pdf)
 <use figs/CE-scatter-1.pdf>
 Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 820.
@@ -780,12 +780,12 @@ Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 820.
                                                   
 l.828 
        <./figs/CE-scatter-1.pdf>]
-<figs/CEAC-1.pdf, id=293, 568.1225pt x 423.5825pt>
+<figs/CEAC-1.pdf, id=294, 568.1225pt x 423.5825pt>
 File: figs/CEAC-1.pdf Graphic file (type pdf)
 <use figs/CEAC-1.pdf>
 Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 831.
 (pdftex.def)             Requested size: 469.7731pt x 350.25487pt.
-<figs/ELC-1.pdf, id=296, 569.12625pt x 423.5825pt>
+<figs/ELC-1.pdf, id=297, 569.12625pt x 423.5825pt>
 File: figs/ELC-1.pdf Graphic file (type pdf)
 <use figs/ELC-1.pdf>
 Package pdftex.def Info: figs/ELC-1.pdf  used on input line 842.
@@ -1210,10 +1210,10 @@ ts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
 ublic/lm/lmtko10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/
 lmtt10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtti10.pf
 b>
-Output written on cSTM_Tutorial_Intro.pdf (27 pages, 838243 bytes).
+Output written on cSTM_Tutorial_Intro.pdf (27 pages, 838663 bytes).
 PDF statistics:
- 566 PDF objects out of 1000 (max. 8388607)
- 492 compressed objects within 5 object streams
+ 567 PDF objects out of 1000 (max. 8388607)
+ 493 compressed objects within 5 object streams
  115 named destinations out of 1000 (max. 500000)
  51343 words of extra memory for PDF output out of 51595 (max. 10000000)
 
