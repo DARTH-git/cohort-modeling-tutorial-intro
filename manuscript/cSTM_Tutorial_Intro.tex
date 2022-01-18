@@ -154,7 +154,7 @@
 
 \title{An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example}
 \author{Fernando Alarid-Escudero, PhD\footnote{Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico} \and Eline Krijkamp, MSc\footnote{Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands} \and Eva A. Enns, PhD\footnote{Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA} \and Alan Yang, MSc\footnote{The Hospital for Sick Children, Toronto} \and Myriam G.M. Hunink, PhD\(^\dagger\)\footnote{Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA} \and Petros Pechlivanoglou, PhD\footnote{The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada} \and Hawre Jalal, MD, PhD\footnote{University of Pittsburgh, Pittsburgh, PA, USA}}
-\date{2021-12-08}
+\date{2022-01-17}
 
 \begin{document}
 \maketitle
@@ -208,25 +208,19 @@ If we then wanted to know what proportion of an initially healthy cohort becomes
 \end{equation}
 resulting in \(p_{yearly} = 1-\exp{(-0.05)}=\) 0.0488. Equation \eqref{eq:rate-to-prob-ann} assumes that the rate of becoming sick is constant over the year, implying that the time until a healthy person becomes sick is exponentially distributed. The parameter \(p_{yearly}\) is the transition probability from healthy to sick in a cSTM when using an annual cycle length.
 
-If we were concerned that an annual cycle length was too long to capture disease dynamics accurately, we could use a monthly cycle length. This change of time scale would require us to parameterize the model with monthly transition probabilities. To convert the annual probability of becoming sick to a monthly probability, we first calculate the monthly rate of becoming sick:
-\begin{equation}
-    \mu_{yearly} = -\ln{\left(1-p_{yearly}\right)}.
-    \label{eq:prob-to-rate-ann}
-\end{equation}
-
-Because rates are instantaneous, the monthly rate is then just the annual rate divided by 12:
+If we were concerned that an annual cycle length was too long to capture disease dynamics accurately, we could use a monthly cycle length. To calculate monthly rates, we divide the annual rate by 12:
 \begin{equation}
     \mu_{monthly} = \mu_{yearly} / 12.
     \label{eq:rate-ann-to-month}
 \end{equation}
 
-We divide by 12 because this is the number of months (desired cycle length) in a year (cycle length of the given data). If the original or desired cycle length were different, we would divide by a different factor (e.g., annual to weekly: 52; monthly to annual: 1/12; annual to daily: 365.25, etc.).
-
-The monthly probability can then be calculated from the monthly rate using equation \eqref{eq:rate-to-prob-ann}:
+To convert to monthly transition probabilities, we apply equation \eqref{eq:rate-to-prob-ann}:
 \begin{equation}
     p_{monthly} = 1-\exp{\left(-\mu_{monthly}\right)}.
     \label{eq:rate-to-prob-month}
 \end{equation}
+
+We divide by 12 because of the number of months (desired cycle length) in a year (cycle length of the given data). If the original or desired cycle length differed, we would divide by a different factor (e.g., annual to weekly: 52; monthly to annual: 1/12; annual to daily: 365.25, etc.).
 
 These equations are also helpful for computing probabilities when studies (e.g., survival analyses) provide rates rather than transition probabilities assuming exponentially distributed transition times.
 
@@ -434,7 +428,7 @@ To compute the risk of progression from S1 to S2 under treatment B, we first tra
 \NormalTok{r\_S1S2\_trtB }\OtherTok{\textless{}{-}}\NormalTok{ r\_S1S2 }\SpecialCharTok{*}\NormalTok{ hr\_S1S2\_trtB}
 \CommentTok{\# transform rate to probability}
 \CommentTok{\# probability to become Sicker when Sick }
-\CommentTok{\# under treatment B conditional on surviving}
+\CommentTok{\# under treatment B}
 \NormalTok{p\_S1S2\_trtB }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S1S2\_trtB }\SpecialCharTok{*}\NormalTok{ cycle\_length) }
 \end{Highlighting}
 \end{Shaded}

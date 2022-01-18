@@ -3,7 +3,7 @@
 \contentsline {subsection}{\numberline {2.1}Rates versus probabilities}{4}{subsection.2.1}%
 \contentsline {section}{\numberline {3}Time-independent cSTM dynamics}{5}{section.3}%
 \contentsline {section}{\numberline {4}Case study: Sick-Sicker model}{6}{section.4}%
-\contentsline {section}{\numberline {5}Cost and effectiveness outcomes}{14}{section.5}%
+\contentsline {section}{\numberline {5}Cost and effectiveness outcomes}{13}{section.5}%
 \contentsline {subsection}{\numberline {5.1}State rewards}{14}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Within-cycle correction}{15}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3}Discounting future rewards}{16}{subsection.5.3}%

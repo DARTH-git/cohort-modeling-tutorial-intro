@@ -189,25 +189,19 @@ If we then wanted to know what proportion of an initially healthy cohort becomes
 \end{equation}
 resulting in $p_{yearly} = 1-\exp{(-0.05)}=$ `r round(1-exp(-0.05), 4)`. Equation \@ref(eq:rate-to-prob-ann) assumes that the rate of becoming sick is constant over the year, implying that the time until a healthy person becomes sick is exponentially distributed. The parameter $p_{yearly}$ is the transition probability from healthy to sick in a cSTM when using an annual cycle length.
 
-If we were concerned that an annual cycle length was too long to capture disease dynamics accurately, we could use a monthly cycle length. This change of time scale would require us to parameterize the model with monthly transition probabilities. To convert the annual probability of becoming sick to a monthly probability, we first calculate the monthly rate of becoming sick:
-\begin{equation}
-    \mu_{yearly} = -\ln{\left(1-p_{yearly}\right)}.
-    (\#eq:prob-to-rate-ann)
-\end{equation}
-
-Because rates are instantaneous, the monthly rate is then just the annual rate divided by 12:
+If we were concerned that an annual cycle length was too long to capture disease dynamics accurately, we could use a monthly cycle length. To calculate monthly rates, we divide the annual rate by 12:
 \begin{equation}
     \mu_{monthly} = \mu_{yearly} / 12.
     (\#eq:rate-ann-to-month)
 \end{equation}
 
-We divide by 12 because this is the number of months (desired cycle length) in a year (cycle length of the given data). If the original or desired cycle length were different, we would divide by a different factor (e.g., annual to weekly: 52; monthly to annual: 1/12; annual to daily: 365.25, etc.).
-
-The monthly probability can then be calculated from the monthly rate using equation \@ref(eq:rate-to-prob-ann): 
+To convert to monthly transition probabilities, we apply equation \@ref(eq:rate-to-prob-ann): 
 \begin{equation}
     p_{monthly} = 1-\exp{\left(-\mu_{monthly}\right)}.
     (\#eq:rate-to-prob-month)
 \end{equation}
+
+We divide by 12 because of the number of months (desired cycle length) in a year (cycle length of the given data). If the original or desired cycle length differed, we would divide by a different factor (e.g., annual to weekly: 52; monthly to annual: 1/12; annual to daily: 365.25, etc.). 
 
 These equations are also helpful for computing probabilities when studies (e.g., survival analyses) provide rates rather than transition probabilities assuming exponentially distributed transition times.
 
