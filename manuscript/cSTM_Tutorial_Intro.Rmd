@@ -59,9 +59,10 @@ library(kableExtra) # https://haozhu233.github.io/kableExtra/awesome_table_in_ht
 library(dplyr)
 library(reshape2)
 library(ggplot2)
+library(ggthemes) # For colorblind palettes
 library(scales) # For dollar signs and commas
 library(boot)
-library(dampack)
+library(dampack)    # For CEA and PSA visualization functionality
 # devtools::install_github("DARTH-git/darthtools")
 library(darthtools)
 knitr::opts_chunk$set(echo = TRUE)
@@ -778,6 +779,8 @@ To conduct the PSA of the CEA using the time-independent Sick-Sicker cSTM, we sa
 ```{r CE-scatter, echo=FALSE, fig.cap='Cost-effectiveness scatter plot.', message=FALSE, warning=FALSE, fig.pos="H"} 
 # CEAC & CEAF plot
 plot(l_psa, txtsize = 16) +
+  ggthemes::scale_color_colorblind() +
+  ggthemes::scale_fill_colorblind() +
   xlab("Effectiveness (QALYs)") +
   guides(col = guide_legend(nrow = 2)) +
   theme(legend.position = "bottom")
@@ -788,6 +791,8 @@ Figure \@ref(fig:CEAC) presents the cost-effectiveness acceptability curves (CEA
 ```{r CEAC, echo=FALSE, fig.cap='Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF).', message=FALSE, warning=FALSE, fig.pos="H"} 
 # CEAC & CEAF plot
 plot(ceac_obj, txtsize = 16, xlim = c(0, NA), n_x_ticks = 14) +
+  ggthemes::scale_color_colorblind() +
+  ggthemes::scale_fill_colorblind() +
   theme(legend.position = c(0.82, 0.5))
 ```
 
@@ -797,8 +802,11 @@ The CEAC and CEAF do not show the magnitude of the expected net benefit lost (i.
 
 ```{r ELC, echo=FALSE, fig.cap='Expected loss curves (ELCs) and expected value of perfect information (EVPI).', message=FALSE, warning=FALSE, fig.pos="H"} 
 # ELC plot
-plot(elc_obj, log_y = FALSE, txtsize = 16, xlim = c(0, NA), n_x_ticks = 14,
+plot(elc_obj, log_y = FALSE, 
+     txtsize = 16, xlim = c(0, NA), n_x_ticks = 14,
      col = "full") +
+  ggthemes::scale_color_colorblind() +
+  ggthemes::scale_fill_colorblind() +
   # geom_point(aes(shape = as.name("Strategy"))) +
   scale_y_continuous("Expected Loss (Thousand $)", 
                      breaks = number_ticks(10),
@@ -807,9 +815,9 @@ plot(elc_obj, log_y = FALSE, txtsize = 16, xlim = c(0, NA), n_x_ticks = 14,
 ```
 
 # Discussion
-In this introductory tutorial, we provided a step-by-step mathematical conceptualization of time-independent cSTMs and a walk-through of their implementation in R using a hypothetical disease example with accompanying code throughout the tutorial. We used R as the programming language of choice because it is open-source, meaning that the source code for every function in R is freely available. In addition, R has a vast and increasing number of packages that can assist modelers in conducting most of their analyses in the same environment.
+In this introductory tutorial, we provided a step-by-step mathematical conceptualization of time-independent cSTMs and a walk-through of their implementation in R using a hypothetical disease example with accompanying code throughout the tutorial. While some of the presented implementation details are specific to the R programming language, much of the code structure shown in this tutorial would be similar in other programming languages. Thus, readers may use this tutorial as a template for coding cSTMs more generally in different programming languages.
 
-The parameterization of our example model assumes all parameters are known, or at least, the characterization of their uncertainty is known (i.e., we know their distributions). However, to construct a real-world cSTM, modelers must conduct a thorough synthesis of current evidence to determine these appropriate structures and inform all parameters based on the current evidence. For example, literature must be carefully considered when determining whether transitions between non-death health states are estimated conditional on being alive or are estimated as competing risks along with mortality risks.[@Briggs2012] Similarly, our PSA analysis simplifies reality where all model parameters are assumed to be independent of each other. However, parameters could be correlated or have a rank order, and appropriate statistical methods that simulate these correlations or rank order might be needed.[@Goldhaber-Fiebert2015] We encourage modelers to use appropriate statistical methods to synthesize and quantify model parameters' uncertainty accurately. In addition, modelers should appropriately specify all model parameters for the cycle length of the model.[@Hunink2014]
+The parameterization of our example model assumes all parameters are known, or at least, the characterization of their uncertainty is known (i.e., we know their distributions). However, to construct a real-world cSTM, modelers must conduct a thorough synthesis of current evidence to determine these appropriate structures and inform all parameters based on the current evidence. For example, literature must be carefully considered when determining whether transitions between non-death health states are estimated conditional on being alive or are estimated as competing risks along with mortality risks.[@Briggs2012] Similarly, our PSA analysis simplifies reality where all model parameters are assumed to be independent of each other. However, parameters could be correlated or have a rank order, and appropriate statistical methods that simulate these correlations or rank order might be needed.[@Goldhaber-Fiebert2015] We encourage modelers to use appropriate statistical methods to accurately synthesize and quantify model parameters' uncertainty. For example, for the PSA of our case study, we used distributions based on the type of parameters following standard recommendations. For a more detailed description of how to choose distributions, we refer the reader to other literature.[@Briggs2002; @Briggs2003] In addition, modelers should appropriately specify all model parameters for the cycle length of the model.[@Hunink2014]
 
 In general, cSTMs are recommended when the number of states is considered "not too large".[@Siebert2012c] This recommendation arises because it becomes more challenging to keep track of their construction as the number of states increases. It is possible to build reasonably complex cSTMs in R as long as the computer's RAM can store the size of the transition probability matrix and outputs of interest. For time-independent cSTMs, in general, this should not be a problem with the capacity of current RAM in personal computers. With increasing model complexity and interdependency of functions to conduct various analyses like PSA, it is essential to ensure all code and functions work as expected and all elements of the cSTM are valid. We can achieve this by creating functions that help with model debugging, validation, and thorough unit testing. In the accompanying GitHub repository, we provide functions to check that transition probability matrices and their elements are valid. These functions are an example of a broader standard practice in software development called unit testing that requires building functions to test and check that the model and model-based analysis perform as intended.[@Wickham2021] However, unit testing is beyond the scope of this tutorial. We refer the reader to a previously published manuscript that describes unit testing in more detail and provides accompanying code.[@Alarid-Escudero2019e]
 

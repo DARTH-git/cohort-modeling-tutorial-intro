@@ -58,10 +58,11 @@ library(tidyr)
 library(reshape2) 
 library(ggplot2) 
 library(gridExtra)
-library(scales)    
+library(ggthemes)   # For colorblind palettes
+library(scales)     # For dollar signs and commas 
 library(boot)
-library(dampack) 
-library(darthtools)
+library(dampack)    # For CEA and PSA visualization functionality
+library(darthtools) # For WCC, parameter transformation an matrix checks
 library(doParallel)
 
 ### Load supplementary functions
@@ -501,7 +502,12 @@ colnames(l_psa$cost)<- v_names_str
 v_wtp <- seq(0, 250000, by = 5000)
 
 # Cost-Effectiveness Scatter plot
-plot(l_psa)
+plot(l_psa) +
+  ggthemes::scale_color_colorblind() +
+  ggthemes::scale_fill_colorblind() +
+  xlab("Effectiveness (QALYs)") +
+  guides(col = guide_legend(nrow = 2)) +
+  theme(legend.position = "bottom")
 
 # Conduct CEA with probabilistic output
 # Compute expected costs and effects for each strategy from the PSA
@@ -521,7 +527,9 @@ ceac_obj <- ceac(wtp = v_wtp, psa = l_psa)
 # Regions of highest probability of cost-effectiveness for each strategy
 summary(ceac_obj)
 # CEAC & CEAF plot
-plot(ceac_obj)
+plot(ceac_obj) +
+  ggthemes::scale_color_colorblind() +
+  ggthemes::scale_fill_colorblind()
 
 # Expected Loss Curves (ELCs)
 elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_psa)
