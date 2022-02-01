@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  17 JAN 2022 20:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.17)  31 JAN 2022 18:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -678,7 +678,7 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2] [3] [4] [5]
-<figs/Sick-Sicker.png, id=124, 369.0588pt x 255.8358pt>
+<figs/Sick-Sicker.png, id=125, 369.0588pt x 255.8358pt>
 File: figs/Sick-Sicker.png Graphic file (type png)
 <use figs/Sick-Sicker.png>
 Package pdftex.def Info: figs/Sick-Sicker.png  used on input line 293.
@@ -687,7 +687,7 @@ Package pdftex.def Info: figs/Sick-Sicker.png  used on input line 293.
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.303 
+l.305 
        <./figs/Sick-Sicker.png>]
 Overfull \hbox (4.0974pt too wide) in paragraph at lines 325--325
  []|\T1/lmtt/m/n/10 v_names_states| 
@@ -700,12 +700,12 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 360.
 
-[8] [9]
+[8]
 
-LaTeX Warning: Reference `eq:prob-to-rate-ann' on page 10 undefined on input li
-ne 417.
+LaTeX Warning: Reference `eq:prob-to-rate-ann' on page 9 undefined on input lin
+e 417.
 
-[10]
+[9] [10]
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
 486.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/ts1lmtt.fd
@@ -716,76 +716,70 @@ LaTeX Font Warning: Font shape `TS1/lmtt/bx/it' in size <10> not available
 (Font)              Font shape `TS1/lmtt/b/sl' tried instead on input line 486.
 
 
-
-Underfull \vbox (badness 2393) detected at line 504
- []
-
 [11]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<figs/Sick-Sicker-Trace-TimeHom-1.pdf, id=173, 564.1075pt x 408.52625pt>
+<figs/Sick-Sicker-Trace-TimeHom-1.pdf, id=176, 564.1075pt x 408.52625pt>
 File: figs/Sick-Sicker-Trace-TimeHom-1.pdf Graphic file (type pdf)
 <use figs/Sick-Sicker-Trace-TimeHom-1.pdf>
 Package pdftex.def Info: figs/Sick-Sicker-Trace-TimeHom-1.pdf  used on input li
 ne 565.
 (pdftex.def)             Requested size: 469.75845pt x 340.19875pt.
-[12] [13pdfTeX warning (ext4): destination with the same identifier (name{table
-.3}) has been already used, duplicate ignored
+[12pdfTeX warning (ext4): destination with the same identifier (name{table.3}) 
+has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.578 ...tion{State rewards}\label{state-rewards}}
-                                                  pdfTeX warning (ext4): destin
-ation with the same identifier (name{figure.2}) has been already used, duplicat
-e ignored
+l.571 
+      ] [13pdfTeX warning (ext4): destination with the same identifier (name{fi
+gure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.578 ...tion{State rewards}\label{state-rewards}}
-                                                   <./figs/Sick-Sicker-Trace-Ti
-meHom-1.pdf>] [14] [15] [16] [17pdfTeX warning (ext4): destination with the sam
-e identifier (name{table.4}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.769 \end{Shaded}
-                  ]
+l.587 
+       <./figs/Sick-Sicker-Trace-TimeHom-1.pdf>] [14] [15] [16]
 Overfull \hbox (45.16193pt too wide) in paragraph at lines 777--787
  [][] 
  []
 
-<figs/Sick-Sicker-CEA-1.pdf, id=239, 569.12625pt x 423.5825pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<figs/Sick-Sicker-CEA-1.pdf, id=234, 569.12625pt x 423.5825pt>
 File: figs/Sick-Sicker-CEA-1.pdf Graphic file (type pdf)
 <use figs/Sick-Sicker-CEA-1.pdf>
 Package pdftex.def Info: figs/Sick-Sicker-CEA-1.pdf  used on input line 791.
 (pdftex.def)             Requested size: 469.7781pt x 349.64085pt.
-[18pdfTeX warning (ext4): destination with the same identifier (name{table.5}) 
+[17pdfTeX warning (ext4): destination with the same identifier (name{table.4}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.797 
-      ] [19pdfTeX warning (ext4): destination with the same identifier (name{fi
-gure.3}) has been already used, duplicate ignored
+      ] [18pdfTeX warning (ext4): destination with the same identifier (name{ta
+ble.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.810   \texttt
-               {calculate\_ce\_out(l\_params\_all,\ n\_wtp\ =\ 100000)}: a f...
- <./figs/Sick-Sicker-CEA-1.pdf>]
-<figs/CE-scatter-1.pdf, id=270, 569.12625pt x 415.5525pt>
+l.802 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.802 
+       <./figs/Sick-Sicker-CEA-1.pdf>]
+<figs/CE-scatter-1.pdf, id=265, 569.12625pt x 415.5525pt>
 File: figs/CE-scatter-1.pdf Graphic file (type pdf)
 <use figs/CE-scatter-1.pdf>
 Package pdftex.def Info: figs/CE-scatter-1.pdf  used on input line 818.
 (pdftex.def)             Requested size: 469.7781pt x 343.01259pt.
-[20pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
- has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.826 
-       <./figs/CE-scatter-1.pdf>]
-<figs/CEAC-1.pdf, id=292, 568.1225pt x 423.5825pt>
+[19]
+<figs/CEAC-1.pdf, id=278, 568.1225pt x 423.5825pt>
 File: figs/CEAC-1.pdf Graphic file (type pdf)
 <use figs/CEAC-1.pdf>
 Package pdftex.def Info: figs/CEAC-1.pdf  used on input line 829.
 (pdftex.def)             Requested size: 469.7731pt x 350.25487pt.
-<figs/ELC-1.pdf, id=295, 569.12625pt x 423.5825pt>
+[20pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.835 
+       <./figs/CE-scatter-1.pdf>]
+<figs/ELC-1.pdf, id=298, 569.12625pt x 423.5825pt>
 File: figs/ELC-1.pdf Graphic file (type pdf)
 <use figs/ELC-1.pdf>
 Package pdftex.def Info: figs/ELC-1.pdf  used on input line 840.
@@ -794,10 +788,9 @@ Package pdftex.def Info: figs/ELC-1.pdf  used on input line 840.
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.845 \end{figure}
-                   <./figs/CEAC-1.pdf>] [22pdfTeX warning (ext4): destination w
-ith the same identifier (name{figure.6}) has been already used, duplicate ignor
-ed
+l.846 
+       <./figs/CEAC-1.pdf>] [22pdfTeX warning (ext4): destination with the same
+ identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.853 
@@ -891,7 +884,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 903--906
 
  []
 
-[24]
+
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 907--910
 [][][] []
  []
@@ -901,7 +894,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 907--910
 
  []
 
-
+[24]
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 911--914
 [][][] []
  []
@@ -1179,11 +1172,11 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  15107 strings out of 478994
  224568 string characters out of 5858184
- 595020 words of memory out of 5000000
+ 591020 words of memory out of 5000000
  31945 multiletter control sequences out of 15000+600000
  490914 words of font info for 185 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 85i,12n,88p,1625b,451s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 85i,12n,88p,1791b,451s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
 cal/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/20
 21/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2021/texmf-dist
@@ -1210,10 +1203,10 @@ ts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
 ublic/lm/lmtko10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/
 lmtt10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtti10.pf
 b>
-Output written on cSTM_Tutorial_Intro.pdf (27 pages, 838376 bytes).
+Output written on cSTM_Tutorial_Intro.pdf (27 pages, 838365 bytes).
 PDF statistics:
- 565 PDF objects out of 1000 (max. 8388607)
- 491 compressed objects within 5 object streams
+ 567 PDF objects out of 1000 (max. 8388607)
+ 493 compressed objects within 5 object streams
  115 named destinations out of 1000 (max. 500000)
  51343 words of extra memory for PDF output out of 51595 (max. 10000000)
 
