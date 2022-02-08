@@ -91,23 +91,31 @@ v_names_str <- c("Standard of care", # store the strategy names
 n_str <- length(v_names_str)
 
 ## Transition probabilities (per cycle)
-r_HD    <- 0.002 # constant rate of dying when Healthy (all-cause mortality rate)
-p_HS1   <- 0.15  # probability of becoming Sick when Healthy
-p_S1H   <- 0.5   # probability of becoming Healthy when Sick
-p_S1S2  <- 0.105 # probability of becoming Sicker when Sick
-hr_S1   <- 3     # hazard ratio of death in Sick vs Healthy
-hr_S2   <- 10    # hazard ratio of death in Sicker vs Healthy 
+r_HD   <- 0.002 # constant rate of dying when Healthy (all-cause mortality rate)
+r_HS1  <- 0.15  # constant rate of becoming Sick when Healthy
+r_S1H  <- 0.5   # constant rate of becoming Healthy when Sick
+r_S1S2 <- 0.105 # constant rate of becoming Sicker when Sick
+hr_S1  <- 3     # hazard ratio of death in Sick vs Healthy
+hr_S2  <- 10    # hazard ratio of death in Sicker vs Healthy 
 
 # Effectiveness of treatment B
 hr_S1S2_trtB <- 0.6 # hazard ratio of becoming Sicker when Sick under treatment B
 
+### Process model inputs
+## Transition probability of becoming Sick when Healthy
+# transform rate to probability
+p_HS1   <- 1 - exp(-r_HS1 * cycle_length)
+## Transition probability of becoming Healthy when Sick
+# transform rate to probability
+p_S1H   <- 1 - exp(-r_S1H * cycle_length)
+## Transition probability of becoming Sicker when Sick
+# transform rate to probability
+p_S1S2  <- 1 - exp(-r_S1S2 * cycle_length)
 ## Transition probability of becoming Sicker when Sick for treatment B
-# transform probability to rate
-r_S1S2      <- -log(1-p_S1S2)
 # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick for treatment B
 r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
 # transform rate to probability
-p_S1S2_trtB <- 1-exp(-r_S1S2_trtB*cycle_length) # probability to become Sicker when Sick 
+p_S1S2_trtB <- 1-exp(-r_S1S2_trtB * cycle_length) # probability to become Sicker when Sick 
                                                  # under treatment B conditional on surviving
 
 ## Cost and utility inputs 
@@ -127,6 +135,43 @@ u_trtA <- 0.95  # utility when being treated for one cycle
 
 # PSA parameters
 n_sim <- 1000 # Number of PSA samples
+
+# List of input parameters
+l_params_all <- list(
+  # Transition probabilities (per cycle), hazard ratios
+  r_HD        = r_HD  , # constant rate of dying when Healthy (all-cause mortality)
+  r_HS1       = r_HS1 ,  # probability to become Sick when Healthy conditional on surviving
+  r_S1H       = r_S1H ,   # probability to become Healthy when Sick conditional on surviving
+  r_S1S2      = r_S1S2, # probability to become Sicker when Sick conditional on surviving
+  hr_S1       = hr_S1 ,     # hazard ratio of death in Sick vs Healthy 
+  hr_S2       = hr_S2 ,    # hazard ratio of death in Sicker vs Healthy 
+  # Effectiveness of treatment B 
+  hr_S1S2_trtB = hr_S1S2_trtB,  # hazard ratio of becoming Sicker when Sick under B under treatment B
+  ## State rewards
+  # Costs
+  c_H    = c_H,  # cost of remaining one cycle in Healthy 
+  c_S1   = c_S1,  # cost of remaining one cycle in Sick 
+  c_S2   = c_S2, # cost of remaining one cycle in Sicker 
+  c_D    = c_D,     # cost of being dead (per cycle)
+  c_trtA = c_trtA, # cost of treatment A
+  c_trtB = c_trtB, # cost of treatment B
+  # Utilities
+  u_H    = u_H,     # utility when Healthy 
+  u_S1   = u_S1,  # utility when Sick 
+  u_S2   = u_S2,   # utility when Sicker
+  u_D    = u_D,     # utility when Dead 
+  u_trtA = u_trtA, # utility when being treated with A
+  # Initial and maximum ages
+  n_age_init = n_age_init,
+  n_age_max = n_age_max,
+  # Discount rates
+  d_c = d_c, # annual discount rate for costs 
+  d_e = d_e, # annual discount rate for QALYs,
+  # Cycle length
+  cycle_length = cycle_length
+)
+
+
 ```
 
 ```{r figure-setup, echo=FALSE, include=FALSE}
@@ -280,12 +325,12 @@ Table: (\#tab:param-table) Description of parameters, their R variable name, bas
 | Annual discount rate for costs     | `d_c`       |  3%           |    -           |
 | Annual discount rate for QALYs     | `d_e`       |  3%           |    -           |
 | Number of PSA samples ($K$)        | `n_sim`     | 1,000         |    -           |
-| Annual transition probabilities conditional on surviving     |             |               |                |
-| - Disease onset (H to S1)          | `p_HS1`     |  0.150         | beta(30, 170)  |
-| - Recovery (S1 to H)               | `p_S1H`     |  0.500          | beta(60, 60)   |
-| - Disease progression (S1 to S2)   | `p_S1S2`    |  0.105 | beta(84, 716) |
+| Annual constant transition rates     |             |               |                |
+| - Disease onset (H to S1)          | `r_HS1`     |  0.150         | gamma(30, 200)  |
+| - Recovery (S1 to H)               | `r_S1H`     |  0.500          | gamma(60, 120)   |
+| - Disease progression (S1 to S2)   | `r_S1S2`    |  0.105 | gamma(84, 800) |
 | Annual mortality                   |             |               |                |
-| - Background mortality rate (H to D)| `r_HD`     |  0.002        | -     |
+| - Background mortality rate (H to D)| `r_HD`     |  0.002        | gamma(20, 10000) |
 | - Hazard ratio of death in S1 vs H | `hr_S1`     |  3.0          | lognormal(log(3.0), 0.01) |
 | - Hazard ratio of death in S2 vs H | `hr_S2`     |  10.0         | lognormal(log(10.0), 0.02) |
 | Annual costs                       |             |               |                |
@@ -324,12 +369,23 @@ v_names_str <- c("Standard of care", # store the strategy names
                  "Strategy AB") 
 
 ## Transition probabilities (annual), and hazard ratios (HRs)
-r_HD    <- 0.002 # constant annual rate of dying when Healthy (all-cause mortality rate)
-p_HS1   <- 0.15  # probability of becoming Sick when Healthy
-p_S1H   <- 0.5   # probability of becoming Healthy when Sick
-p_S1S2  <- 0.105 # probability of becoming Sicker when Sick
-hr_S1   <- 3     # hazard ratio of death in Sick vs Healthy
-hr_S2   <- 10    # hazard ratio of death in Sicker vs Healthy 
+r_HD   <- 0.002 # constant annual rate of dying when Healthy (all-cause mortality rate)
+r_HS1  <- 0.15  # constant annual rate of becoming Sick when Healthy
+r_S1H  <- 0.5   # constant annual rate of becoming Healthy when Sick
+r_S1S2 <- 0.105 # constant annual rate of becoming Sicker when Sick
+hr_S1  <- 3     # hazard ratio of death in Sick vs Healthy
+hr_S2  <- 10    # hazard ratio of death in Sicker vs Healthy 
+
+### Process model inputs
+## Constant transition probability of becoming Sick when Healthy conditional on surviving 
+# transform rate to probability and scale by the cycle length
+p_HS1 <- 1 - exp(-r_HS1 * cycle_length)
+## Constant transition probability of becoming Healthy when Sick conditional on surviving 
+# transform rate to probability and scale by the cycle length
+p_S1H <- 1 - exp(-r_S1H * cycle_length)
+## Constant transition probability of becoming Sicker when Sick conditional on surviving 
+# transform rate to probability and scale by the cycle length
+p_S1S2 <- 1 - exp(-r_S1S2 * cycle_length)
 
 # Effectiveness of treatment B
 hr_S1S2_trtB <- 0.6 # hazard ratio of becoming Sicker when Sick under treatment B
@@ -343,11 +399,11 @@ c_D    <- 0     # annual cost of being dead
 c_trtA <- 12000 # annual cost of receiving treatment A
 c_trtB <- 13000 # annual cost of receiving treatment B
 # Utilities
-u_H    <- 1     # annual utility of being Healthy
-u_S1   <- 0.75  # annual utility of being Sick
-u_S2   <- 0.5   # annual utility of being Sicker
-u_D    <- 0     # annual utility of being dead
-u_trtA <- 0.95  # annual utility when receiving treatment A
+u_H    <- 1    # annual utility of being Healthy
+u_S1   <- 0.75 # annual utility of being Sick
+u_S2   <- 0.5  # annual utility of being Sicker
+u_D    <- 0    # annual utility of being dead
+u_trtA <- 0.95 # annual utility when receiving treatment A
 ```
 
 To compute the background mortality risk, `p_HD`, from the background mortality rate for the same cycle length (i.e., `cycle_length = 1`), we apply Equation \@ref(eq:rate-to-prob-ann) to `r_HD`. To compute the mortality risks of the cohort in S1 and S2, we multiply the background mortality rate `r_HD` by the hazard ratios `hr_S1` and `hr_S2`, respectively, and then convert back to probabilities using Equation \@ref(eq:rate-to-prob-ann). These calculations are required because hazard ratios only apply to rates and not to probabilities. The code below performs the computation in R. In the `darthtools` package (https://github.com/DARTH-git/darthtools), we provide R functions that compute transformations between rates and probabilities since these transformations are frequently used.
@@ -362,12 +418,10 @@ p_S1D <- 1 - exp(-r_S1D * cycle_length) # annual probability of dying when Sick
 p_S2D <- 1 - exp(-r_S2D * cycle_length) # annual probability of dying when Sicker
 ```
 
-To compute the risk of progression from S1 to S2 under treatment B, we first transform `p_S1S2` to a rate, `r_S1S2`, using Equation \@ref(eq:prob-to-rate-ann). Then, we multiply the hazard ratio of treatment B by the rate of progressing from S1 to S2 and transform it back to probabilities by applying Equation \@ref(eq:rate-to-prob-ann).
+To compute the risk of progression from S1 to S2 under treatment B, we multiply the hazard ratio of treatment B by the rate of progressing from S1 to S2 and transform it to probability by applying Equation \@ref(eq:rate-to-prob-ann).
 
 ```{r New-Treatment-2-Effectiveness, eval=TRUE}
 ## Transition probability of becoming Sicker when Sick for treatment B
-# transform probability to rate
-r_S1S2 <- -log(1 - p_S1S2)/cycle_length
 # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick 
 # for treatment B
 r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
@@ -512,24 +566,24 @@ A state reward refers to a value assigned to individuals for being in a given he
   (\#eq:exp-rew-cycle)
 \end{equation}
 
-For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, `v_u_SoC` and `v_c_SoC`, respectively, represent the utilities and costs corresponding with being in each of the four health states under SoC, which are shown in Table \@ref(tab:param-table).
+For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, `v_u_SoC` and `v_c_SoC`, respectively, represent the utilities and costs in each of the four health states under SoC, scaled by the cycle length (values are shown in Table \@ref(tab:param-table)).
 
 ```{r State-rewards-UC}
 # Vector of state utilities under SOC
-v_u_SoC <- c(H = u_H, S1 = u_S1, S2 = u_S2, D = u_D)
+v_u_SoC <- c(H = u_H, S1 = u_S1, S2 = u_S2, D = u_D) * cycle_length 
 # Vector of state costs under SoC
-v_c_SoC <- c(H = c_H, S1 = c_S1, S2 = c_S2, D = c_D)
+v_c_SoC <- c(H = c_H, S1 = c_S1, S2 = c_S2, D = c_D) * cycle_length 
 ```
 
 We account for the benefits and costs of both treatments individually and their combination to create the state-reward vectors under treatments A and B (strategies A and B, respectively) and when applied jointly (strategy AB). Only treatment A affects QoL, so we create a vector of utilities specific to strategies involving treatment A (strategies A and AB), `v_u_strA` and `v_u_strAB`. These vectors will have the same utility weights as for strategy SoC except for being in S1. We assign the utility associated with the benefit of treatment A in that state, `u_trtA`. Treatment B does not affect QoL, so the vector of utilities for strategy involving treatment B, `v_u_strB`, is the same as for SoC.
 
 ```{r State-rewards-U-Tr}
 # Vector of state utilities for strategy A
-v_u_strA <- c(H = u_H, S1 = u_trtA, S2 = u_S2, D = u_D)
+v_u_strA <- c(H = u_H, S1 = u_trtA, S2 = u_S2, D = u_D) * cycle_length 
 # Vector of state utilities for strategy B
-v_u_strB <- c(H = u_H, S1 = u_S1, S2 = u_S2, D = u_D)
+v_u_strB <- c(H = u_H, S1 = u_S1, S2 = u_S2, D = u_D) * cycle_length 
 # Vector of state utilities for strategy AB
-v_u_strAB <- c(H = u_H, S1 = u_trtA, S2 = u_S2, D = u_D)
+v_u_strAB <- c(H = u_H, S1 = u_trtA, S2 = u_S2, D = u_D) * cycle_length 
 ```
 
 Both treatments A and B incur a cost. To create the vector of state costs for strategy A, `v_c_strA`, we add the cost of treatment A, `c_trtA`, to the state costs of S1 and S2. Similarly, when constructing the vector of state costs for strategy B, `v_c_strB`, we add the cost of treatment B, `c_trtB`, to the state costs of S1 and S2. Finally, for the vector of state costs for strategy AB, `v_c_strAB`, we add both treatment costs to the state costs of S1 and S2.
@@ -539,17 +593,17 @@ Both treatments A and B incur a cost. To create the vector of state costs for st
 v_c_strA <- c(H  = c_H, 
               S1 = c_S1 + c_trtA, 
               S2 = c_S2 + c_trtA, 
-              D  = c_D)
+              D  = c_D) * cycle_length 
 # Vector of state costs for strategy B
 v_c_strB <- c(H  = c_H, 
               S1 = c_S1 + c_trtB, 
               S2 = c_S2 + c_trtB, 
-              D  = c_D)
+              D  = c_D) * cycle_length 
 # Vector of state costs for strategy AB
 v_c_strAB <- c(H  = c_H, 
                S1 = c_S1 + (c_trtA + c_trtB), 
                S2 = c_S2 + (c_trtA + c_trtB), 
-               D  = c_D)
+               D  = c_D) * cycle_length 
 ```
 
 To compute the expected QALYs and costs for the Sick-Sicker model under SoC and strategy A, we apply Equation \@ref(eq:exp-rew-cycle) by multiplying the cohort trace matrix, `m_M`, times the corresponding strategy-specific state vectors of rewards. Similarly, to compute the expected rewards for strategies B and AB, we multiply the cohort trace matrix accounting for the effectiveness of treatment B, `m_M_strB`, times their corresponding state vectors of rewards.
@@ -580,7 +634,7 @@ A discrete-time cSTM involves an approximation of continuous-time dynamics to di
   \mathbf{wcc} = \left[\frac{1}{3}, \frac{2}{3}, \frac{4}{3}, \cdots, \frac{1}{3}\right]
 \] 
 
-Since the within-cycle correction vector is the same for costs and QALYs, only one vector (`v_wcc`) is required.
+Since the WCC vector is the same for costs and QALYs, we only require one vector (`v_wcc`). We create `v_wcc` by defining two indicator functions that tell us whether the vector entries are even or odd, filled with the corresponding factors given by Simpson's 1/3rd rule. We create these functions using the `function` command that reads a vector `x` and applies the modulo operation `%%` that returns the remainder of each of the vector entries by 2. If the remainder of the $i-th$ entry is 0, the entry is even or odd otherwise. 
 ```{r within-cycle-vector}
 # First, we define two functions to identify if a number is even or odd
 is_even <- function(x) x %% 2 == 0
@@ -605,13 +659,13 @@ where $d$ is the cycle-length discount rate. At the end of the simulation, we mu
  (\#eq:tot-exp-disc-rewd)
 \end{equation}
 
-The discount vectors for costs and QALYs for the Sick-Sicker model with annual cycles, `v_dwc` and `v_dwe`, respectively, are 
+The discount vectors for costs and QALYs for the Sick-Sicker model with annual cycles, `v_dwc` and `v_dwe`, respectively, scaled by the cycle length, are 
 
 ```{r Discount vectors}
 # Discount weight for effects
-v_dwe <- 1 / ((1 + d_e) ^ (0:(n_cycles)))  
+v_dwe <- 1 / ((1 + (d_e * cycle_length)) ^ (0:n_cycles))  
 # Discount weight for costs 
-v_dwc <- 1 / ((1 + d_c) ^ (0:(n_cycles)))    
+v_dwc <- 1 / ((1 + (d_c * cycle_length)) ^ (0:n_cycles))    
 ```
 
 To compute the total expected discounted QALYs and costs under all four strategies accounting for both discounting and WCC, we incorporate $\mathbf{wcc}$ in equation \@ref(eq:tot-exp-disc-rewd) using an element-wise multiplication with $\mathbf{d}$, indicated by the $\odot$ sign.
@@ -690,7 +744,7 @@ table_cea$`Incremental QALYs` <- round(table_cea$`Incremental QALYs`, 3)
 table_cea$`ICER ($/QALY)` <- comma(round(table_cea$`ICER ($/QALY)`, 0))
 ```
 
-SoC is the least costly and effective strategy, followed by Strategy B producing an expected incremental benefit of `r round(table_cea[2, 5], 3)` QALYs per individual for an additional expected cost of \$`r table_cea[2, 4]` with an ICER of \$`r table_cea[2, 6]`/QALY followed by Strategy AB with an ICER \$`r table_cea[3, 6]`/QALY. Strategy A is a dominated strategy (Table \@ref(tab:table-cea)). Strategies SoC, B and AB form the cost-effectiveness efficient frontier (Figure \@ref(fig:Sick-Sicker-CEA))
+SoC is the least costly and effective strategy, followed by Strategy B producing an expected incremental benefit of `r round(table_cea[2, 5], 3)` QALYs per individual for an additional expected cost of \$`r table_cea[2, 4]` with an ICER of \$`r table_cea[2, 6]`/QALY followed by Strategy AB with an ICER \$`r table_cea[3, 6]`/QALY. Strategy A is a dominated strategy (Table \@ref(tab:table-cea)). Strategies SoC, B and AB form the cost-effectiveness efficient frontier (Figure \@ref(fig:Sick-Sicker-CEA)).
 
 ```{r table-cea, echo=FALSE, message=FALSE, warning=FALSE, purl=FALSE}
 kable(table_cea, 
@@ -739,7 +793,8 @@ These functions are provided in the accompanying GitHub repository of this manus
 ## Conduct probabilistic sensitivity analysis
 # Run Markov model on each parameter set of PSA input dataset
 for(i in 1:n_sim){
-  l_out_temp <- calculate_ce_out(l_params_all = df_psa_input[i, ])
+  l_psa_input <- update_param_list(l_params_all, df_psa_input[i,])
+  l_out_temp <- calculate_ce_out(l_psa_input)
   df_c[i, ]  <- l_out_temp$Cost  
   df_e[i, ]  <- l_out_temp$Effect
   # # Display simulation progress

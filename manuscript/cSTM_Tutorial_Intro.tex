@@ -154,7 +154,7 @@
 
 \title{An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example}
 \author{Fernando Alarid-Escudero, PhD\footnote{Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico} \and Eline Krijkamp, MSc\footnote{Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands} \and Eva A. Enns, PhD\footnote{Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA} \and Alan Yang, MSc\footnote{The Hospital for Sick Children, Toronto} \and Myriam G.M. Hunink, PhD\(^\dagger\)\footnote{Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA} \and Petros Pechlivanoglou, PhD\footnote{The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada} \and Hawre Jalal, MD, PhD\footnote{University of Pittsburgh, Pittsburgh, PA, USA}}
-\date{2022-01-31}
+\date{2022-02-08}
 
 \begin{document}
 \maketitle
@@ -322,12 +322,12 @@ Names of health states (\(n\)) & \texttt{v\_names\_states} & H, S1, S2, D & - \\
 Annual discount rate for costs & \texttt{d\_c} & 3\% & - \\
 Annual discount rate for QALYs & \texttt{d\_e} & 3\% & - \\
 Number of PSA samples (\(K\)) & \texttt{n\_sim} & 1,000 & - \\
-Annual transition probabilities conditional on surviving & & & \\
-- Disease onset (H to S1) & \texttt{p\_HS1} & 0.150 & beta(30, 170) \\
-- Recovery (S1 to H) & \texttt{p\_S1H} & 0.500 & beta(60, 60) \\
-- Disease progression (S1 to S2) & \texttt{p\_S1S2} & 0.105 & beta(84, 716) \\
+Annual constant transition rates & & & \\
+- Disease onset (H to S1) & \texttt{r\_HS1} & 0.150 & gamma(30, 200) \\
+- Recovery (S1 to H) & \texttt{r\_S1H} & 0.500 & gamma(60, 120) \\
+- Disease progression (S1 to S2) & \texttt{r\_S1S2} & 0.105 & gamma(84, 800) \\
 Annual mortality & & & \\
-- Background mortality rate (H to D) & \texttt{r\_HD} & 0.002 & - \\
+- Background mortality rate (H to D) & \texttt{r\_HD} & 0.002 & gamma(20, 10000) \\
 - Hazard ratio of death in S1 vs H & \texttt{hr\_S1} & 3.0 & lognormal(log(3.0), 0.01) \\
 - Hazard ratio of death in S2 vs H & \texttt{hr\_S2} & 10.0 & lognormal(log(10.0), 0.02) \\
 Annual costs & & & \\
@@ -369,12 +369,23 @@ The following sections include R code snippets. All R code is stored as a GitHub
                  \StringTok{"Strategy AB"}\NormalTok{) }
 
 \DocumentationTok{\#\# Transition probabilities (annual), and hazard ratios (HRs)}
-\NormalTok{r\_HD    }\OtherTok{\textless{}{-}} \FloatTok{0.002} \CommentTok{\# constant annual rate of dying when Healthy (all{-}cause mortality rate)}
-\NormalTok{p\_HS1   }\OtherTok{\textless{}{-}} \FloatTok{0.15}  \CommentTok{\# probability of becoming Sick when Healthy}
-\NormalTok{p\_S1H   }\OtherTok{\textless{}{-}} \FloatTok{0.5}   \CommentTok{\# probability of becoming Healthy when Sick}
-\NormalTok{p\_S1S2  }\OtherTok{\textless{}{-}} \FloatTok{0.105} \CommentTok{\# probability of becoming Sicker when Sick}
-\NormalTok{hr\_S1   }\OtherTok{\textless{}{-}} \DecValTok{3}     \CommentTok{\# hazard ratio of death in Sick vs Healthy}
-\NormalTok{hr\_S2   }\OtherTok{\textless{}{-}} \DecValTok{10}    \CommentTok{\# hazard ratio of death in Sicker vs Healthy }
+\NormalTok{r\_HD   }\OtherTok{\textless{}{-}} \FloatTok{0.002} \CommentTok{\# constant annual rate of dying when Healthy (all{-}cause mortality rate)}
+\NormalTok{r\_HS1  }\OtherTok{\textless{}{-}} \FloatTok{0.15}  \CommentTok{\# constant annual rate of becoming Sick when Healthy}
+\NormalTok{r\_S1H  }\OtherTok{\textless{}{-}} \FloatTok{0.5}   \CommentTok{\# constant annual rate of becoming Healthy when Sick}
+\NormalTok{r\_S1S2 }\OtherTok{\textless{}{-}} \FloatTok{0.105} \CommentTok{\# constant annual rate of becoming Sicker when Sick}
+\NormalTok{hr\_S1  }\OtherTok{\textless{}{-}} \DecValTok{3}     \CommentTok{\# hazard ratio of death in Sick vs Healthy}
+\NormalTok{hr\_S2  }\OtherTok{\textless{}{-}} \DecValTok{10}    \CommentTok{\# hazard ratio of death in Sicker vs Healthy }
+
+\DocumentationTok{\#\#\# Process model inputs}
+\DocumentationTok{\#\# Constant transition probability of becoming Sick when Healthy conditional on surviving }
+\CommentTok{\# transform rate to probability and scale by the cycle length}
+\NormalTok{p\_HS1 }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_HS1 }\SpecialCharTok{*}\NormalTok{ cycle\_length)}
+\DocumentationTok{\#\# Constant transition probability of becoming Healthy when Sick conditional on surviving }
+\CommentTok{\# transform rate to probability and scale by the cycle length}
+\NormalTok{p\_S1H }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S1H }\SpecialCharTok{*}\NormalTok{ cycle\_length)}
+\DocumentationTok{\#\# Constant transition probability of becoming Sicker when Sick conditional on surviving }
+\CommentTok{\# transform rate to probability and scale by the cycle length}
+\NormalTok{p\_S1S2 }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{r\_S1S2 }\SpecialCharTok{*}\NormalTok{ cycle\_length)}
 
 \CommentTok{\# Effectiveness of treatment B}
 \NormalTok{hr\_S1S2\_trtB }\OtherTok{\textless{}{-}} \FloatTok{0.6} \CommentTok{\# hazard ratio of becoming Sicker when Sick under treatment B}
@@ -388,11 +399,11 @@ The following sections include R code snippets. All R code is stored as a GitHub
 \NormalTok{c\_trtA }\OtherTok{\textless{}{-}} \DecValTok{12000} \CommentTok{\# annual cost of receiving treatment A}
 \NormalTok{c\_trtB }\OtherTok{\textless{}{-}} \DecValTok{13000} \CommentTok{\# annual cost of receiving treatment B}
 \CommentTok{\# Utilities}
-\NormalTok{u\_H    }\OtherTok{\textless{}{-}} \DecValTok{1}     \CommentTok{\# annual utility of being Healthy}
-\NormalTok{u\_S1   }\OtherTok{\textless{}{-}} \FloatTok{0.75}  \CommentTok{\# annual utility of being Sick}
-\NormalTok{u\_S2   }\OtherTok{\textless{}{-}} \FloatTok{0.5}   \CommentTok{\# annual utility of being Sicker}
-\NormalTok{u\_D    }\OtherTok{\textless{}{-}} \DecValTok{0}     \CommentTok{\# annual utility of being dead}
-\NormalTok{u\_trtA }\OtherTok{\textless{}{-}} \FloatTok{0.95}  \CommentTok{\# annual utility when receiving treatment A}
+\NormalTok{u\_H    }\OtherTok{\textless{}{-}} \DecValTok{1}    \CommentTok{\# annual utility of being Healthy}
+\NormalTok{u\_S1   }\OtherTok{\textless{}{-}} \FloatTok{0.75} \CommentTok{\# annual utility of being Sick}
+\NormalTok{u\_S2   }\OtherTok{\textless{}{-}} \FloatTok{0.5}  \CommentTok{\# annual utility of being Sicker}
+\NormalTok{u\_D    }\OtherTok{\textless{}{-}} \DecValTok{0}    \CommentTok{\# annual utility of being dead}
+\NormalTok{u\_trtA }\OtherTok{\textless{}{-}} \FloatTok{0.95} \CommentTok{\# annual utility when receiving treatment A}
 \end{Highlighting}
 \end{Shaded}
 
@@ -410,13 +421,11 @@ To compute the background mortality risk, \texttt{p\_HD}, from the background mo
 \end{Highlighting}
 \end{Shaded}
 
-To compute the risk of progression from S1 to S2 under treatment B, we first transform \texttt{p\_S1S2} to a rate, \texttt{r\_S1S2}, using Equation \eqref{eq:prob-to-rate-ann}. Then, we multiply the hazard ratio of treatment B by the rate of progressing from S1 to S2 and transform it back to probabilities by applying Equation \eqref{eq:rate-to-prob-ann}.
+To compute the risk of progression from S1 to S2 under treatment B, we multiply the hazard ratio of treatment B by the rate of progressing from S1 to S2 and transform it to probability by applying Equation \eqref{eq:rate-to-prob-ann}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \DocumentationTok{\#\# Transition probability of becoming Sicker when Sick for treatment B}
-\CommentTok{\# transform probability to rate}
-\NormalTok{r\_S1S2 }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_S1S2)}\SpecialCharTok{/}\NormalTok{cycle\_length}
 \CommentTok{\# apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick }
 \CommentTok{\# for treatment B}
 \NormalTok{r\_S1S2\_trtB }\OtherTok{\textless{}{-}}\NormalTok{ r\_S1S2 }\SpecialCharTok{*}\NormalTok{ hr\_S1S2\_trtB}
@@ -546,12 +555,12 @@ Table \ref{tab:Trace} shows the cohort trace matrix \(M\) of the Sick-Sicker mod
 Cycle & H & S1 & S2 & D\\
 \midrule{}
 0 & 1.000 & 0.000 & 0.000 & 0.000\\
-1 & 0.848 & 0.150 & 0.000 & 0.002\\
-2 & 0.794 & 0.186 & 0.016 & 0.005\\
-3 & 0.766 & 0.192 & 0.035 & 0.008\\
-4 & 0.745 & 0.190 & 0.054 & 0.011\\
+1 & 0.859 & 0.139 & 0.000 & 0.002\\
+2 & 0.792 & 0.189 & 0.014 & 0.005\\
+3 & 0.755 & 0.206 & 0.032 & 0.008\\
+4 & 0.729 & 0.208 & 0.052 & 0.011\\
 \addlinespace
-5 & 0.726 & 0.186 & 0.073 & 0.015\\
+5 & 0.707 & 0.206 & 0.072 & 0.015\\
 \bottomrule{}
 \end{tabular}
 \end{table}
@@ -579,14 +588,14 @@ A state reward refers to a value assigned to individuals for being in a given he
   \label{eq:exp-rew-cycle}
 \end{equation}
 
-For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, \texttt{v\_u\_SoC} and \texttt{v\_c\_SoC}, respectively, represent the utilities and costs corresponding with being in each of the four health states under SoC, which are shown in Table \ref{tab:param-table}.
+For the Sick-Sicker model, we create a vector of utilities and costs for each of the four strategies considered. The vectors of utilities and costs in R, \texttt{v\_u\_SoC} and \texttt{v\_c\_SoC}, respectively, represent the utilities and costs in each of the four health states under SoC, scaled by the cycle length (values are shown in Table \ref{tab:param-table}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Vector of state utilities under SOC}
-\NormalTok{v\_u\_SoC }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_S1, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D)}
+\NormalTok{v\_u\_SoC }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_S1, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \CommentTok{\# Vector of state costs under SoC}
-\NormalTok{v\_c\_SoC }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ c\_H, }\AttributeTok{S1 =}\NormalTok{ c\_S1, }\AttributeTok{S2 =}\NormalTok{ c\_S2, }\AttributeTok{D =}\NormalTok{ c\_D)}
+\NormalTok{v\_c\_SoC }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ c\_H, }\AttributeTok{S1 =}\NormalTok{ c\_S1, }\AttributeTok{S2 =}\NormalTok{ c\_S2, }\AttributeTok{D =}\NormalTok{ c\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \end{Highlighting}
 \end{Shaded}
 
@@ -595,11 +604,11 @@ We account for the benefits and costs of both treatments individually and their 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Vector of state utilities for strategy A}
-\NormalTok{v\_u\_strA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_trtA, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D)}
+\NormalTok{v\_u\_strA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_trtA, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \CommentTok{\# Vector of state utilities for strategy B}
-\NormalTok{v\_u\_strB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_S1, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D)}
+\NormalTok{v\_u\_strB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_S1, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \CommentTok{\# Vector of state utilities for strategy AB}
-\NormalTok{v\_u\_strAB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_trtA, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D)}
+\NormalTok{v\_u\_strAB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H =}\NormalTok{ u\_H, }\AttributeTok{S1 =}\NormalTok{ u\_trtA, }\AttributeTok{S2 =}\NormalTok{ u\_S2, }\AttributeTok{D =}\NormalTok{ u\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \end{Highlighting}
 \end{Shaded}
 
@@ -611,17 +620,17 @@ Both treatments A and B incur a cost. To create the vector of state costs for st
 \NormalTok{v\_c\_strA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H  =}\NormalTok{ c\_H, }
               \AttributeTok{S1 =}\NormalTok{ c\_S1 }\SpecialCharTok{+}\NormalTok{ c\_trtA, }
               \AttributeTok{S2 =}\NormalTok{ c\_S2 }\SpecialCharTok{+}\NormalTok{ c\_trtA, }
-              \AttributeTok{D  =}\NormalTok{ c\_D)}
+              \AttributeTok{D  =}\NormalTok{ c\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \CommentTok{\# Vector of state costs for strategy B}
 \NormalTok{v\_c\_strB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H  =}\NormalTok{ c\_H, }
               \AttributeTok{S1 =}\NormalTok{ c\_S1 }\SpecialCharTok{+}\NormalTok{ c\_trtB, }
               \AttributeTok{S2 =}\NormalTok{ c\_S2 }\SpecialCharTok{+}\NormalTok{ c\_trtB, }
-              \AttributeTok{D  =}\NormalTok{ c\_D)}
+              \AttributeTok{D  =}\NormalTok{ c\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \CommentTok{\# Vector of state costs for strategy AB}
 \NormalTok{v\_c\_strAB }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{H  =}\NormalTok{ c\_H, }
                \AttributeTok{S1 =}\NormalTok{ c\_S1 }\SpecialCharTok{+}\NormalTok{ (c\_trtA }\SpecialCharTok{+}\NormalTok{ c\_trtB), }
                \AttributeTok{S2 =}\NormalTok{ c\_S2 }\SpecialCharTok{+}\NormalTok{ (c\_trtA }\SpecialCharTok{+}\NormalTok{ c\_trtB), }
-               \AttributeTok{D  =}\NormalTok{ c\_D)}
+               \AttributeTok{D  =}\NormalTok{ c\_D) }\SpecialCharTok{*}\NormalTok{ cycle\_length }
 \end{Highlighting}
 \end{Shaded}
 
@@ -657,7 +666,7 @@ A discrete-time cSTM involves an approximation of continuous-time dynamics to di
   \mathbf{wcc} = \left[\frac{1}{3}, \frac{2}{3}, \frac{4}{3}, \cdots, \frac{1}{3}\right]
 \]
 
-Since the within-cycle correction vector is the same for costs and QALYs, only one vector (\texttt{v\_wcc}) is required.
+Since the WCC vector is the same for costs and QALYs, we only require one vector (\texttt{v\_wcc}). We create \texttt{v\_wcc} by defining two indicator functions that tell us whether the vector entries are even or odd, filled with the corresponding factors given by Simpson's 1/3rd rule. We create these functions using the \texttt{function} command that reads a vector \texttt{x} and applies the modulo operation \texttt{\%\%} that returns the remainder of each of the vector entries by 2. If the remainder of the \(i-th\) entry is 0, the entry is even or odd otherwise.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -687,14 +696,14 @@ where \(d\) is the cycle-length discount rate. At the end of the simulation, we 
  \label{eq:tot-exp-disc-rewd}
 \end{equation}
 
-The discount vectors for costs and QALYs for the Sick-Sicker model with annual cycles, \texttt{v\_dwc} and \texttt{v\_dwe}, respectively, are
+The discount vectors for costs and QALYs for the Sick-Sicker model with annual cycles, \texttt{v\_dwc} and \texttt{v\_dwe}, respectively, scaled by the cycle length, are
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Discount weight for effects}
-\NormalTok{v\_dwe }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{/}\NormalTok{ ((}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ d\_e) }\SpecialCharTok{\^{}}\NormalTok{ (}\DecValTok{0}\SpecialCharTok{:}\NormalTok{(n\_cycles)))  }
+\NormalTok{v\_dwe }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{/}\NormalTok{ ((}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ (d\_e }\SpecialCharTok{*}\NormalTok{ cycle\_length)) }\SpecialCharTok{\^{}}\NormalTok{ (}\DecValTok{0}\SpecialCharTok{:}\NormalTok{n\_cycles))  }
 \CommentTok{\# Discount weight for costs }
-\NormalTok{v\_dwc }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{/}\NormalTok{ ((}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ d\_c) }\SpecialCharTok{\^{}}\NormalTok{ (}\DecValTok{0}\SpecialCharTok{:}\NormalTok{(n\_cycles)))    }
+\NormalTok{v\_dwc }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{/}\NormalTok{ ((}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ (d\_c }\SpecialCharTok{*}\NormalTok{ cycle\_length)) }\SpecialCharTok{\^{}}\NormalTok{ (}\DecValTok{0}\SpecialCharTok{:}\NormalTok{n\_cycles))    }
 \end{Highlighting}
 \end{Shaded}
 
@@ -735,10 +744,10 @@ To compute the total expected discounted and WCC-corrected QALYs under all four 
 \toprule{}
   & Costs & QALYs\\
 \midrule{}
-Standard of care & \$148,657 & 20.990\\
-Strategy A & \$275,937 & 21.717\\
-Strategy B & \$248,571 & 22.482\\
-Strategy AB & \$361,341 & 23.354\\
+Standard of care & \$151,580 & 20.711\\
+Strategy A & \$284,805 & 21.499\\
+Strategy B & \$259,100 & 22.184\\
+Strategy AB & \$378,875 & 23.137\\
 \bottomrule{}
 \end{tabular}
 \end{table}
@@ -764,7 +773,7 @@ We combine the total expected discounted costs and QALYs for all four strategies
 \end{Highlighting}
 \end{Shaded}
 
-SoC is the least costly and effective strategy, followed by Strategy B producing an expected incremental benefit of 1.492 QALYs per individual for an additional expected cost of \$99,913 with an ICER of \$66,960/QALY followed by Strategy AB with an ICER \$129,354/QALY. Strategy A is a dominated strategy (Table \ref{tab:table-cea}). Strategies SoC, B and AB form the cost-effectiveness efficient frontier (Figure \ref{fig:Sick-Sicker-CEA})
+SoC is the least costly and effective strategy, followed by Strategy B producing an expected incremental benefit of 1.473 QALYs per individual for an additional expected cost of \$107,521 with an ICER of \$72,988/QALY followed by Strategy AB with an ICER \$125,764/QALY. Strategy A is a dominated strategy (Table \ref{tab:table-cea}). Strategies SoC, B and AB form the cost-effectiveness efficient frontier (Figure \ref{fig:Sick-Sicker-CEA}).
 
 \begin{table}[!h]
 
@@ -774,10 +783,10 @@ SoC is the least costly and effective strategy, followed by Strategy B producing
 \toprule{}
 Strategy & Costs (\$) & QALYs & Incremental Costs (\$) & Incremental QALYs & ICER (\$/QALY) & Status\\
 \midrule{}
-Standard of care & 148,657 & 20.990 & NA & NA & NA & ND\\
-Strategy B & 248,571 & 22.482 & 99,913 & 1.492 & 66,960 & ND\\
-Strategy AB & 361,341 & 23.354 & 112,771 & 0.872 & 129,354 & ND\\
-Strategy A & 275,937 & 21.717 & NA & NA & NA & D\\
+Standard of care & 151,580 & 20.711 & NA & NA & NA & ND\\
+Strategy B & 259,100 & 22.184 & 107,521 & 1.473 & 72,988 & ND\\
+Strategy AB & 378,875 & 23.137 & 119,775 & 0.952 & 125,764 & ND\\
+Strategy A & 284,805 & 21.499 & NA & NA & NA & D\\
 \bottomrule{}
 \end{tabular}
 \end{table}
@@ -818,7 +827,7 @@ To conduct the PSA of the CEA using the time-independent Sick-Sicker cSTM, we sa
 \caption{Cost-effectiveness scatter plot.}\label{fig:CE-scatter}
 \end{figure}
 
-Figure \ref{fig:CEAC} presents the cost-effectiveness acceptability curves (CEACs), which show the probability that each strategy is cost-effective, and the cost-effectiveness frontier (CEAF), which shows the strategy with the highest expected net monetary benefit (NMB), over a range of willingness-to-pay (WTP) thresholds. Each strategy's NMB is computed using \(\text{NMB} = \text{QALY} \times \text{WTP} - \text{Cost}\)\textsuperscript{\protect\hyperlink{ref-Stinnett1998b}{28}} for each PSA sample. At WTP thresholds less than \$70,000 per QALY gained, strategy SoC has both the highest probability of being cost-effective and the highest expected NMB. This switches to strategy B for WTP thresholds between \$70,000 and \$125,000 per QALY gained and to strategy AB for WTP thresholds greater than or equal to \$125,000 per QALY gained.
+Figure \ref{fig:CEAC} presents the cost-effectiveness acceptability curves (CEACs), which show the probability that each strategy is cost-effective, and the cost-effectiveness frontier (CEAF), which shows the strategy with the highest expected net monetary benefit (NMB), over a range of willingness-to-pay (WTP) thresholds. Each strategy's NMB is computed using \(\text{NMB} = \text{QALY} \times \text{WTP} - \text{Cost}\)\textsuperscript{\protect\hyperlink{ref-Stinnett1998b}{28}} for each PSA sample. At WTP thresholds less than \$80,000 per QALY gained, strategy SoC has both the highest probability of being cost-effective and the highest expected NMB. This switches to strategy B for WTP thresholds between \$80,000 and \$120,000 per QALY gained and to strategy AB for WTP thresholds greater than or equal to \$120,000 per QALY gained.
 
 \begin{figure}[H]
 
