@@ -68,9 +68,9 @@ library(doParallel)
 ### Load supplementary functions
 source("R/Functions.R")
 
-################################ Model input ################################# 
+################################# Model input ##################################
 ## General setup
-cycle_length <- 1        # cycle length equal to one year (use 1/12 for monthly)
+cycle_length <- 1       # cycle length equal to one year (use 1/12 for monthly)
 n_age_init <- 25        # age at baseline
 n_age_max  <- 100       # maximum age of follow up
 n_cycles <- (n_age_max - n_age_init)/cycle_length # time horizon, number of cycles
@@ -98,9 +98,9 @@ v_wcc <- darthtools::gen_wcc(n_cycles = n_cycles,
 
 ## Transition probabilities (annual), and hazard ratios (HRs)
 r_HD   <- 0.002 # constant annual rate of dying when Healthy (all-cause mortality)
-p_HS1  <- 0.15  # probability to become Sick when Healthy conditional on surviving
-p_S1H  <- 0.5   # probability to become Healthy when Sick conditional on surviving
-p_S1S2 <- 0.105 # probability to become Sicker when Sick conditional on surviving
+r_HS1  <- 0.15  # constant annual rate of becoming Sick when Healthy
+r_S1H  <- 0.5   # constant annual rate of becoming Healthy when Sick
+r_S1S2 <- 0.105 # constant annual rate of becoming Sicker when Sick
 hr_S1  <- 3     # hazard ratio of death in Sick vs Healthy 
 hr_S2  <- 10    # hazard ratio of death in Sicker vs Healthy 
 
@@ -123,8 +123,8 @@ u_D    <- 0     # annual utility of being dead
 u_trtA <- 0.95  # annual utility when receiving treatment A
 
 # Discount weight for costs and effects
-v_dwc  <- 1 / ((1 + d_e) ^ (0:n_cycles))
-v_dwe  <- 1 / ((1 + d_c) ^ (0:n_cycles))
+v_dwc  <- 1 / ((1 + (d_e * cycle_length)) ^ (0:n_cycles))
+v_dwe  <- 1 / ((1 + (d_c * cycle_length)) ^ (0:n_cycles))
 
 ### Process model inputs
 ## Cycle-specific transition probabilities to the Dead state
@@ -132,13 +132,14 @@ v_dwe  <- 1 / ((1 + d_c) ^ (0:n_cycles))
 r_S1D <- r_HD * hr_S1 # annual mortality rate in the Sick state
 r_S2D <- r_HD * hr_S2 # annual mortality rate in the Sicker state
 # transform rates to probabilities
-p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # annual mortality risk in the Healthy state
-p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # annual mortality risk in the Sick state
-p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # annual mortality risk in the Sicker state
+p_HS1  <- rate_to_prob(r = r_HS1, t = cycle_length) # constant annual probability of becoming Sick when Healthy conditional on surviving 
+p_S1H  <- rate_to_prob(r = r_S1H, t = cycle_length) # constant annual probability of becoming Healthy when Sick conditional on surviving
+p_S1S2 <- rate_to_prob(r = r_S1S2, t = cycle_length)# constant annual probability of becoming Sicker when Sick conditional on surviving
+p_HD   <- rate_to_prob(r = r_HD, t = cycle_length)  # annual mortality risk in the Healthy state
+p_S1D  <- rate_to_prob(r = r_S1D, t = cycle_length) # annual mortality risk in the Sick state
+p_S2D  <- rate_to_prob(r = r_S2D, t = cycle_length) # annual mortality risk in the Sicker state
 
 ## Annual transition probability of becoming Sicker when Sick for treatment B
-# transform probability to rate
-r_S1S2      <- prob_to_rate(p = p_S1S2, t = cycle_length)
 # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick for treatment B
 r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
 # transform rate to probability
@@ -210,7 +211,7 @@ darthtools::check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycle
 darthtools::check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strB) == 1
 darthtools::check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE) # rowSums(m_P_strAB) == 1
 
-#### Run Markov model ####
+####################### Run Markov model #######################
 # Iterative solution of time-independent cSTM
 for(t in 1:n_cycles){
   # For SoC
@@ -234,22 +235,22 @@ names(l_m_M) <- v_names_str
 ### Plot the cohort trace for strategies SoC and A
 plot_trace(m_M)
 
-#### State Rewards ####
+#### State Rewards scaled by the cycle length ####
 ## Vector of state utilities under strategy SoC
 v_u_SoC    <- c(H  = u_H, 
                 S1 = u_S1, 
                 S2 = u_S2, 
-                D  = u_D)
+                D  = u_D) * cycle_length
 ## Vector of state costs under strategy SoC
 v_c_SoC    <- c(H  = c_H, 
                 S1 = c_S1,
                 S2 = c_S2, 
-                D  = c_D)
+                D  = c_D) * cycle_length
 ## Vector of state utilities under strategy A
 v_u_strA   <- c(H  = u_H, 
                 S1 = u_trtA, 
                 S2 = u_S2, 
-                D  = u_D)
+                D  = u_D) * cycle_length
 ## Vector of state costs under strategy A
 v_c_strA   <- c(H  = c_H, 
                 S1 = c_S1 + c_trtA,
@@ -259,22 +260,22 @@ v_c_strA   <- c(H  = c_H,
 v_u_strB   <- c(H  = u_H, 
                 S1 = u_S1, 
                 S2 = u_S2, 
-                D  = u_D)
+                D  = u_D) * cycle_length
 ## Vector of state costs under strategy B
 v_c_strB   <- c(H  = c_H, 
                 S1 = c_S1 + c_trtB, 
                 S2 = c_S2 + c_trtB, 
-                D  = c_D)
+                D  = c_D) * cycle_length
 ## Vector of state utilities under strategy AB
 v_u_strAB  <- c(H  = u_H, 
                 S1 = u_trtA, 
                 S2 = u_S2, 
-                D  = u_D)
+                D  = u_D) * cycle_length
 ## Vector of state costs under strategy AB
 v_c_strAB  <- c(H  = c_H, 
                 S1 = c_S1 + (c_trtA + c_trtB), 
                 S2 = c_S2 + (c_trtA + c_trtB), 
-                D  = c_D)
+                D  = c_D) * cycle_length
 
 ## Store the vectors of state utilities for each strategy in a list 
 l_u   <- list(SQ = v_u_SoC,
@@ -312,7 +313,7 @@ for (i in 1:n_str) {
   v_tot_cost[i] <- t(v_cost_str) %*% (v_dwc * v_wcc)
 }
 
-########################## Cost-effectiveness analysis #######################
+########################### Cost-effectiveness analysis ########################
 ### Calculate incremental cost-effectiveness ratios (ICERs)
 df_cea <- calculate_icers(cost       = v_tot_cost, 
                           effect     = v_tot_qaly,
@@ -330,14 +331,15 @@ plot(df_cea, label = "all") +
 ################### Probabilistic Sensitivity Analysis (PSA) ###################
 ### Load model, CEA and PSA functions
 source("R/Functions_cSTM_time_indep.R")
+source("R/Functions.R")
 
 # List of input parameters
 l_params_all <- list(
   # Transition probabilities (per cycle), hazard ratios
   r_HD        = 0.002, # constant rate of dying when Healthy (all-cause mortality)
-  p_HS1       = 0.15,  # probability to become Sick when Healthy conditional on surviving
-  p_S1H       = 0.5,   # probability to become Healthy when Sick conditional on surviving
-  p_S1S2      = 0.105, # probability to become Sicker when Sick conditional on surviving
+  r_HS1       = 0.15,  # probability to become Sick when Healthy conditional on surviving
+  r_S1H       = 0.5,   # probability to become Healthy when Sick conditional on surviving
+  r_S1S2      = 0.105, # probability to become Sicker when Sick conditional on surviving
   hr_S1       = 3,     # hazard ratio of death in Sick vs Healthy 
   hr_S2       = 10,    # hazard ratio of death in Sicker vs Healthy 
   # Effectiveness of treatment B 
@@ -355,7 +357,15 @@ l_params_all <- list(
   u_S1   = 0.75,  # utility when Sick 
   u_S2   = 0.5,   # utility when Sicker
   u_D    = 0,     # utility when Dead 
-  u_trtA = 0.95   # utility when being treated with A
+  u_trtA = 0.95, # utility when being treated with A
+  # Initial and maximum ages
+  n_age_init = 25,
+  n_age_max = 100,
+  # Discount rates
+  d_c = 0.03, # annual discount rate for costs 
+  d_e = 0.03, # annual discount rate for QALYs,
+  # Cycle length
+  cycle_length = 1
 )
 
 # store the parameter names into a vector
@@ -404,7 +414,8 @@ colnames(df_e) <- v_names_str
 # Run Markov model on each parameter set of PSA input dataset
 n_time_init_psa_series <- Sys.time()
 for(i in 1:n_sim){
-  l_out_temp <- calculate_ce_out(df_psa_input[i, ])
+  l_psa_input <- update_param_list(l_params_all, df_psa_input[i,])
+  l_out_temp <- calculate_ce_out(l_psa_input)
   df_c[i, ] <- l_out_temp$Cost
   df_e[i, ] <- l_out_temp$Effect
   # Display simulation progress
@@ -499,7 +510,7 @@ colnames(l_psa$cost)<- v_names_str
 
 # Create PSA graphs
 # Vector with willingness-to-pay (WTP) thresholds.
-v_wtp <- seq(0, 250000, by = 5000)
+v_wtp <- seq(0, 200000, by = 5000)
 
 # Cost-Effectiveness Scatter plot
 plot(l_psa) +
@@ -529,13 +540,23 @@ summary(ceac_obj)
 # CEAC & CEAF plot
 plot(ceac_obj) +
   ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind()
+  ggthemes::scale_fill_colorblind() +
+  theme(legend.position = c(0.82, 0.5))
 
 # Expected Loss Curves (ELCs)
 elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_psa)
 elc_obj
 # ELC plot
-plot(elc_obj, log_y = FALSE)
+plot(elc_obj, log_y = FALSE, 
+     txtsize = 16, xlim = c(0, NA), n_x_ticks = 14,
+     col = "full") +
+  ggthemes::scale_color_colorblind() +
+  ggthemes::scale_fill_colorblind() +
+  # geom_point(aes(shape = as.name("Strategy"))) +
+  scale_y_continuous("Expected Loss (Thousand $)", 
+                     breaks = number_ticks(10),
+                     labels = function(x) x/1000) +
+  theme(legend.position = c(0.4, 0.7))
 
 # Expected value of perfect information (EVPI)
 evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)

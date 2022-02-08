@@ -12,18 +12,22 @@
 decision_model <- function(l_params_all, verbose = FALSE) {
   with(as.list(l_params_all), {
     ########################### Process model inputs ###########################
+    ### Process model inputs
+    ## Number of cycles
+    n_cycles <- (n_age_max - n_age_init)/cycle_length # time horizon, number of cycles
     ## Cycle-specific transition probabilities to the Dead state
     # compute mortality rates
     r_S1D <- r_HD * hr_S1 # annual mortality rate in the Sick state
     r_S2D <- r_HD * hr_S2 # annual mortality rate in the Sicker state
     # transform rates to probabilities
-    p_HD  <- rate_to_prob(r = r_HD, t = cycle_length)  # annual mortality risk in the Healthy state
-    p_S1D <- rate_to_prob(r = r_S1D, t = cycle_length) # annual mortality risk in the Sick state
-    p_S2D <- rate_to_prob(r = r_S2D, t = cycle_length) # annual mortality risk in the Sicker state
+    p_HS1  <- rate_to_prob(r = r_HS1, t = cycle_length) # constant annual probability of becoming Sick when Healthy conditional on surviving 
+    p_S1H  <- rate_to_prob(r = r_S1H, t = cycle_length) # constant annual probability of becoming Healthy when Sick conditional on surviving
+    p_S1S2 <- rate_to_prob(r = r_S1S2, t = cycle_length)# constant annual probability of becoming Sicker when Sick conditional on surviving
+    p_HD   <- rate_to_prob(r = r_HD, t = cycle_length)  # annual mortality risk in the Healthy state
+    p_S1D  <- rate_to_prob(r = r_S1D, t = cycle_length) # annual mortality risk in the Sick state
+    p_S2D  <- rate_to_prob(r = r_S2D, t = cycle_length) # annual mortality risk in the Sicker state
     
     ## Annual transition probability of becoming Sicker when Sick for treatment B
-    # transform probability to rate
-    r_S1S2      <- prob_to_rate(p = p_S1S2, t = cycle_length)
     # apply hazard ratio to rate to obtain transition rate of becoming Sicker when Sick for treatment B
     r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
     # transform rate to probability
@@ -35,6 +39,10 @@ decision_model <- function(l_params_all, verbose = FALSE) {
     ## Initial state vector
     # All starting healthy
     v_m_init <- c(H = 1, S1 = 0, S2 = 0, D = 0) # initial state vector
+    # Number of health states 
+    n_states    <- length(v_m_init)
+    # Health state names
+    v_names_states <- names(v_m_init)
     
     ## Initialize cohort trace for SoC
     m_M <- matrix(NA, 
@@ -107,6 +115,13 @@ decision_model <- function(l_params_all, verbose = FALSE) {
       m_M_strAB[t + 1, ] <- m_M_strAB[t, ] %*% m_P_strAB
     }
     
+    ## Strategy names
+    v_names_str <- c("Standard of care",      # store the strategy names
+                     "Strategy A", 
+                     "Strategy B",
+                     "Strategy AB") 
+    n_str       <- length(v_names_str)        # number of strategies
+    
     ## Store the cohort traces in a list
     l_m_M <- list(m_M,
                   m_M,
@@ -137,47 +152,54 @@ calculate_ce_out <- function(l_params_all, n_wtp = 100000){ # User defined
     ## Cohort traces
     l_m_M <- decision_model(l_params_all = l_params_all)
     
+    ## Strategy names
+    v_names_str <- c("Standard of care",      # store the strategy names
+                     "Strategy A", 
+                     "Strategy B",
+                     "Strategy AB") 
+    n_str       <- length(v_names_str)        # number of strategies
+    
     #### State Rewards ####
     ## Vector of state utilities under strategy SoC
     v_u_SoC    <- c(H  = u_H, 
                     S1 = u_S1, 
                     S2 = u_S2, 
-                    D  = u_D)
+                    D  = u_D) * cycle_length 
     ## Vector of state costs under strategy SoC
     v_c_SoC    <- c(H  = c_H, 
                     S1 = c_S1,
                     S2 = c_S2, 
-                    D  = c_D)
+                    D  = c_D) * cycle_length 
     ## Vector of state utilities under strategy A
     v_u_strA   <- c(H  = u_H, 
                     S1 = u_trtA, 
                     S2 = u_S2, 
-                    D  = u_D)
+                    D  = u_D) * cycle_length 
     ## Vector of state costs under strategy A
     v_c_strA   <- c(H  = c_H, 
                     S1 = c_S1 + c_trtA,
                     S2 = c_S2 + c_trtA, 
-                    D  = c_D)
+                    D  = c_D) * cycle_length 
     ## Vector of state utilities under strategy B
     v_u_strB   <- c(H  = u_H, 
                     S1 = u_S1, 
                     S2 = u_S2, 
-                    D  = u_D)
+                    D  = u_D) * cycle_length 
     ## Vector of state costs under strategy B
     v_c_strB   <- c(H  = c_H, 
                     S1 = c_S1 + c_trtB, 
                     S2 = c_S2 + c_trtB, 
-                    D  = c_D)
+                    D  = c_D) * cycle_length 
     ## Vector of state utilities under strategy AB
     v_u_strAB  <- c(H  = u_H, 
                     S1 = u_trtA, 
                     S2 = u_S2, 
-                    D  = u_D)
+                    D  = u_D) * cycle_length 
     ## Vector of state costs under strategy AB
     v_c_strAB  <- c(H  = c_H, 
                     S1 = c_S1 + (c_trtA + c_trtB), 
                     S2 = c_S2 + (c_trtA + c_trtB), 
-                    D  = c_D)
+                    D  = c_D) * cycle_length 
     
     ## Store the vectors of state utilities for each strategy in a list 
     l_u   <- list(SQ = v_u_SoC,
@@ -196,6 +218,17 @@ calculate_ce_out <- function(l_params_all, n_wtp = 100000){ # User defined
     ## create empty vectors to store total utilities and costs 
     v_tot_qaly <- v_tot_cost <- vector(mode = "numeric", length = n_str)
     names(v_tot_qaly) <- names(v_tot_cost) <- v_names_str
+    
+    ## Number of cycles
+    n_cycles <- (n_age_max - n_age_init)/cycle_length # time horizon, number of cycles
+    
+    ## Discount weight for costs and effects
+    v_dwc  <- 1 / ((1 + d_e * cycle_length) ^ (0:n_cycles))
+    v_dwe  <- 1 / ((1 + d_c * cycle_length) ^ (0:n_cycles))
+    
+    ## Within-cycle correction (WCC) using Simpson's 1/3 rule
+    v_wcc <- darthtools::gen_wcc(n_cycles = n_cycles, 
+                                 method = "Simpson1/3") # vector of wcc
     
     #### Loop through each strategy and calculate total utilities and costs ####
     for (i in 1:n_str) {
@@ -245,10 +278,10 @@ generate_psa_params <- function(n_sim = 1000, seed = 071818){
   set.seed(seed) # set a seed to be able to reproduce the same results
   df_psa <- data.frame(
     # Transition probabilities (per cycle), hazard ratios
-    r_HD    = rlnorm(n_sim, meanlog = log(0.002), sdlog = 0.01), # constant rate of dying when Healthy (all-cause mortality)
-    p_HS1   = rbeta(n_sim, shape1 = 30, shape2 = 170),        # probability to become Sick when Healthy conditional on surviving
-    p_S1H   = rbeta(n_sim, shape1 = 60, shape2 = 60) ,        # probability to become Healthy when Sick conditional on surviving
-    p_S1S2  = rbeta(n_sim, shape1 = 84, shape2 = 716),        # probability to become Sicker when Sick conditional on surviving
+    r_HD    = rgamma(n_sim, shape = 20, rate = 10000), # constant rate of dying when Healthy (all-cause mortality)
+    r_HS1   = rgamma(n_sim, shape = 30, rate = 170 + 30), # constant rate of becoming Sick when Healthy conditional on surviving
+    r_S1H   = rgamma(n_sim, shape = 60, rate = 60 + 60),  # constant rate of becoming Healthy when Sick conditional on surviving
+    r_S1S2  = rgamma(n_sim, shape = 84, rate = 716 + 84), # constant rate of becoming Sicker when Sick conditional on surviving
     hr_S1   = rlnorm(n_sim, meanlog = log(3),  sdlog = 0.01), # hazard ratio of death in Sick vs Healthy 
     hr_S2   = rlnorm(n_sim, meanlog = log(10), sdlog = 0.02), # hazard ratio of death in Sicker vs Healthy 
     
@@ -272,4 +305,23 @@ generate_psa_params <- function(n_sim = 1000, seed = 071818){
     u_trtA  = rbeta(n_sim, shape1 = 300, shape2 = 15)     # utility when being treated with A
   )
   return(df_psa)
+}
+
+#' Update parameters
+#'
+#' \code{update_param_list} is used to update list of all parameters with new 
+#' values for specific parameters.
+#'
+#' @param l_params_all List with all parameters of decision model
+#' @param params_updated Parameters for which values need to be updated
+#' @return 
+#' A list with all parameters updated.
+#' @export
+update_param_list <- function(l_params_all, params_updated){
+  
+  if (typeof(params_updated)!="list"){
+    params_updated <- split(unname(params_updated),names(params_updated)) #converte the named vector to a list
+  }
+  l_params_all <- modifyList(l_params_all, params_updated) #update the values
+  return(l_params_all)
 }
