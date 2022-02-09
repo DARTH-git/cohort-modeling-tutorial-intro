@@ -667,7 +667,7 @@ v_dwe <- 1 / ((1 + (d_e * cycle_length)) ^ (0:n_cycles))
 v_dwc <- 1 / ((1 + (d_c * cycle_length)) ^ (0:n_cycles))    
 ```
 
-To compute the total expected discounted QALYs and costs under all four strategies accounting for both discounting and WCC, we incorporate $\mathbf{wcc}$ in equation \@ref(eq:tot-exp-disc-rewd) using an element-wise multiplication with $\mathbf{d}$, indicated by the $\odot$ sign.
+The functions and code for creating the WCC and discounting vectors above are single lines of code that affect the entire vectors of rewards used to compute the health and economic outputs of the model. To compute the total expected discounted QALYs and costs under all four strategies accounting for both discounting and WCC, we incorporate $\mathbf{wcc}$ in equation \@ref(eq:tot-exp-disc-rewd) using an element-wise multiplication with $\mathbf{d}$, indicated by the $\odot$ sign.
 \begin{equation}
  y = \mathbf{y}^{'} \left(\mathbf{d} \odot \mathbf{wcc}\right).
  (\#eq:tot-exp-disc-rewd-wcc)
