@@ -116,7 +116,7 @@ p_S1S2  <- 1 - exp(-r_S1S2 * cycle_length)
 r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
 # transform rate to probability
 p_S1S2_trtB <- 1-exp(-r_S1S2_trtB * cycle_length) # probability to become Sicker when Sick 
-                                                 # under treatment B conditional on surviving
+                                                 # under treatment B
 
 ## Cost and utility inputs 
 # State rewards
@@ -140,9 +140,9 @@ n_sim <- 1000 # Number of PSA samples
 l_params_all <- list(
   # Transition probabilities (per cycle), hazard ratios
   r_HD        = r_HD  , # constant rate of dying when Healthy (all-cause mortality)
-  r_HS1       = r_HS1 ,  # probability to become Sick when Healthy conditional on surviving
-  r_S1H       = r_S1H ,   # probability to become Healthy when Sick conditional on surviving
-  r_S1S2      = r_S1S2, # probability to become Sicker when Sick conditional on surviving
+  r_HS1       = r_HS1 ,  # probability to become Sick when Healthy
+  r_S1H       = r_S1H ,   # probability to become Healthy when Sick
+  r_S1S2      = r_S1S2, # probability to become Sicker when Sick
   hr_S1       = hr_S1 ,     # hazard ratio of death in Sick vs Healthy 
   hr_S2       = hr_S2 ,    # hazard ratio of death in Sicker vs Healthy 
   # Effectiveness of treatment B 
@@ -377,13 +377,13 @@ hr_S1  <- 3     # hazard ratio of death in Sick vs Healthy
 hr_S2  <- 10    # hazard ratio of death in Sicker vs Healthy 
 
 ### Process model inputs
-## Constant transition probability of becoming Sick when Healthy conditional on surviving 
+## Constant transition probability of becoming Sick when Healthy
 # transform rate to probability and scale by the cycle length
 p_HS1 <- 1 - exp(-r_HS1 * cycle_length)
-## Constant transition probability of becoming Healthy when Sick conditional on surviving 
+## Constant transition probability of becoming Healthy when Sick
 # transform rate to probability and scale by the cycle length
 p_S1H <- 1 - exp(-r_S1H * cycle_length)
-## Constant transition probability of becoming Sicker when Sick conditional on surviving 
+## Constant transition probability of becoming Sicker when Sick
 # transform rate to probability and scale by the cycle length
 p_S1S2 <- 1 - exp(-r_S1S2 * cycle_length)
 
@@ -426,8 +426,7 @@ To compute the risk of progression from S1 to S2 under treatment B, we multiply 
 # for treatment B
 r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
 # transform rate to probability
-# probability to become Sicker when Sick 
-# under treatment B
+# probability to become Sicker when Sick under treatment B
 p_S1S2_trtB <- 1 - exp(-r_S1S2_trtB * cycle_length) 
 ```
 
@@ -869,7 +868,9 @@ In this introductory tutorial, we provided a step-by-step mathematical conceptua
 
 The parameterization of our example model assumes all parameters are known, or at least, the characterization of their uncertainty is known (i.e., we know their distributions). However, to construct a real-world cSTM, modelers must conduct a thorough synthesis of current evidence to determine these appropriate structures and inform all parameters based on the current evidence. For example, literature must be carefully considered when determining whether transitions between non-death health states are estimated conditional on being alive or are estimated as competing risks along with mortality risks.[@Briggs2012] Similarly, our PSA analysis simplifies reality where all model parameters are assumed to be independent of each other. However, parameters could be correlated or have a rank order, and appropriate statistical methods that simulate these correlations or rank order might be needed.[@Goldhaber-Fiebert2015] We encourage modelers to use appropriate statistical methods to accurately synthesize and quantify model parameters' uncertainty. For example, for the PSA of our case study, we used distributions based on the type of parameters following standard recommendations. For a more detailed description of how to choose distributions, we refer the reader to other literature.[@Briggs2002; @Briggs2003] In addition, modelers should appropriately specify all model parameters for the cycle length of the model.[@Hunink2014]
 
-In general, cSTMs are recommended when the number of states is considered "not too large".[@Siebert2012c] This recommendation arises because it becomes more challenging to keep track of their construction as the number of states increases. It is possible to build reasonably complex cSTMs in R as long as the computer's RAM can store the size of the transition probability matrix and outputs of interest. For time-independent cSTMs, in general, this should not be a problem with the capacity of current RAM in personal computers. With increasing model complexity and interdependency of functions to conduct various analyses like PSA, it is essential to ensure all code and functions work as expected and all elements of the cSTM are valid. We can achieve this by creating functions that help with model debugging, validation, and thorough unit testing. In the accompanying GitHub repository, we provide functions to check that transition probability matrices and their elements are valid. These functions are an example of a broader standard practice in software development called unit testing that requires building functions to test and check that the model and model-based analysis perform as intended.[@Wickham2021] However, unit testing is beyond the scope of this tutorial. We refer the reader to a previously published manuscript that describes unit testing in more detail and provides accompanying code.[@Alarid-Escudero2019e]
+In general, cSTMs are recommended when the number of states is considered "not too large".[@Siebert2012c] This recommendation arises because it becomes more challenging to keep track of their construction as the number of states increases. It is possible to build reasonably complex cSTMs in R as long as the computer's RAM can store the size of the transition probability matrix and outputs of interest. For time-independent cSTMs, in general, this should not be a problem with the capacity of current RAM in personal computers. An alternative to reduce the explosion of disease states is individual-based state-transition model (iSTM), which is a type of STM where simulated individuals transition between health states over time.[@Siebert2012c] We have previously published a tutorial on the implementation of iSTM in R.[@Krijkamp2018]
+
+With increasing model complexity and interdependency of functions to conduct various analyses like PSA, it is essential to ensure all code and functions work as expected and all elements of the cSTM are valid. We can achieve this by creating functions that help with model debugging, validation, and thorough unit testing. In the accompanying GitHub repository, we provide functions to check that transition probability matrices and their elements are valid. These functions are an example of a broader standard practice in software development called unit testing that requires building functions to test and check that the model and model-based analysis perform as intended.[@Wickham2021] However, unit testing is beyond the scope of this tutorial. We refer the reader to a previously published manuscript that describes unit testing in more detail and provides accompanying code.[@Alarid-Escudero2019e]
 
 In this tutorial, we implemented a cSTM using a (discrete-time) transition matrix. However, cSTM can also be implemented via (discrete-time) difference equations or (continuous-time) differential equations in R.[@Grimmett2014; @Axler2005] We refer readers interested in learning more on continuous-time cSTMs to previously published manuscripts[@Cao2016;@VanRosmalen2013;@Begun2013;@Soares2012] and a tutorial using R.[@Frederix2013a] Finally, the variable names used in this paper reflect our coding style. While we provide standardized variable names, adopting these conventions is ultimately a personal preference.
 
