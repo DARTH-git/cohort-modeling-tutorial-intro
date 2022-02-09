@@ -57,11 +57,13 @@ library(data.table)
 library(tidyr)
 library(reshape2) 
 library(ggplot2) 
+library(ggrepel)
+library(ellipse)
 library(gridExtra)
 library(ggthemes)   # For colorblind palettes
 library(scales)     # For dollar signs and commas 
 library(boot)
-library(dampack)    # For CEA and PSA visualization functionality
+# library(dampack)    # For CEA and PSA visualization functionality
 library(darthtools) # For WCC, parameter transformation an matrix checks
 library(doParallel)
 
