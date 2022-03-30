@@ -63,7 +63,7 @@ library(gridExtra)
 library(ggthemes)   # For colorblind palettes
 library(scales)     # For dollar signs and commas 
 library(boot)
-# library(dampack)    # For CEA and PSA visualization functionality
+# library(dampack)  # Uncomment to use CEA and PSA visualization functionality form dampack instead of the functions included in this repository
 library(darthtools) # For WCC, parameter transformation an matrix checks
 library(doParallel)
 
@@ -328,7 +328,7 @@ table_cea
 
 ### CEA frontier
 plot(df_cea, label = "all") +
-  expand_limits(x = max(table_cea$QALYs) + 0.5) 
+  expand_limits(x = max(table_cea$QALYs) + 0.1) 
 
 ################### Probabilistic Sensitivity Analysis (PSA) ###################
 ### Load model, CEA and PSA functions
@@ -374,10 +374,10 @@ l_params_all <- list(
 v_names_params <- names(l_params_all)
 
 # Test function to compute CE outcomes
-calculate_ce_out(l_params_all)
+calculate_ce_out(l_params_all) # Function included in "R/Functions_cSTM_time_indep.R"
 
 # Test function to generate PSA input dataset
-generate_psa_params(10) 
+generate_psa_params(10) # Function included in "R/Functions_cSTM_time_indep.R"
 
 # Number of simulations
 n_sim <- 1000
