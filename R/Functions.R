@@ -267,12 +267,224 @@ format_table_cea <- function(table_cea) {
                              "Incremental QALYs", 
                              "ICER ($/QALY)") 
   
-  table_cea$`Costs ($)` <- comma(round(table_cea$`Costs ($)`, 0))
-  table_cea$`Incremental Costs ($)` <- comma(round(table_cea$`Incremental Costs ($)`, 0))
+  table_cea$`Costs ($)` <- scales::comma(round(table_cea$`Costs ($)`, 0))
+  table_cea$`Incremental Costs ($)` <- scales::comma(round(table_cea$`Incremental Costs ($)`, 0))
   table_cea$QALYs <- round(table_cea$QALYs, 2)
   table_cea$`Incremental QALYs` <- round(table_cea$`Incremental QALYs`, 2)
-  table_cea$`ICER ($/QALY)` <- comma(round(table_cea$`ICER ($/QALY)`, 0))
+  table_cea$`ICER ($/QALY)` <- scales::comma(round(table_cea$`ICER ($/QALY)`, 0))
   return(table_cea)
+}
+
+################################################################################
+################# FUNCTIONS INCLUDED IN DARTHTOOLS #############################
+################################################################################
+#' Within-cycle correction (WCC)
+#'
+#' \code{gen_wcc} generates a vector of within-cycle corrections (WCC).
+#'
+#' @param n_cycles number of cycles
+#' @param method The method to be used for within-cycle correction.
+#'
+#' @return A vector of length \code{n_cycles + 1} with within-cycle corrections
+#'
+#' @details
+#' The default method is an implementation of Simpson's 1/3rd rule that
+#' generates a vector with the first and last entry with 1/3 and the odd and
+#' even entries with 4/3 and 2/3, respectively.
+#'
+#' Method "\code{half-cycle}" is the half-cycle correction method that
+#' generates a vector with the first and last entry with 1/2 and the rest equal
+#' to 1.
+#'
+#' Method "\code{none}" does not implement any within-cycle correction and
+#' generates a vector with ones.
+#'
+#' @references
+#' \enumerate{
+#' \item Elbasha EH, Chhatwal J. Myths and misconceptions of within-cycle
+#' correction: a guide for modelers and decision makers. Pharmacoeconomics.
+#' 2016;34(1):13-22.
+#' \item Elbasha EH, Chhatwal J. Theoretical foundations and practical
+#' applications of within-cycle correction methods. Med Decis Mak.
+#' 2016;36(1):115-131.
+#' }
+#'
+#' @examples
+#' # Number of cycles
+#' n_cycles <- 10
+#' gen_wcc(n_cycles = n_cycles, method = "Simpson1/3")
+#' gen_wcc(n_cycles = n_cycles, method = "half-cycle")
+#' gen_wcc(n_cycles = n_cycles, method = "none")
+#'
+#' @export
+gen_wcc <- function (n_cycles, method = c("Simpson1/3", "half-cycle", "none")) 
+{
+  if (n_cycles <= 0) {
+    stop("Number of cycles should be positive")
+  }
+  method <- match.arg(method)
+  n_cycles <- as.integer(n_cycles)
+  if (method == "Simpson1/3") {
+    v_cycles <- seq(1, n_cycles + 1)
+    v_wcc <- ((v_cycles%%2) == 0) * (2/3) + ((v_cycles%%2) != 
+                                               0) * (4/3)
+    v_wcc[1] <- v_wcc[n_cycles + 1] <- 1/3
+  }
+  if (method == "half-cycle") {
+    v_wcc <- rep(1, n_cycles + 1)
+    v_wcc[1] <- v_wcc[n_cycles + 1] <- 0.5
+  }
+  if (method == "none") {
+    v_wcc <- rep(1, n_cycles + 1)
+  }
+  return(v_wcc)
+}
+
+function (r, t = 1) 
+{
+  if ((sum(r < 0) > 0)) {
+    stop("rate not greater than or equal to 0")
+  }
+  p <- 1 - exp(-r * t)
+  return(p)
+}
+
+#' Convert a rate to a probability
+#'
+#' \code{rate_to_prob} convert a rate to a probability.
+#'
+#' @param r rate
+#' @param t time/ frequency
+#' @return a scalar or vector with probabilities
+#' @examples
+#' # Annual rate to monthly probability
+#' r_year  <- 0.3
+#' r_month <- rate_to_prob(r = r_year, t = 1/12)
+#' r_month
+#' @export
+rate_to_prob <- function(r, t = 1){
+  if ((sum(r < 0) > 0)){
+    stop("rate not greater than or equal to 0")
+  }
+  p <- 1 - exp(- r * t)
+  return(p)
+}
+
+#' Check if transition array is valid
+#'
+#' \code{check_transition_probability} checks if transition probabilities are in \[0, 1\].
+#'
+#' @param a_P A transition probability array/ matrix.
+#' @param err_stop Logical variable to stop model run if set up as TRUE. Default = FALSE.
+#' @param verbose Logical variable to indicate print out of messages.
+#' Default = FALSE
+#'
+#' @return
+#' This function stops if transition probability array is not valid and shows
+#' what are the entries that are not valid
+#' @export
+check_transition_probability <- function(a_P,
+                                         err_stop = FALSE,
+                                         verbose = FALSE) {
+  
+  a_P <- as.array(a_P)
+  
+  # Verify if a_P is 2D or 3D matrix
+  n_dim <- length(dim(a_P))
+  # If a_P is a 2D matrix, convert to a 3D array
+  if (n_dim < 3){
+    a_P <- array(a_P, dim = list(nrow(a_P), ncol(a_P), 1),
+                 dimnames = list(rownames(a_P), colnames(a_P), "Time independent"))
+  }
+  # Check which entries are not valid
+  m_indices_notvalid <- arrayInd(which(a_P < 0 | a_P > 1),
+                                 dim(a_P))
+  
+  if(dim(m_indices_notvalid)[1] != 0){
+    v_rows_notval   <- rownames(a_P)[m_indices_notvalid[, 1]]
+    v_cols_notval   <- colnames(a_P)[m_indices_notvalid[, 2]]
+    v_cycles_notval <- dimnames(a_P)[[3]][m_indices_notvalid[, 3]]
+    
+    df_notvalid <- data.frame(`Transition probabilities not valid:` =
+                                matrix(paste0(paste(v_rows_notval, v_cols_notval, sep = "->"),
+                                              "; at cycle ",
+                                              v_cycles_notval), ncol = 1),
+                              check.names = FALSE)
+    
+    if(err_stop) {
+      stop("Not valid transition probabilities\n",
+           paste(capture.output(df_notvalid), collapse = "\n"))
+    }
+    
+    if(verbose){
+      warning("Not valid transition probabilities\n",
+              paste(capture.output(df_notvalid), collapse = "\n"))
+    }
+  }
+}
+
+#' Check if the sum of transition probabilities equal to one.
+#'
+#' \code{check_sum_of_transition_array} checks if each of the rows of the
+#' transition matrices sum to one.
+#'
+#' @param a_P A transition probability array/ matrix.
+#' @param n_states Number of health states in a Markov trace, appropriate for Markov models.
+#' @param n_rows Number of rows (individuals), appropriate for microsimulation models.
+#' @param n_cycles Number of cycles.
+#' @param err_stop Logical variable to stop model run if set up as TRUE.
+#' Default = TRUE.
+#' @param verbose Logical variable to indicate print out of messages.
+#' Default = TRUE
+#' @return
+#' The transition probability array and the cohort trace matrix.
+#' @export
+check_sum_of_transition_array <- function(a_P,
+                                          n_rows = NULL,
+                                          n_states = NULL,
+                                          n_cycles,
+                                          err_stop = TRUE,
+                                          verbose  = TRUE) {
+  
+  if (!is.null(n_rows) & !is.null(n_states)) {
+    stop("Pick either n_rows or n_states, not both.")
+  }
+  
+  if (is.null(n_rows) & is.null(n_states)) {
+    stop("Need to specify either n_rows or n_states, but not both.")
+  }
+  
+  if (!is.null(n_rows)) {
+    n_states <- n_rows
+  }
+  
+  a_P <- as.array(a_P)
+  d <- length(dim(a_P))
+  # For matrix
+  if (d == 2) {
+    valid <- sum(rowSums(a_P))
+    if (abs(valid - n_states) > 0.01) {
+      if(err_stop) {
+        stop("This is not a valid transition matrix")
+      }
+      
+      if(verbose){
+        warning("This is not a valid transition matrix")
+      }
+    }
+  } else {
+    # For array
+    valid <- (apply(a_P, d, function(x) sum(rowSums(x))) == n_states)
+    if (!isTRUE(all.equal(as.numeric(sum(valid)), as.numeric(n_cycles)))) {
+      if(err_stop) {
+        stop("This is not a valid transition array")
+      }
+      
+      if(verbose){
+        warning("This is not a valid transition array")
+      }
+    }
+  }
 }
 
 ################################################################################
@@ -966,7 +1178,7 @@ plot.icers <- function(x,
     }
     
     icer_plot <- icer_plot +
-      geom_label_repel(data = lab_data,
+      ggrepel::geom_label_repel(data = lab_data,
                        aes_(label = as.name(strat_name)),
                        size = 3,
                        show.legend = FALSE,
@@ -1179,7 +1391,7 @@ plot.psa <- function(x,
     df_list_ell <- lapply(strategies, function(s) {
       strat_specific_df <- ce_df[ce_df$Strategy == s, ]
       els <-  with(strat_specific_df,
-                   ellipse(cor(Effectiveness, Cost),
+                   ellipse::ellipse(cor(Effectiveness, Cost),
                            scale = c(sd(Effectiveness), sd(Cost)),
                            centre = c(mean(Effectiveness), mean(Cost))))
       data.frame(els, group = s, stringsAsFactors = FALSE)
@@ -1832,7 +2044,7 @@ add_common_aes <- function(gplot, txtsize, scale_name = waiver(),
 #' @return  a character vector giving a label for each input value
 labfun <- function(x) {
   if (any(x > 999, na.rm = TRUE)) {
-    comma(x)
+    scales::comma(x)
   } else {
     x
   }
