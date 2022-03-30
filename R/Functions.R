@@ -275,7 +275,9 @@ format_table_cea <- function(table_cea) {
   return(table_cea)
 }
 
+################################################################################
 ################## FUNCTIONS INCLUDED IN DAMPACK ###############################
+################################################################################
 
 # For a more detailed description and current versions of the functions above, 
 # please go to dampack's package Github repo (https://github.com/DARTH-git/dampack)
