@@ -39,33 +39,28 @@ rm(list = ls())    # remove any variables in R's memory
 
 ### Install packages
 # install.packages("dplyr")      # to manipulate data
-# install.packages("data.table") # to manipulate data
 # install.packages("tidyr")      # to manipulate data
 # install.packages("reshape2")   # to manipulate data
 # install.packages("ggplot2")    # to visualize data
-# install.packages("gridExtra")  # to visualize data
+# install.packages("ggrepel")    # to visualize data
+# install.packages("ellipse")    # to visualize data
 # install.packages("scales")     # for dollar signs and commas
-# install.packages("boot")       # to handle log odds and log odds ratios
-# install.packages("devtools")   # to ensure compatibility among packages
 # install.packages("dampack")    # for CEA and calculate ICERs
-# devtools::install_github("DARTH-git/darthtools") # to install darthtools from GitHub
+# install.packages("devtools")   # to install packages from GitHub
+# devtools::install_github("DARTH-git/darthtools") # to install darthtools from GitHub using devtools
 # install.packages("doParallel") # to handle parallel processing
 
 ### Load packages
-library(dplyr)    
-library(data.table)
+library(dplyr)
 library(tidyr)
-library(reshape2) 
-library(ggplot2) 
-library(ggrepel)
-library(ellipse)
-library(gridExtra)
-library(ggthemes)   # For colorblind palettes
-library(scales)     # For dollar signs and commas 
-library(boot)
-# library(dampack)  # Uncomment to use CEA and PSA visualization functionality form dampack instead of the functions included in this repository
-library(darthtools) # For WCC, parameter transformation an matrix checks
-library(doParallel)
+library(reshape2)   # For melting data
+library(ggplot2)    # For plotting
+library(ggrepel)    # For plotting
+library(ellipse)    # For plotting
+library(scales)     # For dollar signs and commas
+# library(dampack)  # Uncomment to use CEA and PSA visualization functionality from dampack instead of the functions included in this repository
+# library(darthtools) # Uncomment to use WCC, parameter transformation, and matrix checks from darthtools instead of the functions included in this repository
+# library(doParallel) # For running PSA in parallel
 
 ### Load supplementary functions
 source("R/Functions.R")
@@ -95,8 +90,8 @@ v_names_str <- c("Standard of care",      # store the strategy names
 n_str       <- length(v_names_str)        # number of strategies
 
 # Within-cycle correction (WCC) using Simpson's 1/3 rule
-v_wcc <- darthtools::gen_wcc(n_cycles = n_cycles, 
-                             method = "Simpson1/3") # vector of wcc
+v_wcc <- gen_wcc(n_cycles = n_cycles,  # Function included in "R/Functions.R". The latest version can be found in `darthtools` package
+                 method = "Simpson1/3") # vector of wcc
 
 ## Transition probabilities (annual), and hazard ratios (HRs)
 r_HD   <- 0.002 # constant annual rate of dying when Healthy (all-cause mortality)
@@ -133,7 +128,8 @@ v_dwe  <- 1 / ((1 + (d_c * cycle_length)) ^ (0:n_cycles))
 # compute mortality rates
 r_S1D <- r_HD * hr_S1 # annual mortality rate in the Sick state
 r_S2D <- r_HD * hr_S2 # annual mortality rate in the Sicker state
-# transform rates to probabilities
+# transform rates to probabilities 
+# Function included in "R/Functions.R". The latest version can be found in `darthtools` package
 p_HS1  <- rate_to_prob(r = r_HS1, t = cycle_length) # constant annual probability of becoming Sick when Healthy conditional on surviving 
 p_S1H  <- rate_to_prob(r = r_S1H, t = cycle_length) # constant annual probability of becoming Healthy when Sick conditional on surviving
 p_S1S2 <- rate_to_prob(r = r_S1S2, t = cycle_length)# constant annual probability of becoming Sicker when Sick conditional on surviving
@@ -147,7 +143,7 @@ r_S1S2_trtB <- r_S1S2 * hr_S1S2_trtB
 # transform rate to probability
 # probability to become Sicker when Sick 
 # under treatment B conditional on surviving
-p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB, t = cycle_length) 
+p_S1S2_trtB <- rate_to_prob(r = r_S1S2_trtB, t = cycle_length) # Function included in "R/Functions.R". The latest version can be found in `darthtools` package
 
 ####################### Construct state-transition models ######################
 ## Initial state vector
@@ -202,16 +198,17 @@ m_P_strB["S1", "S2"] <- (1 - p_S1D) * p_S1S2_trtB
 m_P_strAB <- m_P_strB
 
 ### Check if transition probability matrices are valid
+# Functions included in "R/Functions.R". The latest version can be found in `darthtools` package
 ## Check that transition probabilities are [0, 1]
-darthtools::check_transition_probability(m_P,      verbose = TRUE)  # m_P >= 0 && m_P <= 1
-darthtools::check_transition_probability(m_P_strA, verbose = TRUE)  # m_P_strA >= 0 && m_P_strA <= 1
-darthtools::check_transition_probability(m_P_strB, verbose = TRUE)  # m_P_strB >= 0 && m_P_strB <= 1
-darthtools::check_transition_probability(m_P_strAB, verbose = TRUE) # m_P_strAB >= 0 && m_P_strAB <= 1
+check_transition_probability(m_P,      verbose = TRUE)  # m_P >= 0 && m_P <= 1
+check_transition_probability(m_P_strA, verbose = TRUE)  # m_P_strA >= 0 && m_P_strA <= 1
+check_transition_probability(m_P_strB, verbose = TRUE)  # m_P_strB >= 0 && m_P_strB <= 1
+check_transition_probability(m_P_strAB, verbose = TRUE) # m_P_strAB >= 0 && m_P_strAB <= 1
 ## Check that all rows sum to 1
-darthtools::check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P) == 1
-darthtools::check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strA) == 1
-darthtools::check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strB) == 1
-darthtools::check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE) # rowSums(m_P_strAB) == 1
+check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P) == 1
+check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strA) == 1
+check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strB) == 1
+check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE) # rowSums(m_P_strAB) == 1
 
 ####################### Run Markov model #######################
 # Iterative solution of time-independent cSTM
@@ -235,7 +232,7 @@ names(l_m_M) <- v_names_str
 
 #### Plot Outputs ####
 ### Plot the cohort trace for strategies SoC and A
-plot_trace(m_M)
+plot_trace(m_M) # Function included in "R/Functions.R"; depends on the `ggplot2` package
 
 #### State Rewards scaled by the cycle length ####
 ## Vector of state utilities under strategy SoC
@@ -317,17 +314,21 @@ for (i in 1:n_str) {
 
 ########################### Cost-effectiveness analysis ########################
 ### Calculate incremental cost-effectiveness ratios (ICERs)
+# Function included in "R/Functions.R"; depends on the `dplyr` package
+# The latest version can be found in `dampack` package
 df_cea <- calculate_icers(cost       = v_tot_cost, 
                           effect     = v_tot_qaly,
                           strategies = v_names_str)
 df_cea
 
 ### Create CEA table in proper format
-table_cea <- format_table_cea(df_cea)
+table_cea <- format_table_cea(df_cea) # Function included in "R/Functions.R"; depends on the `scales` package
 table_cea
 
 ### CEA frontier
-plot(df_cea, label = "all") +
+# Function included in "R/Functions.R"; depends on the `ggplot2`  and `ggrepel` packages.
+# The latest version can be found in `dampack` package
+plot.icers(df_cea, label = "all") + 
   expand_limits(x = max(table_cea$QALYs) + 0.1) 
 
 ################### Probabilistic Sensitivity Analysis (PSA) ###################
@@ -388,7 +389,8 @@ df_psa_input <- generate_psa_params(n_sim = n_sim)
 head(df_psa_input)
 
 # Histogram of parameters
-ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
+ggplot(melt(df_psa_input, variable.name = "Parameter"), 
+       aes(x = value)) +
   facet_wrap(~Parameter, scales = "free") +
   geom_histogram(aes(y = ..density..)) +
   scale_x_continuous(breaks = number_ticks(4)) + 
@@ -427,7 +429,7 @@ for(i in 1:n_sim){
 }
 n_time_end_psa_series <- Sys.time()
 n_time_total_psa_series <- n_time_end_psa_series - n_time_init_psa_series
-print(paste0("PSA with ", comma(n_sim), " simulations run in series in ", 
+print(paste0("PSA with ", scales::comma(n_sim), " simulations run in series in ", 
              round(n_time_total_psa_series, 2), " ", 
              units(n_time_total_psa_series)))
 
@@ -496,12 +498,13 @@ print(paste0("PSA with ", comma(n_sim), " simulations run in series in ",
 # # Stop clusters
 # stopCluster(cl)
 # n_time_total_psa <- n_time_end_psa - n_time_init_psa
-# print(paste0("PSA with ", comma(n_sim), " simulations run in series in ",
+# print(paste0("PSA with ", scales:: comma(n_sim), " simulations run in series in ",
 #              round(n_time_total_psa, 2), " ", 
 #              units(n_time_total_psa_series)))
 
 ## Visualize PSA results and CEA
-# Create PSA object for dampack
+## Create PSA object
+# Function included in "R/Functions.R" The latest version can be found in `dampack` package
 l_psa <- make_psa_obj(cost          = df_c, 
                       effectiveness = df_e, 
                       parameters    = df_psa_input, 
@@ -514,42 +517,51 @@ colnames(l_psa$cost)<- v_names_str
 # Vector with willingness-to-pay (WTP) thresholds.
 v_wtp <- seq(0, 200000, by = 5000)
 
-# Cost-Effectiveness Scatter plot
-plot(l_psa) +
+## Cost-Effectiveness Scatter plot
+# Function included in "R/Functions.R"; depends on `tidyr` and `ellipse` packages.
+# The latest version can be found in `dampack` package
+plot.psa(l_psa) +
   ggthemes::scale_color_colorblind() +
   ggthemes::scale_fill_colorblind() +
   xlab("Effectiveness (QALYs)") +
   guides(col = guide_legend(nrow = 2)) +
   theme(legend.position = "bottom")
 
-# Conduct CEA with probabilistic output
+## Conduct CEA with probabilistic output
 # Compute expected costs and effects for each strategy from the PSA
-df_out_ce_psa <- summary(l_psa)
+# Function included in "R/Functions.R". The latest version can be found in `dampack` package
+df_out_ce_psa <- summary.psa(l_psa)
 
 # Calculate incremental cost-effectiveness ratios (ICERs)
+# Function included in "R/Functions.R"; depends on the `dplyr` package
+# The latest version can be found in `dampack` package
 df_cea_psa <- calculate_icers(cost       = df_out_ce_psa$meanCost, 
                               effect     = df_out_ce_psa$meanEffect,
                               strategies = df_out_ce_psa$Strategy)
 df_cea_psa
 
-# Plot cost-effectiveness frontier
-plot(df_cea_psa)
+## Plot cost-effectiveness frontier
+# Function included in "R/Functions.R"; depends on the `ggplot2`  and `ggrepel` packages.
+# The latest version can be found in `dampack` package
+plot.icers(df_cea_psa)
 
-# Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF)
+#### Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF) ##### 
+# Functions included in "R/Functions.R". The latest versions can be found in `dampack` package
 ceac_obj <- ceac(wtp = v_wtp, psa = l_psa)
 # Regions of highest probability of cost-effectiveness for each strategy
-summary(ceac_obj)
+summary.ceac(ceac_obj)
 # CEAC & CEAF plot
-plot(ceac_obj) +
+plot.ceac(ceac_obj) +
   ggthemes::scale_color_colorblind() +
   ggthemes::scale_fill_colorblind() +
   theme(legend.position = c(0.82, 0.5))
 
-# Expected Loss Curves (ELCs)
+#### Expected Loss Curves (ELCs) ####
+# Function included in "R/Functions.R".The latest version can be found in `dampack` package
 elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_psa)
 elc_obj
 # ELC plot
-plot(elc_obj, log_y = FALSE, 
+plot.exp_loss(elc_obj, log_y = FALSE, 
      txtsize = 16, xlim = c(0, NA), n_x_ticks = 14,
      col = "full") +
   ggthemes::scale_color_colorblind() +
@@ -560,7 +572,8 @@ plot(elc_obj, log_y = FALSE,
                      labels = function(x) x/1000) +
   theme(legend.position = c(0.4, 0.7))
 
-# Expected value of perfect information (EVPI)
+#### Expected value of perfect information (EVPI) ####
+# Function included in "R/Functions.R". The latest version can be found in `dampack` package
 evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)
 # EVPI plot
-plot(evpi, effect_units = "QALY")
+plot.evpi(evpi, effect_units = "QALY")
