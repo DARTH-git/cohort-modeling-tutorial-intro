@@ -13,8 +13,8 @@ following manuscript:
 -   Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
     Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort
     State-Transition Models in R Using a Cost-Effectiveness Analysis
-    Example](http://arxiv.org/abs/2001.07824). arXiv:200107824v3.
-    2021:1-26.
+    Example](http://arxiv.org/abs/2001.07824). arXiv:200107824v4.
+    2022:1-30.
 
 The release that accompanies the published article has been archived in
 zenodo: <https://zenodo.org/badge/latestdoi/357362984>
@@ -25,8 +25,10 @@ folder includes two different scripts corresponding to functions used to
 synthesize cSTMs outputs and conduct several sensitivity analyses:
 
 -   [`Funtions.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions.R):
-    Functions to generate epidemiological measures from time-independent
-    cSTMs.
+    Functions that generate epidemiological measures from
+    time-independent cSTMs and compute within-cycle correction,
+    parameter transformation, matrix checks, and CEA and PSA
+    visualization.
 -   [`Functions_cSTM_time_indep.R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/R/Functions_cSTM_time_indep.R):
     These functions wrap the time-independent cSTM, compute CEA
     measures, and generate probabilistic sensitivity analysis (PSA)
@@ -43,15 +45,15 @@ accessed’ date):
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
 > Pechlivanoglou P, Jalal H. An Introductory Tutorial on Cohort
 > State-Transition Models in R Using a Cost-Effectiveness Analysis
-> Example (<http://arxiv.org/abs/2001.07824>). arXiv:200107824v3.
-> 2021:1-26.
+> Example (<http://arxiv.org/abs/2001.07824>). arXiv:200107824v4.
+> 2022:1-30.
 
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
-> Pechlivanoglou P, Jalal H (2021). R Code for An Introductory Tutorial
+> Pechlivanoglou P, Jalal H (2022). R Code for An Introductory Tutorial
 > on Cohort State-Transition Models in R Using a Cost-Effectiveness
 > Analysis Example (Version v0.1.1). Zenodo.
 > [10.5281/zenodo.5223093](https://www.doi.org/10.5281/zenodo.5223093).
-> Last accessed 19 August 2021.
+> Last accessed 30 March 2022.
 
 If you adapted the code, you should indicate “Adapted from:” or “Based
 on” so it is understood that you modified the code. For more information
