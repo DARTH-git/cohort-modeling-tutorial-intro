@@ -7,7 +7,7 @@ author:
   - Alan Yang, MSc^[The Hospital for Sick Children, Toronto]
   - Myriam G.M. Hunink, PhD$^\dagger$^[Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA]
   - Petros Pechlivanoglou, PhD^[The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada]
-  - Hawre Jalal, MD, PhD^[University of Pittsburgh, Pittsburgh, PA, USA]
+  - Hawre Jalal, MD, PhD^[School of Epidemiology and Public Health, Faculty of Medicine, University of Ottawa, Ottawa, ON, Canada]
 date: '`r Sys.Date()`'
 documentclass: "article"
 output:
