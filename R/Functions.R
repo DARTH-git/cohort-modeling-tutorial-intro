@@ -2064,3 +2064,21 @@ number_ticks <- function(n) {
     pretty(limits, n + 1)
   }
 }
+
+# Function that returns the lower case name of the operating system we’re running on
+# Source: https://www.r-bloggers.com/identifying-the-os-from-r/
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}
