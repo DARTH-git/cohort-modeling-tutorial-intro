@@ -19,17 +19,18 @@
 #* Running under: Mac OS 12.2.1
 #* RStudio: Version 1.4.1717 2009-2021 RStudio, Inc
 
-#* Implements a time-independent Sick-Sicker cSTM model that evalutes four 
+#* Implements a time-independent Sick-Sicker cSTM model that evaluates four 
 #* strategies:
 #* - Standard of Care (SoC): best available care for the patients with the 
-#* disease. This scenario reflects the natural history of the disease progression.
-#* - Strategy A: treatment A is given to all sick patients, patients in sick and 
-#* sicker, but does only improves the utility of those being sick.
-#* - Strategy B: treatment B reduces disease progression from sick to sicker. 
-#* However, it is not possible to distinguish those sick from sicker and 
-#* therefore all individuals in one of the two sick states get the treatment.  
+#*   disease. This scenario reflects the natural history of the disease 
+#*   progression.
+#* - Strategy A: treatment A is given to patients in the Sick and Sicker states, 
+#*   but does only improves the quality of life  of those in the Sick state.
+#* - Strategy B: treatment B is given to all sick patients and reduces disease 
+#*   progression from the Sick to Sicker state. 
 #* - Strategy AB: This strategy combines treatment A and treatment B. The disease 
-#* progression is reduced and Sick individuals has an improved utility. 
+#*   progression is reduced and individuals in the Sick state have an improved 
+#*   quality of life. 
 
 #******************************************************************************#
 # Initial setup ---- 
@@ -74,7 +75,7 @@ v_names_states <- c("H",  # the 4 health states of the model:
                     "S2", 
                     "D") 
                                           
-n_states    <- length(v_names_states)     # number of health states 
+n_states <- length(v_names_states)     # number of health states 
 
 ### Discounting factors ----
 d_c <- 0.03 # annual discount rate for costs 
@@ -91,7 +92,7 @@ n_str       <- length(v_names_str)        # number of strategies
 v_wcc <- gen_wcc(n_cycles = n_cycles,  # Function included in "R/Functions.R". The latest version can be found in `darthtools` package
                  method = "Simpson1/3") # vector of wcc
 
-### Transition probabilities (annual), and hazard ratios (HRs) ----
+### Transition rates (annual), and hazard ratios (HRs) ----
 r_HD   <- 0.002 # constant annual rate of dying when Healthy (all-cause mortality)
 r_HS1  <- 0.15  # constant annual rate of becoming Sick when Healthy
 r_S1H  <- 0.5   # constant annual rate of becoming Healthy when Sick
@@ -293,7 +294,7 @@ l_c   <- list(SQ = v_c_SoC,
               B  = v_c_strB,
               AB = v_c_strAB)
 
-# assign strategy names to matching items in the lists
+#* assign strategy names to matching items in the lists
 names(l_u) <- names(l_c) <- v_names_str
 
 # Compute expected outcomes ----
@@ -312,7 +313,7 @@ for (i in 1:n_str) {
   v_qaly_str <- l_m_M[[i]] %*% v_u_str # sum the utilities of all states for each cycle
   v_cost_str <- l_m_M[[i]] %*% v_c_str # sum the costs of all states for each cycle
   
-  ####* Discounted total expected QALYs and Costs per strategy and apply half-cycle correction if applicable
+  ###* Discounted total expected QALYs and Costs per strategy and apply within-cycle correction if applicable
   #* QALYs
   v_tot_qaly[i] <- t(v_qaly_str) %*% (v_dwe * v_wcc)
   #* Costs
@@ -335,9 +336,11 @@ table_cea
 ## CEA frontier -----
 #* Function included in "R/Functions.R"; depends on the `ggplot2`  and `ggrepel` packages.
 #* The latest version can be found in `dampack` package
-plot.icers(df_cea, label = "all") + 
-  expand_limits(x = max(table_cea$QALYs) + 0.1) 
+plot(df_cea, label = "all", txtsize = 16) +
+  expand_limits(x = max(table_cea$QALYs) + 0.1) +
+  theme(legend.position = c(0.8, 0.2))
 
+#******************************************************************************#
 # Probabilistic Sensitivity Analysis (PSA) -----
 ## Load model, CEA and PSA functions ----
 source("R/Functions_cSTM_time_indep.R")
@@ -353,7 +356,7 @@ l_params_all <- list(
   hr_S1       = 3,     # hazard ratio of death in Sick vs Healthy 
   hr_S2       = 10,    # hazard ratio of death in Sicker vs Healthy 
   # Effectiveness of treatment B 
-  hr_S1S2_trtB = 0.6,  # hazard ratio of becoming Sicker when Sick under B under treatment B
+  hr_S1S2_trtB = 0.6,  # hazard ratio of becoming Sicker when Sick under treatment B
   ## State rewards
   # Costs
   c_H    = 2000,  # cost of remaining one cycle in Healthy 
@@ -453,7 +456,7 @@ print(paste0("PSA with ", scales::comma(n_sim), " simulations run in series in "
 # n_time_init_psa <- Sys.time()
 # 
 # ## Run parallelized PSA based on OS
-# if(os == "macosx"){
+# if(os == "osx"){
 #   # Initialize cluster object
 #   cl <- parallel::makeForkCluster(no_cores)
 #   # Register clusters
