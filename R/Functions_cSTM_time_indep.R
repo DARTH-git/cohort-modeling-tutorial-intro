@@ -286,7 +286,7 @@ generate_psa_params <- function(n_sim = 1000, seed = 071818){
     hr_S2   = rlnorm(n_sim, meanlog = log(10), sdlog = 0.02), # hazard ratio of death in Sicker vs Healthy 
     
     # Effectiveness of treatment B 
-    hr_S1S2_trtB = rlnorm(n_sim, meanlog = log(0.6), sdlog = 0.02), # hazard ratio of becoming Sicker when Sick under B under treatment B
+    hr_S1S2_trtB = rlnorm(n_sim, meanlog = log(0.6), sdlog = 0.02), # hazard ratio of becoming Sicker when Sick under treatment B
     
     # State rewards
     # Costs
