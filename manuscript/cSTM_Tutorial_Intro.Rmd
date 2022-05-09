@@ -149,7 +149,7 @@ l_params_all <- list(
   hr_S1       = hr_S1 ,     # hazard ratio of death in Sick vs Healthy 
   hr_S2       = hr_S2 ,    # hazard ratio of death in Sicker vs Healthy 
   # Effectiveness of treatment B 
-  hr_S1S2_trtB = hr_S1S2_trtB,  # hazard ratio of becoming Sicker when Sick under B under treatment B
+  hr_S1S2_trtB = hr_S1S2_trtB,  # hazard ratio of becoming Sicker when Sick under treatment B
   ## State rewards
   # Costs
   c_H    = c_H,  # cost of remaining one cycle in Healthy 
@@ -173,8 +173,6 @@ l_params_all <- list(
   # Cycle length
   cycle_length = cycle_length
 )
-
-
 ```
 
 ```{r figure-setup, echo=FALSE, include=FALSE}
@@ -326,10 +324,10 @@ Table: (\#tab:param-table) Description of parameters, their R variable name, bas
 | Annual discount rate for costs     | `d_c`       |  3%           |    -           |
 | Annual discount rate for QALYs     | `d_e`       |  3%           |    -           |
 | Number of PSA samples ($K$)        | `n_sim`     | 1,000         |    -           |
-| Annual constant transition rates     |             |               |                |
-| - Disease onset (H to S1)          | `r_HS1`     |  0.150         | gamma(30, 200)  |
-| - Recovery (S1 to H)               | `r_S1H`     |  0.500          | gamma(60, 120)   |
-| - Disease progression (S1 to S2)   | `r_S1S2`    |  0.105 | gamma(84, 800) |
+| Annual constant transition rates   |             |               |               |
+| - Disease onset (H to S1)          | `r_HS1`     |  0.150         | gamma(30, 200) |
+| - Recovery (S1 to H)               | `r_S1H`     |  0.500         | gamma(60, 120) |
+| - Disease progression (S1 to S2)   | `r_S1S2`    |  0.105         | gamma(84, 800) |
 | Annual mortality                   |             |               |                |
 | - Background mortality rate (H to D)| `r_HD`     |  0.002        | gamma(20, 10000) |
 | - Hazard ratio of death in S1 vs H | `hr_S1`     |  3.0          | lognormal(log(3.0), 0.01) |
@@ -345,11 +343,11 @@ Table: (\#tab:param-table) Description of parameters, their R variable name, bas
 | - Sick individuals in S2           | `u_S2`      |  0.50         | beta(230, 230)   |
 | - Dead individuals                 | `u_D`       |  0.00         | -              |
 | Treatment A cost and effectiveness     |             |               |                |
-| - Cost of treatment A, additional to state-specific health care costs | `c_trtA` |  $12,000  |gamma(576.0, 20.8)  |
+| - Cost of treatment A, additional to state-specific health care costs | `c_trtA` |  $12,000  |gamma(73.5, 163.3)  |
 | - Utility for treated individuals in S1 | `u_trtA` |  0.95        | beta(300, 15)  |
 | Treatment B cost and effectiveness      |             |               |                |
-| - Cost of treatment B, additional to state-specific health care costs | `c_trtB` |  $12,000  |gamma(676.0, 19.2)  |
-| - Reduction in rate of disease progression (S1 to S2) as hazard ratio (HR) | `hr_S1S2_trtB` |  log(0.6) | lognormal(log(0.6), 0.1) |
+| - Cost of treatment B, additional to state-specific health care costs | `c_trtB` |  $12,000  |gamma(86.2, 150.8)  |
+| - Reduction in rate of disease progression (S1 to S2) as hazard ratio (HR) | `hr_S1S2_trtB` |  log(0.6) | lognormal(log(0.6), 0.02) |
 
 The following sections include R code snippets. All R code is stored as a GitHub repository and can be accessed at  https://github.com/DARTH-git/cohort-modeling-tutorial-intro. We initialize the input parameters in the R code below by setting the variables to their base-case values. We do this process as the first coding step, all in one place, so the updated value will carry through the rest of the code when a parameter value changes.
 
@@ -538,7 +536,7 @@ kable(head(round(cbind(Cycle = as.numeric(rownames(m_M)), m_M), 3)),
   kableExtra::kable_styling(latex_options = "hold_position")
 ```
 
-```{r Sick-Sicker-Trace-TimeHom, echo=FALSE, fig.cap='Cohort trace of the time-independent cSTM under strategies SoC and A.', message=FALSE, warning=FALSE, fig.pos="H"} 
+```{r Sick-Sicker-Trace-TimeHom, echo=FALSE, fig.cap='Cohort trace of the time-independent cSTM under strategies SoC and A.', message=FALSE, warning=FALSE, fig.pos="H", dev=c('pdf', 'jpeg'), dpi =900} 
 cols <- get_DARTH_cols()
 lty <-  c("H" = 1, "S1" = 2, "S2" = 4, "D" = 3)
 ggplot(reshape2::melt(m_M), aes(x = Var1, y = value, 
@@ -755,7 +753,7 @@ kable(table_cea,
   kable_styling(latex_options = "hold_position")
 ```
 
-```{r Sick-Sicker-CEA, echo=FALSE, fig.cap='Cost-effectiveness efficient frontier of the cost-effectiveness analysis based on the time-independent Sick-Sicker model', message=FALSE, warning=FALSE, fig.pos="H"} 
+```{r Sick-Sicker-CEA, echo=FALSE, fig.cap='Cost-effectiveness efficient frontier of the cost-effectiveness analysis based on the time-independent Sick-Sicker model', message=FALSE, warning=FALSE, fig.pos="H", dev=c('pdf', 'jpeg'), dpi =900} 
 plot(df_cea, label = "all", txtsize = 16) +
   expand_limits(x = c(NA, 21.8)) +
   theme(legend.position = c(0.8, 0.2))
@@ -827,7 +825,7 @@ elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_psa)
 
 To conduct the PSA of the CEA using the time-independent Sick-Sicker cSTM, we sampled `r comma(n_sim)` parameter sets from their distributions. We assumed commonly used distributions to describe their uncertainty for each type of parameter. For example, gamma for transition rates, lognormal for hazard ratios, and beta for utility weights.[@Parmigiani1997;@Parmigiani2002a;@Briggs2002;@Hunink2014] For each sampled parameter set, we simulated the cost and effectiveness of each strategy. Results from a PSA can be represented in various ways. For example, the joint distribution, 95% confidence ellipse, and the expected values of the total discounted costs and QALYs for each strategy can be plotted in a cost-effectiveness scatter plot (Figure \@ref(fig:CE-scatter)),[@Briggs2002] where each of the `r comma(n_sim)` simulations are plotted as a point in the graph. The CE scatter plot for CEA using the time-independent model shows that strategy AB has the highest expected costs and QALYs. Standard of care has the lowest expected cost and QALYs. Strategy B is more effective and least costly than Strategy A. Strategy A is a strongly dominated strategy.
 
-```{r CE-scatter, echo=FALSE, fig.cap='Cost-effectiveness scatter plot.', message=FALSE, warning=FALSE, fig.pos="H"} 
+```{r CE-scatter, echo=FALSE, fig.cap='Cost-effectiveness scatter plot.', message=FALSE, warning=FALSE, fig.pos="H", dev=c('png', 'pdf', 'jpeg'), dpi =900} 
 # CEAC & CEAF plot
 plot(l_psa, txtsize = 16) +
   ggthemes::scale_color_colorblind() +
@@ -839,7 +837,7 @@ plot(l_psa, txtsize = 16) +
 
 Figure \@ref(fig:CEAC) presents the cost-effectiveness acceptability curves (CEACs), which show the probability that each strategy is cost-effective, and the cost-effectiveness frontier (CEAF), which shows the strategy with the highest expected net monetary benefit (NMB), over a range of willingness-to-pay (WTP) thresholds. Each strategy's NMB is computed using $\text{NMB} = \text{QALY} \times \text{WTP} - \text{Cost}$[@Stinnett1998b] for each PSA sample. At WTP thresholds less than `r dollar(summary(ceac_obj)[summary(ceac_obj)[, "cost_eff_strat"]=="Standard of care", 2], accuracy = 1)` per QALY gained, strategy SoC has both the highest probability of being cost-effective and the highest expected NMB. This switches to strategy B for WTP thresholds between `r dollar(summary(ceac_obj)[summary(ceac_obj)[, "cost_eff_strat"]=="Standard of care", 2], accuracy = 1)` and `r dollar(summary(ceac_obj)[summary(ceac_obj)[, "cost_eff_strat"]=="Strategy B", 2][1], accuracy = 1)` per QALY gained and to strategy AB for WTP thresholds greater than or equal to `r dollar(summary(ceac_obj)[summary(ceac_obj)[, "cost_eff_strat"]=="Strategy B", 2][1], accuracy = 1)` per QALY gained.
 
-```{r CEAC, echo=FALSE, fig.cap='Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF).', message=FALSE, warning=FALSE, fig.pos="H"} 
+```{r CEAC, echo=FALSE, fig.cap='Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF).', message=FALSE, warning=FALSE, fig.pos="H", dev=c( 'png', 'pdf', 'jpeg'), dpi =900} 
 # CEAC & CEAF plot
 plot(ceac_obj, txtsize = 16, xlim = c(0, NA), n_x_ticks = 14) +
   ggthemes::scale_color_colorblind() +
@@ -850,7 +848,7 @@ plot(ceac_obj, txtsize = 16, xlim = c(0, NA), n_x_ticks = 14) +
 The CEAC and CEAF do not show the magnitude of the expected net benefit lost (i.e., expected loss) when the chosen strategy is not the cost-effective strategy in all the samples of the PSA. To complement these results, we quantify expected loss from each strategy over a range of WTP thresholds with the expected loss curves (ELCs). These curves quantify the expected loss from each strategy over a range of WTP thresholds (Figure \@ref(fig:ELC)). The expected loss considers both the probability of making the wrong decision and the magnitude of the loss due to this decision, representing the foregone benefits of choosing a suboptimal strategy. The expected loss of the optimal strategy represents the lowest envelope of the ELCs because, given current information, the loss cannot be minimized further. The lower bound of the ELCs represents the expected value of perfect information (EVPI), which quantifies the value of eliminating parameter uncertainty.  We refer the reader to previously published literature for a more detailed description of CEAC, CEAF, ELC, and EVPI interpretations and the R code to generate them.[@Alarid-Escudero2019]
 
 
-```{r ELC, echo=FALSE, fig.cap='Expected loss curves (ELCs) and expected value of perfect information (EVPI).', message=FALSE, warning=FALSE, fig.pos="H"} 
+```{r ELC, echo=FALSE, fig.cap='Expected loss curves (ELCs) and expected value of perfect information (EVPI).', message=FALSE, warning=FALSE, fig.pos="H", dev=c('png', 'pdf', 'jpeg'), dpi =900} 
 # ELC plot
 plot(elc_obj, log_y = FALSE, 
      txtsize = 16, xlim = c(0, NA), n_x_ticks = 14,

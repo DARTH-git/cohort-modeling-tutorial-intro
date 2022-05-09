@@ -154,7 +154,7 @@
 
 \title{An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example}
 \author{Fernando Alarid-Escudero, PhD\footnote{Division of Public Administration, Center for Research and Teaching in Economics (CIDE), Aguascalientes, AGS, Mexico} \and Eline Krijkamp, MSc\footnote{Department of Epidemiology and Department of Radiology, Erasmus University Medical Center, Rotterdam, The Netherlands} \and Eva A. Enns, PhD\footnote{Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA} \and Alan Yang, MSc\footnote{The Hospital for Sick Children, Toronto} \and Myriam G.M. Hunink, PhD\(^\dagger\)\footnote{Center for Health Decision Sciences, Harvard T.H. Chan School of Public Health, Boston, USA} \and Petros Pechlivanoglou, PhD\footnote{The Hospital for Sick Children, Toronto and University of Toronto, Toronto, Ontario, Canada} \and Hawre Jalal, MD, PhD\footnote{School of Epidemiology and Public Health, Faculty of Medicine, University of Ottawa, Ottawa, ON, Canada}}
-\date{2022-04-28}
+\date{2022-05-08}
 
 \begin{document}
 \maketitle
@@ -341,11 +341,11 @@ Utility weights & & & \\
 - Sick individuals in S2 & \texttt{u\_S2} & 0.50 & beta(230, 230) \\
 - Dead individuals & \texttt{u\_D} & 0.00 & - \\
 Treatment A cost and effectiveness & & & \\
-- Cost of treatment A, additional to state-specific health care costs & \texttt{c\_trtA} & \$12,000 & gamma(576.0, 20.8) \\
+- Cost of treatment A, additional to state-specific health care costs & \texttt{c\_trtA} & \$12,000 & gamma(73.5, 163.3) \\
 - Utility for treated individuals in S1 & \texttt{u\_trtA} & 0.95 & beta(300, 15) \\
 Treatment B cost and effectiveness & & & \\
-- Cost of treatment B, additional to state-specific health care costs & \texttt{c\_trtB} & \$12,000 & gamma(676.0, 19.2) \\
-- Reduction in rate of disease progression (S1 to S2) as hazard ratio (HR) & \texttt{hr\_S1S2\_trtB} & log(0.6) & lognormal(log(0.6), 0.1) \\
+- Cost of treatment B, additional to state-specific health care costs & \texttt{c\_trtB} & \$12,000 & gamma(86.2, 150.8) \\
+- Reduction in rate of disease progression (S1 to S2) as hazard ratio (HR) & \texttt{hr\_S1S2\_trtB} & log(0.6) & lognormal(log(0.6), 0.02) \\
 \bottomrule
 \end{longtable}
 
