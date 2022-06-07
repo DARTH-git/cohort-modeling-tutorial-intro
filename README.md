@@ -13,8 +13,10 @@ following manuscript:
 -   Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
     Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort
     State-Transition Models in R Using a Cost-Effectiveness Analysis
-    Example](http://arxiv.org/abs/2001.07824). arXiv:200107824v4.
-    2022:1-30.
+    Example](https://journals.sagepub.com/doi/full/10.1177/0272989X221103163).
+    [Medical Decision Making](https://journals.sagepub.com/home/mdm),
+    2022 (Online First):1-18.
+    <https://doi.org/10.1177/0272989X221103163>
 
 The release that accompanies the published article has been archived in
 zenodo: <https://zenodo.org/badge/latestdoi/357362984>
@@ -37,7 +39,7 @@ synthesize cSTMs outputs and conduct several sensitivity analyses:
 ## How to cite this R code in your article
 
 You can cite the R code in this repository like this “we based our
-analysis using the R code from Alarid-Escudero F et al. (2021)”. Here is
+analysis using the R code from Alarid-Escudero F et al. (2022)”. Here is
 the full bibliographic reference to include in your reference list for
 the manuscript and the R code (don’t forget to update the ‘last
 accessed’ date):
@@ -45,8 +47,7 @@ accessed’ date):
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
 > Pechlivanoglou P, Jalal H. An Introductory Tutorial on Cohort
 > State-Transition Models in R Using a Cost-Effectiveness Analysis
-> Example (<http://arxiv.org/abs/2001.07824>). arXiv:200107824v4.
-> 2022:1-30.
+> Example. Medical Decision Making, 2022 (Online First):1-18.
 
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
 > Pechlivanoglou P, Jalal H (2022). R Code for An Introductory Tutorial
