@@ -1,3 +1,4 @@
+#* Script name: cSTM_time_indep.R
 # Appendix code to time-independent cSTMs in R ----
 
 #* This code forms the basis for the state-transition model of the tutorial: 
