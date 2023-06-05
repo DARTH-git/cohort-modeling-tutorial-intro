@@ -9,7 +9,7 @@ output: github_document
 
 This GitHub repository provides the code of the tutorial on how to implement time-independent cohort state-transition models (cSTMs) in R using a cost-effectiveness analysis (CEA) example, explained in the following manuscript: 
 
-- Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example](https://journals.sagepub.com/doi/full/10.1177/0272989X221103163). [Medical Decision Making](https://journals.sagepub.com/home/mdm), 2023;43(1):3-20.. https://doi.org/10.1177/0272989X221103163
+- Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example](https://journals.sagepub.com/doi/full/10.1177/0272989X221103163). [Medical Decision Making](https://journals.sagepub.com/home/mdm), 2023;43(1):3-20. https://doi.org/10.1177/0272989X221103163
 
 The release that accompanies the published article has been archived in zenodo: https://zenodo.org/badge/latestdoi/357362984
 
