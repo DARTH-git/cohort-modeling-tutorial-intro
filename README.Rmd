@@ -9,7 +9,7 @@ output: github_document
 
 This GitHub repository provides the code of the tutorial on how to implement time-independent cohort state-transition models (cSTMs) in R using a cost-effectiveness analysis (CEA) example, explained in the following manuscript: 
 
-- Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example](https://journals.sagepub.com/doi/full/10.1177/0272989X221103163). [Medical Decision Making](https://journals.sagepub.com/home/mdm), 2022 (Online First):1-18. https://doi.org/10.1177/0272989X221103163
+- Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. [An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example](https://journals.sagepub.com/doi/full/10.1177/0272989X221103163). [Medical Decision Making](https://journals.sagepub.com/home/mdm), 2023;43(1):3-20.. https://doi.org/10.1177/0272989X221103163
 
 The release that accompanies the published article has been archived in zenodo: https://zenodo.org/badge/latestdoi/357362984
 
@@ -22,11 +22,16 @@ The [`R`](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/tree/main/
 
 You can cite the R code in this repository like this "we based our analysis using the R code from Alarid-Escudero F et al. (2022)". Here is the full bibliographic reference to include in your reference list for the manuscript and the R code (don't forget to update the 'last accessed' date):
 
-> Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example. Medical Decision Making, 2022 (Online First):1-18.
+> Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example. Medical Decision Making, 2023;43(1):3-20.
 
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H (2022). R Code for An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example (Version v0.2.1). Zenodo. [10.5281/zenodo.5223093](https://www.doi.org/10.5281/zenodo.5223093). Last accessed 30 March 2022.
 
 If you adapted the code, you should indicate "Adapted from:" or "Based on" so it is understood that you modified the code. For more information on how to cite computer code, we refer the user to review [Writing Code (from MIT Research Guide)](https://integrity.mit.edu/handbook/writing-code), which provides examples of how and when to cite computer code.
+
+## Advanced state-transition cohort modeling 
+To learn more on on how to implement time-dependent cohort state-transition models (cSTMs) in R using a cost-effectiveness analysis (CEA) example, we refer the reader to the following manuscript: 
+
+- Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM, Pechlivanoglou P, Jalal H. [A Tutorial on Time-Dependent Cohort State-Transition Models in R using a Cost-Effectiveness Analysis Example](https://journals.sagepub.com/doi/full/10.1177/0272989X221121747). [Medical Decision Making](https://journals.sagepub.com/home/mdm). 2023;43(1):21-41. https://doi.org/10.1177/0272989X221121747
 
 ## Preliminaries
 - Install [RStudio](https://www.rstudio.com/products/rstudio/download/)
