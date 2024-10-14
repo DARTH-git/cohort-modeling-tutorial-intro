@@ -5,7 +5,7 @@
 #* 'An Introductory Tutorial to Cohort State-Transition Models in R for 
 #* Cost-Effectiveness Analysis' 
 #* Authors: 
-#* - Fernando Alarid-Escudero <fernando.alarid@cide.edu>
+#* - Fernando Alarid-Escudero <falarid@stanford.edu>
 #* - Eline Krijkamp
 #* - Eva A. Enns
 #* - Alan Yang
