@@ -12,10 +12,16 @@ on:
 permissions:
   contents: read
 
+# Cancel superseded runs on the same branch or pull request
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
     name: ${{ matrix.os }} (R ${{ matrix.r }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -36,10 +42,13 @@ jobs:
       # CRAN only ships macOS binaries for the latest package versions, so
       # renv compiles older pinned versions from source. Some (e.g.,
       # data.table) need gettext, installed from CRAN's macOS library recipes.
+      # Run outside the project with --vanilla so the project's .Rprofile does
+      # not activate renv as root (which leaves root-owned renv lock files).
       - name: Install macOS system libraries
         if: runner.os == 'macOS'
+        working-directory: ${{ runner.temp }}
         run: |
-          sudo Rscript -e 'source("https://mac.R-project.org/bin/install.R"); install.libs("gettext")'
+          sudo Rscript --vanilla -e 'source("https://mac.R-project.org/bin/install.R"); install.libs("gettext")'
 
       - uses: r-lib/actions/setup-renv@v2
 
