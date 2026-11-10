@@ -41,3 +41,23 @@ The error was identified and reported independently by Lauren N. Steimle
 [ambtnhlr](https://github.com/ambtnhlr)
 ([#2](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/2)).
 We thank them both.
+
+## Known erratum: cost of treatment B in the parameter table
+
+The parameter table (Table 2) lists the cost of treatment B, `c_trtB`, as
+**$12,000**. The correct value is **$13,000**. That is the value stated in the
+article's text ("costs $13,000 per year"), used in the code, implied by the
+PSA distribution in the same row (gamma(86.2, 150.8), whose mean is
+86.2 × 150.8 ≈ $13,000), and used to produce all the published results. A
+model rebuilt from the table alone with $12,000 would underestimate the ICER of
+strategy B by about 9%.
+
+The error is only in the table, in `cSTM_Tutorial_Intro.Rmd` and the derived
+`.tex` and `.pdf` files. The code in this repository is correct, and a unit
+test (`tests/testthat/test-psa-params.R`) now checks that the PSA
+distributions are centred on the base-case values.
+
+This was identified and reported by GitHub user
+[conallaque](https://github.com/conallaque)
+([#1](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/1)),
+who replicated the model independently. We thank them.
