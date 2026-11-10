@@ -315,7 +315,9 @@ format_table_cea <- function(table_cea) {
 #' v0.4.0) assigned the 4/3 and 2/3 Simpson weights by vector position instead
 #' of by time, producing \eqn{[1/3, 2/3, 4/3, \ldots, 1/3]}, whose weights sum
 #' to \eqn{n_T - 2/3} instead of \eqn{n_T}. This was fixed in v0.3.0. See
-#' NEWS.md.
+#' NEWS.md. We thank Lauren N. Steimle (Georgia Institute of Technology) and
+#' GitHub user ambtnhlr, who independently identified and reported this error
+#' and proposed the correction.
 #'
 #' @references
 #' \enumerate{

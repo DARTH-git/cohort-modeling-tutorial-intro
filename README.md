@@ -30,8 +30,9 @@ the latest version).
 > instead of `1/3, 4/3, 2/3, …`. v0.3.0 fixes this. With the fix,
 > base-case QALYs are about 0.32 higher per strategy and ICERs change by
 > about 0.4%; the conclusions are unchanged. See [`NEWS.md`](NEWS.md)
-> for details and a before/after table. Thanks to Lauren N. Steimle and
-> @ambtnhlr for reporting the issue.
+> for details and a before/after table. We thank Lauren N. Steimle and
+> [ambtnhlr](https://github.com/ambtnhlr) for finding and reporting this
+> error (see [Acknowledgements](#acknowledgements)).
 
 ## Quick start
 
@@ -175,6 +176,20 @@ following article:
   Example](https://journals.sagepub.com/doi/full/10.1177/0272989X221121747).
   [Medical Decision Making](https://journals.sagepub.com/home/mdm).
   2023;43(1):21-41. <https://doi.org/10.1177/0272989X221121747>
+
+## Acknowledgements
+
+We are grateful to the users who have helped improve this code:
+
+- **Lauren N. Steimle** (Georgia Institute of Technology) and
+  **[ambtnhlr](https://github.com/ambtnhlr)** each independently found
+  and reported the indexing error in the Simpson’s 1/3rd within-cycle
+  correction (`gen_wcc()`) and proposed a correction. Their reports led
+  to the fix in v0.3.0
+  ([\#2](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/2)).
+
+If you find an error, please [let us
+know](#reporting-issues-and-contributing).
 
 ## Full list of Contributors:
 

@@ -92,9 +92,20 @@ not its conclusions.
 
 ## Acknowledgements
 
-Thanks to Lauren N. Steimle (Georgia Institute of Technology) and GitHub user
-@ambtnhlr (#2), who each independently identified and reported the indexing
-error in `gen_wcc()` and proposed a correction.
+This bug was found by two attentive users of the tutorial, and we are very
+grateful to both:
+
+* **Lauren N. Steimle** (H. Milton Stewart School of Industrial and Systems
+  Engineering, Georgia Institute of Technology) found the indexing error while
+  preparing lecture notes on within-cycle corrections for her graduate course.
+  She reported it by email in January 2025, with a proposed correction.
+* **[@ambtnhlr](https://github.com/ambtnhlr)** independently reported the same
+  error in #2. The report included a reproducible example showing that the
+  weights did not integrate a constant correctly, a time-indexed fix, a
+  suggested rewording of the documentation, and the observation that 75
+  cycles is an odd number of intervals for Simpson's 1/3rd rule.
+
+Their careful reports made this release possible.
 
 # cohort-modeling-tutorial-intro 0.2.1 (2022-03-31)
 

@@ -35,3 +35,9 @@ from release v0.3.0 on. It is used by
 [`../analysis/cSTM_time_indep.R`](../analysis/cSTM_time_indep.R). See
 [`../NEWS.md`](../NEWS.md) for details and a before/after comparison of
 results.
+
+The error was identified and reported independently by Lauren N. Steimle
+(Georgia Institute of Technology) and GitHub user
+[ambtnhlr](https://github.com/ambtnhlr)
+([#2](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/2)).
+We thank them both.
