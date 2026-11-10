@@ -2,7 +2,7 @@ Type: Project
 Package: cohortModelingTutorialIntro
 Title: R Code for An Introductory Tutorial on Cohort State-Transition Models in R
 Version: 0.3.0
-Date: 2026-11-09
+Date: 2026-11-10
 Authors@R: c(
     person("Fernando", "Alarid-Escudero", email = "falarid@stanford.edu",
            role = c("aut", "cre")),

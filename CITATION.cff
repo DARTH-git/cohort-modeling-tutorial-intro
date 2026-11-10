@@ -7,7 +7,7 @@ title: >-
   R Code for An Introductory Tutorial on Cohort State-Transition Models
   in R Using a Cost-Effectiveness Analysis Example
 version: 0.3.0
-date-released: "2026-11-09"
+date-released: "2026-11-10"
 license: MIT
 repository-code: "https://github.com/DARTH-git/cohort-modeling-tutorial-intro"
 doi: 10.5281/zenodo.5223092

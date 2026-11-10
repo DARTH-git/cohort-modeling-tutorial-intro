@@ -1,4 +1,4 @@
-# cohort-modeling-tutorial-intro 0.3.0 (2026-11-09)
+# cohort-modeling-tutorial-intro 0.3.0 (2026-11-10)
 
 This release fixes a bug in the Simpson's 1/3rd within-cycle correction (WCC).
 **It changes the numerical results reported in the published article**, but
