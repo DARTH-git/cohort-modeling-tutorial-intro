@@ -1,3 +1,19 @@
+# cohort-modeling-tutorial-intro (development version)
+
+## Documentation
+
+* Documented an erratum in the published article's parameter table (Table 2),
+  which lists the cost of treatment B (`c_trtB`) as $12,000 instead of the
+  $13,000 stated in the text and used in the code, the PSA and the published
+  results. The code was already correct. See `manuscript/README.md` and the
+  README (closes #1). Reported by @conallaque.
+
+## Tests
+
+* Added `tests/testthat/test-psa-params.R`, which checks that every PSA
+  distribution is centred on its base-case value (within 2%), so the base
+  case and the PSA cannot drift apart.
+
 # cohort-modeling-tutorial-intro 0.3.1 (2026-11-10)
 
 ## Documentation

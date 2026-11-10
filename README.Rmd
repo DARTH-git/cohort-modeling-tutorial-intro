@@ -17,6 +17,8 @@ This GitHub repository has the R code for a tutorial on implementing time-indepe
 Every release of the code is archived in Zenodo: https://doi.org/10.5281/zenodo.5223092 (this DOI always resolves to the latest version).
 
 > **Correction (v0.3.0):** Versions up to v0.2.1, and the published article, assigned Simpson's 1/3rd within-cycle correction weights by vector position instead of by time. They used `1/3, 2/3, 4/3, …` instead of `1/3, 4/3, 2/3, …`. v0.3.0 fixes this. With the fix, base-case QALYs are about 0.32 higher per strategy and ICERs change by about 0.4%; the conclusions are unchanged. See [`NEWS.md`](NEWS.md) for details and a before/after table. We thank Lauren N. Steimle and [ambtnhlr](https://github.com/ambtnhlr) for finding and reporting this error (see [Acknowledgements](#acknowledgements)).
+>
+> **Erratum in the published parameter table:** Table 2 of the article lists the cost of treatment B (`c_trtB`) as $12,000. The correct value is **$13,000**, as stated in the article's text and used in the code, the PSA distribution (gamma(86.2, 150.8), mean $13,000) and the published results. We thank [conallaque](https://github.com/conallaque) for reporting it ([#1](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/1)).
 
 ## Quick start
 
@@ -114,6 +116,7 @@ To learn how to implement time-dependent cohort state-transition models (cSTMs) 
 We are grateful to the users who have helped improve this code:
 
 - **Lauren N. Steimle** (Georgia Institute of Technology) and **[ambtnhlr](https://github.com/ambtnhlr)** each independently found and reported the indexing error in the Simpson's 1/3rd within-cycle correction (`gen_wcc()`) and proposed a correction. Their reports led to the fix in v0.3.0 ([#2](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/2)).
+- **[conallaque](https://github.com/conallaque)** found, while replicating the model independently in Python, that the published parameter table lists the cost of treatment B as $12,000 instead of the $13,000 used in the text, code and results ([#1](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/1)).
 
 If you find an error, please [let us know](#reporting-issues-and-contributing).
 

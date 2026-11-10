@@ -33,6 +33,14 @@ the latest version).
 > for details and a before/after table. We thank Lauren N. Steimle and
 > [ambtnhlr](https://github.com/ambtnhlr) for finding and reporting this
 > error (see [Acknowledgements](#acknowledgements)).
+>
+> **Erratum in the published parameter table:** Table 2 of the article
+> lists the cost of treatment B (`c_trtB`) as \$12,000. The correct
+> value is **\$13,000**, as stated in the article’s text and used in the
+> code, the PSA distribution (gamma(86.2, 150.8), mean \$13,000) and the
+> published results. We thank
+> [conallaque](https://github.com/conallaque) for reporting it
+> ([\#1](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/1)).
 
 ## Quick start
 
@@ -188,6 +196,11 @@ We are grateful to the users who have helped improve this code:
   correction (`gen_wcc()`) and proposed a correction. Their reports led
   to the fix in v0.3.0
   ([\#2](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/2)).
+- **[conallaque](https://github.com/conallaque)** found, while
+  replicating the model independently in Python, that the published
+  parameter table lists the cost of treatment B as \$12,000 instead of
+  the \$13,000 used in the text, code and results
+  ([\#1](https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues/1)).
 
 If you find an error, please [let us
 know](#reporting-issues-and-contributing).
