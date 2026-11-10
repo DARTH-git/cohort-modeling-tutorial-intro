@@ -1,0 +1,46 @@
+# Runs the unit tests and the full tutorial analysis on every push and pull
+# request to main, using the package versions pinned in renv.lock.
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: ${{ matrix.os }} (R ${{ matrix.r }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        r: ['4.5.3']   # keep in sync with the R version in renv.lock
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-renv@v2
+
+      - name: Run unit tests
+        run: |
+          res <- testthat::test_dir("tests/testthat", reporter = "summary",
+                                    stop_on_failure = TRUE)
+        shell: Rscript {0}
+
+      - name: Run tutorial analysis end to end
+        run: source("analysis/cSTM_time_indep.R")
+        shell: Rscript {0}
