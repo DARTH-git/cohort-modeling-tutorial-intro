@@ -511,7 +511,12 @@ check_sum_of_transition_array <- function(a_P,
     }
   } else {
     # For array
-    valid <- (apply(a_P, d, function(x) sum(rowSums(x))) == n_states)
+    # Compare with a numerical tolerance: with many states, the sum of each
+    # cycle's transition probabilities can differ from n_states by rounding
+    # error (~1e-14), which an exact `==` comparison wrongly rejects.
+    # Same fix as in darthtools.
+    valid <- apply(a_P, d, function(x) isTRUE(all.equal(sum(rowSums(x)),
+                                                        n_states)))
     if (!isTRUE(all.equal(as.numeric(sum(valid)), as.numeric(n_cycles)))) {
       if(err_stop) {
         stop("This is not a valid transition array")
