@@ -1,4 +1,15 @@
-# cohort-modeling-tutorial-intro (development version)
+# cohort-modeling-tutorial-intro 0.3.2 (2026-11-10)
+
+## Bug fixes
+
+* `check_sum_of_transition_array()` (`R/Functions.R`) compared the sum of each
+  cycle's transition probabilities in a transition *array* with the number of
+  states using exact equality, so rounding error could make it reject a valid
+  array. It now uses a numerical tolerance (`all.equal()`), as in darthtools.
+  This tutorial only checks transition matrices, so its results are not
+  affected; the same bug stopped the PSA of the state-residence model in
+  [cohort-modeling-tutorial-timedep](https://github.com/DARTH-git/cohort-modeling-tutorial-timedep)
+  (fixed there in v0.3.0).
 
 ## Documentation
 
@@ -13,6 +24,8 @@
 * Added `tests/testthat/test-psa-params.R`, which checks that every PSA
   distribution is centred on its base-case value (within 2%), so the base
   case and the PSA cannot drift apart.
+* Added `tests/testthat/test-transition-checks.R` for the transition matrix
+  and array checks.
 
 # cohort-modeling-tutorial-intro 0.3.1 (2026-11-10)
 

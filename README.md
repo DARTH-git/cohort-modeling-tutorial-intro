@@ -148,7 +148,7 @@ this repository” button gives the metadata from
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
 > Pechlivanoglou P, Jalal H. R Code for An Introductory Tutorial on
 > Cohort State-Transition Models in R Using a Cost-Effectiveness
-> Analysis Example (Version v0.3.1). Zenodo.
+> Analysis Example (Version v0.3.2). Zenodo.
 > [10.5281/zenodo.5223092](https://doi.org/10.5281/zenodo.5223092). Last
 > accessed DD Month YYYY.
 
