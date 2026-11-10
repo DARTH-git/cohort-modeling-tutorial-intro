@@ -1,0 +1,47 @@
+Type: Project
+Package: cohortModelingTutorialIntro
+Title: R Code for An Introductory Tutorial on Cohort State-Transition Models in R
+Version: 0.3.0
+Date: 2026-11-10
+Authors@R: c(
+    person("Fernando", "Alarid-Escudero", email = "falarid@stanford.edu",
+           role = c("aut", "cre")),
+    person("Eline", "Krijkamp", role = "aut",
+           comment = c(ORCID = "0000-0003-3970-2205")),
+    person("Eva A.", "Enns", role = "aut",
+           comment = c(ORCID = "0000-0003-0693-7358")),
+    person("Alan", "Yang", role = "aut"),
+    person("M.G. Myriam", "Hunink", role = "aut",
+           comment = c(ORCID = "0000-0002-2942-2798")),
+    person("Petros", "Pechlivanoglou", role = "aut",
+           comment = c(ORCID = "0000-0001-5090-7936")),
+    person("Hawre", "Jalal", role = "aut",
+           comment = c(ORCID = "0000-0002-8224-6834")))
+Description: Code accompanying Alarid-Escudero et al. (2023)
+    <doi:10.1177/0272989X221103163>, which shows how to implement a
+    time-independent cohort state-transition model (cSTM) of the Sick-Sicker
+    model in R and use it for a cost-effectiveness analysis, including
+    within-cycle correction, probabilistic sensitivity analysis and
+    value-of-information analysis. This file records the project version and
+    dependencies; the repository is not an installable R package.
+License: MIT + file LICENSE
+URL: https://github.com/DARTH-git/cohort-modeling-tutorial-intro
+BugReports: https://github.com/DARTH-git/cohort-modeling-tutorial-intro/issues
+Depends:
+    R (>= 4.1.0)
+Imports:
+    data.table,
+    dplyr,
+    ellipse,
+    ggplot2 (>= 3.4.0),
+    ggrepel,
+    ggthemes,
+    reshape2,
+    scales,
+    stringr,
+    tidyr
+Suggests:
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
