@@ -33,6 +33,14 @@ jobs:
           r-version: ${{ matrix.r }}
           use-public-rspm: true
 
+      # CRAN only ships macOS binaries for the latest package versions, so
+      # renv compiles older pinned versions from source. Some (e.g.,
+      # data.table) need gettext, installed from CRAN's macOS library recipes.
+      - name: Install macOS system libraries
+        if: runner.os == 'macOS'
+        run: |
+          sudo Rscript -e 'source("https://mac.R-project.org/bin/install.R"); install.libs("gettext")'
+
       - uses: r-lib/actions/setup-renv@v2
 
       - name: Run unit tests
