@@ -6,7 +6,7 @@ type: software
 title: >-
   R Code for An Introductory Tutorial on Cohort State-Transition Models
   in R Using a Cost-Effectiveness Analysis Example
-version: 0.3.0
+version: 0.3.1
 date-released: "2026-11-10"
 license: MIT
 repository-code: "https://github.com/DARTH-git/cohort-modeling-tutorial-intro"
@@ -26,6 +26,7 @@ authors:
   - family-names: Alarid-Escudero
     given-names: Fernando
     email: falarid@stanford.edu
+    orcid: "https://orcid.org/0000-0001-5076-1172"
   - family-names: Krijkamp
     given-names: Eline
     orcid: "https://orcid.org/0000-0003-3970-2205"
@@ -34,6 +35,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-0693-7358"
   - family-names: Yang
     given-names: Alan
+    orcid: "https://orcid.org/0000-0002-0344-6812"
   - family-names: Hunink
     given-names: M.G. Myriam
     orcid: "https://orcid.org/0000-0002-2942-2798"
@@ -58,6 +60,7 @@ preferred-citation:
   authors:
     - family-names: Alarid-Escudero
       given-names: Fernando
+      orcid: "https://orcid.org/0000-0001-5076-1172"
     - family-names: Krijkamp
       given-names: Eline
       orcid: "https://orcid.org/0000-0003-3970-2205"
@@ -66,6 +69,7 @@ preferred-citation:
       orcid: "https://orcid.org/0000-0003-0693-7358"
     - family-names: Yang
       given-names: Alan
+      orcid: "https://orcid.org/0000-0002-0344-6812"
     - family-names: Hunink
       given-names: M.G. Myriam
       orcid: "https://orcid.org/0000-0002-2942-2798"

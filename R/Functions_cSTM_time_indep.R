@@ -228,9 +228,9 @@ calculate_ce_out <- function(l_params_all, n_wtp = 100000){ # User defined
     v_dwe  <- 1 / ((1 + d_e * cycle_length) ^ (0:n_cycles))
     
     ## Within-cycle correction (WCC) using Simpson's 1/3 rule
-    #* Uses `gen_wcc()` from "R/Functions.R" (fixed in v0.3.0). Do not switch to
-    #* `darthtools::gen_wcc()` until darthtools > 0.4.0, which has the same
-    #* indexing bug (see NEWS.md).
+    #* Uses `gen_wcc()` from "R/Functions.R" (fixed in v0.3.0), so the tutorial
+    #* runs without darthtools. `darthtools::gen_wcc()` is identical from
+    #* darthtools v0.4.1; earlier versions have the indexing bug (see NEWS.md).
     v_wcc <- gen_wcc(n_cycles = n_cycles, 
                      method = "Simpson1/3") # vector of wcc
     
