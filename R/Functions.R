@@ -15,7 +15,7 @@ plot_trace <- function(m_M) {
   df_M_long$`Health State` <- factor(df_M_long$`Health State`, levels = v_names_states)
   gg_trace <- ggplot(df_M_long, aes(x = Cycle, y = value, 
                             color = `Health State`, linetype = `Health State`)) +
-    geom_line(size = 1) +
+    geom_line(linewidth = 1) +
     xlab("Cycle") +
     ylab("Proportion of the cohort") +
     scale_x_continuous(breaks = number_ticks(8)) + 
@@ -49,7 +49,7 @@ plot_trace_strategy <- function(l_m_M) {
 
   p <- ggplot(m_M_plot, aes(x = Cycle, y = value, 
                             color = Strategy, linetype = Strategy)) +
-    geom_line(size = 1) +
+    geom_line(linewidth = 1) +
     scale_color_brewer(palette="RdBu") +
     xlab("Cycle") +
     ylab("Proportion of the cohort") +
@@ -176,7 +176,7 @@ plot_surv <- function(l_m_M, v_names_death_states) {
   
   p <- ggplot(df_surv, 
               aes(x = Cycle, y = Survival, group = Strategy)) +
-    geom_line(aes(linetype = Strategy, col = Strategy), size = 1.2) +
+    geom_line(aes(linetype = Strategy, col = Strategy), linewidth = 1.2) +
     scale_color_brewer(palette="RdBu") +
     xlab("Cycle") +
     ylab("Proportion") +
@@ -204,7 +204,7 @@ plot_prevalence <- function(l_m_M, v_names_sick_states, v_names_dead_states) {
   
   p <- ggplot(df_prevalence, 
               aes(x = Cycle, y = Prevalence, group = Strategy)) +
-    geom_line(aes(linetype = Strategy, col = Strategy), size = 1.2) +
+    geom_line(aes(linetype = Strategy, col = Strategy), linewidth = 1.2) +
     scale_color_brewer(palette = "RdBu") +
     xlab("Cycle") +
     ylab("Proportion") + 
@@ -232,7 +232,7 @@ plot_proportion_sicker <- function(l_m_M, v_names_sick_states, v_names_sicker_st
   
   p <- ggplot(df_proportion_sicker, 
               aes(x = Cycle, y = Proportion.Sicker, group = Strategy)) +
-    geom_line(aes(linetype = Strategy, col = Strategy), size = 1.2, na.rm = T) +
+    geom_line(aes(linetype = Strategy, col = Strategy), linewidth = 1.2, na.rm = T) +
     scale_color_brewer(palette = "RdBu") +
     xlab("Cycle") +
     ylab("Proportion") +
@@ -381,15 +381,6 @@ gen_wcc <- function(n_cycles, method = c("Simpson1/3", "half-cycle", "none")) {
     v_wcc <- rep(1, n_cycles + 1)
   }
   return(v_wcc)
-}
-
-function (r, t = 1) 
-{
-  if ((sum(r < 0) > 0)) {
-    stop("rate not greater than or equal to 0")
-  }
-  p <- 1 - exp(-r * t)
-  return(p)
 }
 
 #' Convert a rate to a probability
@@ -1835,7 +1826,7 @@ plot.exp_loss <- function(x,
       p <- p + geom_point(aes_(color = as.name(strat_name)))
     }
     p <- p +
-      geom_line(size = lsize, aes_(color = as.name(strat_name)))
+      geom_line(linewidth = lsize, aes_(color = as.name(strat_name)))
     
   }
   if (col == "bw") {

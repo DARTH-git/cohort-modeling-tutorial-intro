@@ -408,7 +408,7 @@ head(df_psa_input)
 ggplot(melt(df_psa_input, variable.name = "Parameter"), 
        aes(x = value)) +
   facet_wrap(~Parameter, scales = "free") +
-  geom_histogram(aes(y = ..density..)) +
+  geom_histogram(aes(y = after_stat(density))) +
   scale_x_continuous(breaks = number_ticks(4)) + 
   ylab("") +
   theme_bw(base_size = 16) + 
