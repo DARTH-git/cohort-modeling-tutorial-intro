@@ -106,8 +106,9 @@ remotes::install_github("DARTH-git/darthtools")      # from GitHub
 ```
 
 **Note:** `darthtools` up to v0.4.0 has the same Simpson’s 1/3rd
-indexing error as this repository had. Use the corrected `gen_wcc()` in
-`R/Functions.R` until a fixed `darthtools` is released.
+indexing error as this repository had. It is fixed in [`darthtools`
+v0.4.1](https://github.com/DARTH-git/darthtools/releases/tag/v0.4.1). If
+you use `darthtools::gen_wcc()`, update to v0.4.1 or later.
 
 We recommend becoming familiar with the
 [DARTH](https://darthworkgroup.com) coding framework described in
@@ -139,7 +140,7 @@ this repository” button gives the metadata from
 > Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM,
 > Pechlivanoglou P, Jalal H. R Code for An Introductory Tutorial on
 > Cohort State-Transition Models in R Using a Cost-Effectiveness
-> Analysis Example (Version v0.3.0). Zenodo.
+> Analysis Example (Version v0.3.1). Zenodo.
 > [10.5281/zenodo.5223092](https://doi.org/10.5281/zenodo.5223092). Last
 > accessed DD Month YYYY.
 

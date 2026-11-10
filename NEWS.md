@@ -1,3 +1,19 @@
+# cohort-modeling-tutorial-intro 0.3.1 (2026-11-10)
+
+## Documentation
+
+* `darthtools` v0.4.1 fixes the same `gen_wcc()` indexing error
+  ([DARTH-git/darthtools#16](https://github.com/DARTH-git/darthtools/pull/16)).
+  The README and code comments now point to it. The tutorial keeps its own
+  copy of `gen_wcc()` in `R/Functions.R`, so it still runs without
+  `darthtools`.
+* Corrected the description of the old weights in NEWS.md and in the
+  `gen_wcc()` documentation: they summed to n - 2/3 for an even number of
+  cycles and to n - 1/3 for an odd number (such as the tutorial's 75), not
+  always to n - 2/3.
+* Added ORCIDs for Fernando Alarid-Escudero and Alan Yang to `CITATION.cff`
+  and `DESCRIPTION`.
+
 # cohort-modeling-tutorial-intro 0.3.0 (2026-11-10)
 
 This release fixes a bug in the Simpson's 1/3rd within-cycle correction (WCC).
@@ -9,8 +25,8 @@ not its conclusions.
 * `gen_wcc(method = "Simpson1/3")` (`R/Functions.R`) assigned the 4/3 and 2/3
   weights by position in the 1-based R vector instead of by time
   t = 0, 1, ..., n. It returned `1/3, 2/3, 4/3, 2/3, ..., 1/3` instead of
-  `1/3, 4/3, 2/3, 4/3, ..., 1/3`, so the weights summed to n - 2/3 instead
-  of n. For example, `gen_wcc(4)` integrated f(t) = 1 over [0, 4] as 3.33
+  `1/3, 4/3, 2/3, 4/3, ..., 1/3`, so the weights summed to n - 2/3 (even n)
+  or n - 1/3 (odd n) instead of n. For example, `gen_wcc(4)` integrated f(t) = 1 over [0, 4] as 3.33
   instead of 4. Weights are now indexed by time (closes #2).
 
   The same error is in the WCC description, the equation and the
